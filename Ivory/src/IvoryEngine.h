@@ -2,7 +2,7 @@
 
 
 // USE ONLY IN EXTERNAL APPLICATIONS
-#include <iostream>
 #include "Application.h"
+#include "Log.h"
 
 #include "Entry.h"
