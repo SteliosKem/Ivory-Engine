@@ -1,7 +1,6 @@
 #pragma once
 #include "Core.h"
 #include "spdlog/spdlog.h"
-#include <memory>
 
 namespace Ivory {
 	class IVORY_API Log
@@ -18,7 +17,8 @@ namespace Ivory {
 		static std::shared_ptr<spdlog::logger> core_logger;
 		static std::shared_ptr<spdlog::logger> client_logger;
 	};
-}
+
+
 
 #define IV_CORE_ERROR(...) ::Ivory::Log::get_core_logger()->error(__VA_ARGS__)
 #define IV_CORE_WARN(...) ::Ivory::Log::get_core_logger()->warn(__VA_ARGS__)
@@ -31,3 +31,5 @@ namespace Ivory {
 #define IV_INFO(...) ::Ivory::Log::get_client_logger()->info(__VA_ARGS__)
 #define IV_TRACE(...) ::Ivory::Log::get_client_logger()->trace(__VA_ARGS__)
 #define IV_FATAL(...) ::Ivory::Log::get_client_logger()->fatal(__VA_ARGS__)
+}
+
