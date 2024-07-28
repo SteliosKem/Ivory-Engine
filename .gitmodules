@@ -1,3 +1,6 @@
 [submodule "spdlog"]
 	path = Ivory/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Ivory/vendor/GLFW"]
+	path = Ivory/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
