@@ -10,6 +10,11 @@ workspace "Ivory"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Ivory/vendor/GLFW/include"
+
+include "Ivory/vendor/GLFW"
+
 project "Ivory"
 	location "Ivory"
 	kind "SharedLib"
@@ -27,7 +32,14 @@ project "Ivory"
 	}
 
 	includedirs {
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/src",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
