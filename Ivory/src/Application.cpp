@@ -2,18 +2,18 @@
 #include "Application.h"
 #include "WindowEvent.h"
 #include "KeyEvent.h"
-#include "Log.h"
+#include <GLFW/glfw3.h>
 
 namespace Ivory {
+	Application::Application() {
+		m_window = std::unique_ptr<Window>(Window::create());
+	}
+
 	void Application::run() {
-		WindowResizeEvent e(1280, 720);
-		KeyPressedEvent _e(2, 1);
-
-		IV_TRACE(e.to_string());
-		IV_WARN(_e.to_string());
-
-		while (true) {
-
+		while (m_running) {
+			glClearColor(1, 0, 0, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			m_window->on_update();
 		}
 	}
 }

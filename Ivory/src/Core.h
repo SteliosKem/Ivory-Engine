@@ -8,4 +8,12 @@
 	#endif
 #endif
 
+#ifdef IV_ASSERTS
+	#define	IV_ASSERT(x, ...) { if(!(x)) {IV_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+	#define	IV_CARE_ASSERT(x, ...) { if(!(x)) {IV_CORE_ERROR("Assertion failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#else
+	#define IV_ASSERT(x, ...)
+	#define IV_CORE_ASSERT(x, ...)
+#endif
+
 #define BIT(x) (1 << x)

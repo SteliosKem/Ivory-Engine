@@ -26,6 +26,8 @@ project "Ivory"
 	pchheader "pch.h"
 	pchsource "Ivory/src/pch.cpp"
 
+	staticruntime "on"
+
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
@@ -75,6 +77,8 @@ project "Sandbox"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	staticruntime "on"
 
 	files {
 		"%{prj.name}/src/**.h",
