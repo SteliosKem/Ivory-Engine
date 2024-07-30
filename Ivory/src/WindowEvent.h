@@ -4,21 +4,21 @@
 namespace Ivory {
 	class IVORY_API WindowResizeEvent : public Event {
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height) : width(width), height(height) {}
+		WindowResizeEvent(unsigned int width, unsigned int height) : m_width(width), m_height(height) {}
 
-		inline unsigned int get_width() const { return width; }
-		inline unsigned int get_height() const { return height; }
+		inline unsigned int get_width() const { return m_width; }
+		inline unsigned int get_height() const { return m_height; }
 
 		std::string to_string() const override {
 			std::stringstream ss;
-			ss << "WindowResizeEvent: (" << width << ", " << height << ")";
+			ss << "WindowResizeEvent: (" << m_width << ", " << m_height << ")";
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(WindowResize)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	private:
-		unsigned int width, height;
+		unsigned int m_width, m_height;
 	};
 
 	class IVORY_API WindowCloseEvent : public Event {

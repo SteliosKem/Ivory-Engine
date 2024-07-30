@@ -12,8 +12,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Ivory/vendor/GLFW/include"
+IncludeDir["Glad"] = "Ivory/vendor/Glad/include"
 
 include "Ivory/vendor/GLFW"
+include "Ivory/vendor/Glad"
 
 project "Ivory"
 	location "Ivory"
@@ -26,8 +28,6 @@ project "Ivory"
 	pchheader "pch.h"
 	pchsource "Ivory/src/pch.cpp"
 
-	staticruntime "on"
-
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
@@ -36,11 +36,13 @@ project "Ivory"
 	includedirs {
 		"%{prj.name}/vendor/spdlog/include",
 		"%{prj.name}/src",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}"
 	}
 
 	links {
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -51,7 +53,8 @@ project "Ivory"
 
 		defines {
 			"IV_PLATFORM_WINDOWS",
-			"IV_BUILD_DLL"
+			"IV_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands {
@@ -60,14 +63,20 @@ project "Ivory"
 
 	filter "configurations:Debug"
 		defines "IV_DEBUG"
+		staticruntime "off"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "IV_RELEASE"
+		staticruntime "off"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "IV_DIST"
+		staticruntime "off"
+		runtime "Release"
 		optimize "On"
 
 project "Sandbox"
@@ -77,8 +86,6 @@ project "Sandbox"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	staticruntime "on"
 
 	files {
 		"%{prj.name}/src/**.h",
@@ -105,12 +112,18 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "IV_DEBUG"
+		staticruntime "off"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "IV_RELEASE"
+		staticruntime "off"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "IV_DIST"
+		staticruntime "off"
+		runtime "Release"
 		optimize "On"

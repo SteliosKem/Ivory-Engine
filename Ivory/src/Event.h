@@ -40,26 +40,28 @@ namespace Ivory {
 			return get_category_flags() & category;
 		}
 
+		inline bool is_handled() { return m_handled; }
+
 	protected:
-		bool handled = false;
+		bool m_handled = false;
 	};
 
 	class EventDispatcher {
 		template<typename T>
 		using EventFunction = std::function<bool(T&)>;
 	public:
-		EventDispatcher(Event& _event) : _event(_event) {}
+		EventDispatcher(Event& _event) : m_event(_event) {}
 
 		template<typename T>
 		bool dispatch(EventFunction<T> function) {
-			if (_event.get_event_type() == T::get_static_type()) {
-				_event.handled = function(*(T*)&_event);
+			if (m_event.get_event_type() == T::get_static_type()) {
+				m_event.m_handled = function(*(T*)&m_event);
 				return true;
 			}
 			return false;
 		}
 	private:
-		Event& _event;
+		Event& m_event;
 	};
 	
 }

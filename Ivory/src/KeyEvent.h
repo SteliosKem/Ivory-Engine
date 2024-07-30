@@ -2,45 +2,45 @@
 #include "Event.h"
 
 namespace Ivory {
-	class IVORY_API KeyEvent : Event {
+	class IVORY_API KeyEvent : public Event {
 	public:
 		inline int get_keycode() const {
-			return keycode;
+			return m_keycode;
 		}
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	protected:
-		KeyEvent(int keycode) : keycode(keycode) {}
+		KeyEvent(int keycode) : m_keycode(keycode) {}
 
-		int keycode;
+		int m_keycode;
 	};
 
-	class IVORY_API KeyPressedEvent : KeyEvent {
+	class IVORY_API KeyPressedEvent : public KeyEvent {
 	public:
-		KeyPressedEvent(int keycode, int repeat_count) : KeyEvent(keycode), repeat_count(repeat_count) {}
+		KeyPressedEvent(int keycode, int repeat_count) : KeyEvent(keycode), m_repeat_count(repeat_count) {}
 
 		inline int get_repeat_count() const {
-			return repeat_count;
+			return m_repeat_count;
 		}
 
 		std::string to_string() const override {
 			std::stringstream ss;
-			ss << "KeyPressedEvent: " << keycode << " (" << repeat_count << " repeats)";
+			ss << "KeyPressedEvent: " << m_keycode << " (" << m_repeat_count << " repeats)";
 			return ss.str();
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
-		int repeat_count;
+		int m_repeat_count;
 	};
 
-	class IVORY_API KeyReleasedEvent : KeyEvent {
+	class IVORY_API KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
 
 		std::string to_string() const override {
 			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << keycode;
+			ss << "KeyReleasedEvent: " << m_keycode;
 			return ss.str();
 		}
 
