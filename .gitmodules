@@ -4,3 +4,6 @@
 [submodule "Ivory/vendor/GLFW"]
 	path = Ivory/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "Ivory/vendor/imgui"]
+	path = Ivory/vendor/imgui
+	url = https://github.com/TheCherno/imgui
