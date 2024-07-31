@@ -27,7 +27,7 @@ namespace Ivory {
 			std::string title;
 			unsigned int width, height;
 			bool vsync;
-			EventCallback event_callback;
+			EventCallback event_callback;		// Callback to call on every event
 		};
 
 		WindowData m_data;

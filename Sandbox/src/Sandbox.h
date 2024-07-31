@@ -1,6 +1,7 @@
 #pragma once
 #include <IvoryEngine.h>
 
+// For testing layers
 class ExampleLayer : public Ivory::Layer {
 public:
 	ExampleLayer() : Layer("Example") {}

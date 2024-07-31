@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "WinPlatformWindow.h"
-#include "WindowEvent.h"
-#include "KeyEvent.h"
-#include "MouseEvent.h"
+#include "Events/WindowEvent.h"
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
 
 #include "glad/glad.h"
 
 namespace Ivory {
+	// Check if glfw is already up
 	static bool s_GLFWInitialized = false;
 
 	static void GLFW_error_callback(int error, const char* desc) {
@@ -18,6 +19,7 @@ namespace Ivory {
 	WinPlatformWindow::~WinPlatformWindow() { shutdown(); }
 
 	void WinPlatformWindow::init(const WindowProps& props) {
+		// Window setup
 		m_data.title = props.title;
 		m_data.width = props.width;
 		m_data.height = props.height;
@@ -25,19 +27,23 @@ namespace Ivory {
 		IV_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 		if (!s_GLFWInitialized) {
+			// Initialize glfw
 			int success = glfwInit();
 			IV_CORE_ASSERT(success, "Could not initialize GLFW");
 			glfwSetErrorCallback(GLFW_error_callback);
 			s_GLFWInitialized = true;
 		}
 
+		// Create window
 		m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_window);
+		// Load glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		IV_CORE_ASSERT(status, "Failed to initialize GLAD");
 		glfwSetWindowUserPointer(m_window, &m_data);
 		set_vsync(true);
 
+		// GLFW event callbacks
 		glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			data.width = width;

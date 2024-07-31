@@ -2,9 +2,10 @@
 #include "pch.h"
 
 #include "Core.h"
-#include "Event.h"
+#include "Events/Event.h"
 
 namespace Ivory {
+	// Window data
 	struct WindowProps {
 		std::string title = "Ivory Engine";
 		unsigned int width = 1280;
@@ -13,6 +14,7 @@ namespace Ivory {
 
 	class IVORY_API Window {
 	public:
+		// Callback function type
 		using EventCallback = std::function<void(Event&)>;
 
 		virtual ~Window() {}

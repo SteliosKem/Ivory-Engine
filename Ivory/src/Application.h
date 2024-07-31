@@ -1,10 +1,10 @@
 #pragma once
 #include "Core.h"
 
-#include "Event.h"
+#include "Events/Event.h"
 #include "Window.h"
-#include "WindowEvent.h"
-#include "LayerStack.h"
+#include "Events/WindowEvent.h"
+#include "Layers/LayerStack.h"
 
 namespace Ivory {
 	class IVORY_API Application
