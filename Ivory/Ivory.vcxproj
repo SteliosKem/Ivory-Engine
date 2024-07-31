@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>IV_PLATFORM_WINDOWS;IV_BUILD_DLL;GLFW_INCLUDE_NONE;IV_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>IV_PLATFORM_WINDOWS;IV_BUILD_DLL;GLFW_INCLUDE_NONE;IV_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -130,7 +130,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>IV_PLATFORM_WINDOWS;IV_BUILD_DLL;GLFW_INCLUDE_NONE;IV_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>vendor\spdlog\include;src;vendor\GLFW\include;vendor\Glad\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -156,22 +156,26 @@
     <ClInclude Include="src\Core.h" />
     <ClInclude Include="src\Entry.h" />
     <ClInclude Include="src\Events\Event.h" />
-    <ClInclude Include="src\IvoryEngine.h" />
     <ClInclude Include="src\Events\KeyEvent.h" />
+    <ClInclude Include="src\Events\MouseEvent.h" />
+    <ClInclude Include="src\Events\WindowEvent.h" />
+    <ClInclude Include="src\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\IvoryEngine.h" />
     <ClInclude Include="src\Layers\Layer.h" />
     <ClInclude Include="src\Layers\LayerStack.h" />
     <ClInclude Include="src\Log\Log.h" />
-    <ClInclude Include="src\Events\MouseEvent.h" />
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h" />
     <ClInclude Include="src\Window.h" />
-    <ClInclude Include="src\Events\WindowEvent.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Layers\Layer.cpp" />
     <ClCompile Include="src\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Log\Log.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformWindow.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

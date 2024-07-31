@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 #ifdef IV_PLATFORM_WINDOWS
 	#include <Windows.h>

@@ -4,6 +4,6 @@
 // USE ONLY IN EXTERNAL APPLICATIONS
 #include "Application.h"
 #include "Layers/Layer.h"
-#include "Log/Log.h"
+#include "Logging/Log.h"
 
 #include "Entry.h"
