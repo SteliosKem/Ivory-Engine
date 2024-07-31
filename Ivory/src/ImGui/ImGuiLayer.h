@@ -2,7 +2,7 @@
 #include "Layers/Layer.h"
 
 namespace Ivory {
-	class ImGuiLayer : public Layer {
+	class IVORY_API ImGuiLayer : public Layer {
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
@@ -11,5 +11,7 @@ namespace Ivory {
 		void on_detach();
 		void on_update();
 		void on_event(Event& e);
+	private:
+		float m_time = 0.0f;
 	};
 }

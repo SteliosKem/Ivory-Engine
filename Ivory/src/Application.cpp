@@ -6,7 +6,12 @@
 
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+	Application* Application::s_instance = nullptr;
+
 	Application::Application() {
+		// Only one application can run at a time
+		IV_CORE_ASSERT(!s_instance, "Application already exists");
+		s_instance = this;
 		// Create window on application start
 		m_window = std::unique_ptr<Window>(Window::create());
 		m_window->set_event_callback(BIND_EVENT_FN(on_event));
@@ -44,9 +49,11 @@ namespace Ivory {
 
 	void Application::push_layer(Layer* layer) {
 		m_layer_stack.push_layer(layer);
+		layer->on_attach();
 	}
 
 	void Application::push_overlay(Layer* overlay) {
 		m_layer_stack.push_layer(overlay);
+		overlay->on_attach();
 	}
 }

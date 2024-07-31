@@ -49,7 +49,7 @@
     <ClInclude Include="src\Layers\LayerStack.h">
       <Filter>Layers</Filter>
     </ClInclude>
-    <ClInclude Include="src\Log\Log.h">
+    <ClInclude Include="src\Logging\Log.h">
       <Filter>Log</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h">
@@ -60,6 +60,7 @@
     </ClInclude>
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\ImGui\imgui_spectrum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
@@ -72,7 +73,7 @@
     <ClCompile Include="src\Layers\LayerStack.cpp">
       <Filter>Layers</Filter>
     </ClCompile>
-    <ClCompile Include="src\Log\Log.cpp">
+    <ClCompile Include="src\Logging\Log.cpp">
       <Filter>Log</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp">
@@ -82,5 +83,6 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />
   </ItemGroup>
 </Project>

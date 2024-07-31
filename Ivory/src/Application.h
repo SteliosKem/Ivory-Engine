@@ -19,6 +19,9 @@ namespace Ivory {
 
 		void push_layer(Layer* layer);
 		void push_overlay(Layer* layer);
+
+		inline Window& get_window() { return *m_window; }
+		inline static Application& get() { return *s_instance; }
 	private:
 		bool on_window_close(WindowCloseEvent& e);
 
@@ -26,6 +29,8 @@ namespace Ivory {
 		bool m_running = true;
 
 		LayerStack m_layer_stack;
+
+		static Application* s_instance;
 	};
 
 	Application* create_application();

@@ -18,6 +18,9 @@ public:
 
 class Sandbox : public Ivory::Application {
 public:
-	Sandbox() { push_layer(new ExampleLayer()); }
+	Sandbox() { 
+		push_layer(new ExampleLayer());
+		push_overlay(new Ivory::ImGuiLayer());
+	}
 	~Sandbox() {}
 };
