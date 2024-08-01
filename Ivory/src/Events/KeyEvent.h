@@ -46,4 +46,17 @@ namespace Ivory {
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
+
+	class IVORY_API KeyTypedEvent : public KeyEvent {
+	public:
+		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
+
+		std::string to_string() const override {
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_keycode;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
 }

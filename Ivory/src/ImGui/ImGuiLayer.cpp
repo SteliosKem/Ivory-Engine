@@ -7,7 +7,10 @@
 #include "GLFW/glfw3.h"
 #include "Application.h"
 
-static ImGuiKey ImGui_ImplGlfw_KeyToImGuiKey(int key)
+#include "GLFW/glfw3.h"
+#include "glad/glad.h"
+
+static ImGuiKey glfw_to_imgui_key(int key)
 {
     switch (key)
     {
@@ -121,6 +124,7 @@ static ImGuiKey ImGui_ImplGlfw_KeyToImGuiKey(int key)
 }
 
 namespace Ivory {
+#define BIND_EVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
 	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -135,6 +139,8 @@ namespace Ivory {
         ImGuiIO& io = ImGui::GetIO();
         io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
         io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+
+        
 
         ImGui_ImplOpenGL3_Init();
 	}
@@ -163,6 +169,82 @@ namespace Ivory {
 	}
 
 	void ImGuiLayer::on_event(Event& e) {
-
+        EventDispatcher dispatcher(e);
+        IV_ERROR(e.to_string());
+        dispatcher.dispatch<MouseButtonPressedEvent>(BIND_EVENT_FN(on_mouse_button_pressed));
+        dispatcher.dispatch<MouseButtonReleasedEvent>(BIND_EVENT_FN(on_mouse_button_released));
+        dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(on_mouse_move));
+        dispatcher.dispatch<MouseScrollEvent>(BIND_EVENT_FN(on_mouse_scroll));
+        dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(on_key_pressed));
+        dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(on_key_released));
+        dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(on_window_resize));
 	}
+
+    bool ImGuiLayer::on_mouse_button_pressed(MouseButtonPressedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        //int mb = e.get_mouse_button();
+        //if (mb >= 0 && mb < ImGuiMouseButton_COUNT)
+        //    io.AddMouseButtonEvent(mb, true);
+        io.MouseDown[e.get_mouse_button()] = true;
+        return false;
+    }
+    bool ImGuiLayer::on_mouse_button_released(MouseButtonReleasedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        //int mb = e.get_mouse_button();
+        //if (mb >= 0 && mb < ImGuiMouseButton_COUNT)
+        //    io.AddMouseButtonEvent(mb, false);
+        io.MouseDown[e.get_mouse_button()] = false;
+
+        return false;
+    }
+    bool ImGuiLayer::on_mouse_move(MouseMovedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2(e.get_x(), e.get_y());
+        //io.AddMousePosEvent(e.get_x(), e.get_y());
+
+        return false;
+    }
+    bool ImGuiLayer::on_mouse_scroll(MouseScrollEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseWheel += e.get_offset_y();
+        io.MouseWheelH += e.get_offset_x();
+        //io.AddMouseWheelEvent(e.get_offset_x(), e.get_offset_y());
+
+        return false;
+    }
+    bool ImGuiLayer::on_key_pressed(KeyPressedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        //io.KeysDown[(ImGuiKey)e.get_keycode()] = true;
+        io.AddKeyEvent(e.get_keycode(), true);
+
+        io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL || GLFW_KEY_RIGHT_CONTROL];
+        io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT || GLFW_KEY_RIGHT_SHIFT];
+        io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER || GLFW_KEY_RIGHT_SUPER];
+        io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT || GLFW_KEY_RIGHT_ALT];
+
+        return false;
+    }
+    bool ImGuiLayer::on_key_released(KeyReleasedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        //io.KeysDown[(ImGuiKey)e.get_keycode()] = false;
+        io.AddKeyEvent(e.get_keycode(), false);
+
+        return false;
+    }
+    bool ImGuiLayer::on_key_typed(KeyTypedEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        int c = e.get_keycode();
+        if (c > 0 && c < 0x10000)
+            io.AddInputCharacter((unsigned short)c);
+
+        return false;
+    }
+    bool ImGuiLayer::on_window_resize(WindowResizeEvent& e) {
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(e.get_width(), e.get_height());
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+        glViewport(0, 0, e.get_width(), e.get_height());
+
+        return false;
+    }
 }

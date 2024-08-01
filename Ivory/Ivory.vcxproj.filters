@@ -10,8 +10,8 @@
     <Filter Include="Layers">
       <UniqueIdentifier>{157446C0-0116-7196-EAD0-84EAD611F8E6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Log">
-      <UniqueIdentifier>{E704880B-530E-887C-DC89-9E7C4892937C}</UniqueIdentifier>
+    <Filter Include="Logging">
+      <UniqueIdentifier>{AC6878E8-1848-F783-2160-825A8DBE5DE5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
@@ -42,6 +42,9 @@
     <ClInclude Include="src\ImGui\ImGuiLayer.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\ImGui\imgui_spectrum.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\IvoryEngine.h" />
     <ClInclude Include="src\Layers\Layer.h">
       <Filter>Layers</Filter>
@@ -50,7 +53,7 @@
       <Filter>Layers</Filter>
     </ClInclude>
     <ClInclude Include="src\Logging\Log.h">
-      <Filter>Log</Filter>
+      <Filter>Logging</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h">
       <Filter>Platform\OpenGL</Filter>
@@ -60,11 +63,13 @@
     </ClInclude>
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
-    <ClInclude Include="src\ImGui\imgui_spectrum.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\imgui_spectrum.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Layers\Layer.cpp">
@@ -74,7 +79,7 @@
       <Filter>Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\Logging\Log.cpp">
-      <Filter>Log</Filter>
+      <Filter>Logging</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp">
       <Filter>Platform\OpenGL</Filter>
@@ -83,6 +88,5 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
-    <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />
   </ItemGroup>
 </Project>

@@ -82,6 +82,12 @@ namespace Ivory {
 			}
 		});
 
+		glfwSetCharCallback(m_window, [](GLFWwindow* window, unsigned int character) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			KeyTypedEvent e(character);
+			data.event_callback(e);
+		});
+
 		glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 

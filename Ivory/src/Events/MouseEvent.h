@@ -35,7 +35,7 @@ namespace Ivory {
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(MouseMoved)
+		EVENT_CLASS_TYPE(MouseScrolled)
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_offset_x, m_offset_y;
