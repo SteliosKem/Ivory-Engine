@@ -215,7 +215,7 @@ namespace Ivory {
     bool ImGuiLayer::on_key_pressed(KeyPressedEvent& e) {
         ImGuiIO& io = ImGui::GetIO();
         //io.KeysDown[(ImGuiKey)e.get_keycode()] = true;
-        io.AddKeyEvent(e.get_keycode(), true);
+        io.AddKeyEvent((ImGuiKey)e.get_keycode(), true);
 
         io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL || GLFW_KEY_RIGHT_CONTROL];
         io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT || GLFW_KEY_RIGHT_SHIFT];
@@ -227,7 +227,7 @@ namespace Ivory {
     bool ImGuiLayer::on_key_released(KeyReleasedEvent& e) {
         ImGuiIO& io = ImGui::GetIO();
         //io.KeysDown[(ImGuiKey)e.get_keycode()] = false;
-        io.AddKeyEvent(e.get_keycode(), false);
+        io.AddKeyEvent((ImGuiKey)e.get_keycode(), false);
 
         return false;
     }

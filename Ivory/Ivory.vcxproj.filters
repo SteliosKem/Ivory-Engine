@@ -63,6 +63,9 @@
     </ClInclude>
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\Platform\Windows\WinPlatformInput.h" />
+    <ClInclude Include="src\IMath.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
@@ -88,5 +91,6 @@
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\Platform\Windows\WinPlatformInput.cpp" />
   </ItemGroup>
 </Project>

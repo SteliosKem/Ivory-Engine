@@ -3,6 +3,7 @@
 #include "Events/WindowEvent.h"
 #include "Events/KeyEvent.h"
 #include <glad/glad.h>
+#include "Input.h"
 
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -37,6 +38,8 @@ namespace Ivory {
 
 			for (Layer* layer : m_layer_stack)
 				layer->on_update();
+
+			IV_TRACE("{0}, {1} 0ASDASD", Input::mouse_pos().x(), Input::mouse_pos().y());
 
 			m_window->on_update();
 		}

@@ -17,6 +17,9 @@ namespace Ivory {
 		inline void set_event_callback(const EventCallback& callback) override { m_data.event_callback = callback; }
 		void set_vsync(bool enabled);
 		bool get_vsync() const;
+
+
+		inline virtual void* get_native() const { return m_window; };
 	private:
 		virtual void init(const WindowProps& props);
 		virtual void shutdown();

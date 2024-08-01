@@ -27,6 +27,8 @@ namespace Ivory {
 		virtual void set_vsync(bool enable) = 0;
 		virtual bool get_vsync() const = 0;
 
+		virtual void* get_native() const = 0;
+
 		static Window* create(const WindowProps& props = WindowProps{});
 	};
 }

@@ -17,3 +17,8 @@
 #endif
 
 #define BIT(x) (1 << x)
+
+using Real = float;
+
+// Uncomment to compile with double precision
+//using Real = double;
