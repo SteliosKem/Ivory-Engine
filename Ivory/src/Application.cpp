@@ -39,8 +39,6 @@ namespace Ivory {
 			for (Layer* layer : m_layer_stack)
 				layer->on_update();
 
-			IV_TRACE("{0}, {1} 0ASDASD", Input::mouse_pos().x(), Input::mouse_pos().y());
-
 			m_window->on_update();
 		}
 	}

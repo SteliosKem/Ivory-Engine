@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Ivory/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ivory/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ivory/vendor/imgui"
+IncludeDir["glm"] = "Ivory/vendor/glm"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
@@ -32,7 +33,9 @@ project "Ivory"
 
 	files {
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs {
@@ -40,7 +43,8 @@ project "Ivory"
 		"%{prj.name}/src",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
@@ -98,7 +102,8 @@ project "Sandbox"
 
 	includedirs {
 		"Ivory/vendor/spdlog/include",
-		"Ivory/src"
+		"Ivory/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
