@@ -169,7 +169,6 @@
     <ClInclude Include="src\Layers\LayerStack.h" />
     <ClInclude Include="src\Logging\Log.h" />
     <ClInclude Include="src\MouseButtonCodes.h" />
-    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h" />
     <ClInclude Include="src\Platform\Windows\WinPlatformInput.h" />
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h" />
     <ClInclude Include="src\Window.h" />
@@ -594,11 +593,11 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiLoad.cpp" />
     <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />
     <ClCompile Include="src\Layers\Layer.cpp" />
     <ClCompile Include="src\Layers\LayerStack.cpp" />
     <ClCompile Include="src\Logging\Log.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformWindow.cpp" />
     <ClCompile Include="src\pch.cpp">

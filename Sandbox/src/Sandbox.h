@@ -1,6 +1,8 @@
 #pragma once
 #include <IvoryEngine.h>
 
+#include "imgui.h"
+
 // For testing layers
 class ExampleLayer : public Ivory::Layer {
 public:
@@ -8,6 +10,12 @@ public:
 
 	void on_update() override {
 		//IV_INFO("Example Layer Update");
+	}
+
+	void on_imgui_render() override {
+		ImGui::Begin("Example");
+		ImGui::Text("Example");
+		ImGui::End();
 	}
 
 	void on_event(Ivory::Event& e) override {
@@ -20,8 +28,7 @@ public:
 class Sandbox : public Ivory::Application {
 public:
 	Sandbox() { 
-		push_layer(new ExampleLayer());
-		push_overlay(new Ivory::ImGuiLayer());
+		push_layer(std::make_shared<ExampleLayer>());
 	}
 	~Sandbox() {}
 };

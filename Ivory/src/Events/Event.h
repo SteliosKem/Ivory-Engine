@@ -21,11 +21,12 @@ namespace Ivory {
 		EventCategoryMouseButton = BIT(4),
 	};
 
-
+	// Macro that implements standard functions related to the event type
 #define EVENT_CLASS_TYPE(type) static EventType get_static_type() { return EventType::##type; }\
 	virtual EventType get_event_type() const override { return get_static_type(); }\
 	virtual const char* get_name() const override { return #type; }
 
+	// Macro that implements standard function related to the event category
 #define EVENT_CLASS_CATEGORY(category) virtual int get_category_flags() const override { return category; }
 
 	class IVORY_API Event {
@@ -46,6 +47,7 @@ namespace Ivory {
 		bool m_handled = false;
 	};
 
+	// The event dispatcher handles calling callbacks depending on the event type
 	class EventDispatcher {
 		template<typename T>
 		using EventFunction = std::function<bool(T&)>;

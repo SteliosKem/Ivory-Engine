@@ -103,6 +103,7 @@ project "Sandbox"
 	includedirs {
 		"Ivory/vendor/spdlog/include",
 		"Ivory/src",
+		"Ivory/vendor/imgui",
 		"%{IncludeDir.glm}"
 	}
 
