@@ -13,9 +13,9 @@ public:
 	}
 
 	void on_imgui_render() override {
-		ImGui::Begin("Example");
-		ImGui::Text("Example");
-		ImGui::End();
+		//ImGui::Begin("Example");
+		//ImGui::Text("Example");
+		//ImGui::End();
 	}
 
 	void on_event(Ivory::Event& e) override {
