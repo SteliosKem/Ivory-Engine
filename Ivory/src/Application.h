@@ -33,6 +33,8 @@ namespace Ivory {
 		LayerStack m_layer_stack;
 
 		static Application* s_instance;
+
+		unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
 	};
 
 	Application* create_application();

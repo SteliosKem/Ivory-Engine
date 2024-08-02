@@ -14,6 +14,8 @@ namespace Ivory {
 		// Load glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		IV_CORE_ASSERT(status, "Failed to initialize GLAD");
+
+		IV_CORE_INFO("OpenGL Core Renderer: {0} {1}", (const char*)glGetString(GL_VENDOR), (const char*)glGetString(GL_RENDERER));
 	}
 
 	void OpenGLContext::swap_buffers() {
