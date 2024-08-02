@@ -7,6 +7,8 @@
 #include "Layers/LayerStack.h"
 #include "ImGui/ImGuiLayer.h"
 
+#include "Rendering/Shader.h"
+
 namespace Ivory {
 	class IVORY_API Application
 	{
@@ -35,6 +37,7 @@ namespace Ivory {
 		static Application* s_instance;
 
 		unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
+		std::unique_ptr<Shader> m_shader;
 	};
 
 	Application* create_application();
