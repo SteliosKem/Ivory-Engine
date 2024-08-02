@@ -4,7 +4,8 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
-#include "glad/glad.h"
+#include "Rendering/GraphicsContext.h"
+#include <Platform/OpenGL/OpenGLContext.h>
 
 namespace Ivory {
 	// Check if glfw is already up
@@ -24,6 +25,8 @@ namespace Ivory {
 		m_data.width = props.width;
 		m_data.height = props.height;
 
+		
+
 		IV_CORE_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
 
 		if (!s_GLFWInitialized) {
@@ -36,10 +39,9 @@ namespace Ivory {
 
 		// Create window
 		m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_window);
-		// Load glad
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		IV_CORE_ASSERT(status, "Failed to initialize GLAD");
+		m_context = std::make_shared<OpenGLContext>(m_window);
+		m_context->init();
+
 		glfwSetWindowUserPointer(m_window, &m_data);
 		set_vsync(true);
 
@@ -126,7 +128,7 @@ namespace Ivory {
 
 	void WinPlatformWindow::on_update() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_window);
+		m_context->swap_buffers();
 	}
 
 	void WinPlatformWindow::set_vsync(bool enabled) {

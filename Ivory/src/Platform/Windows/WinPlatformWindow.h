@@ -2,6 +2,7 @@
 #include "Window.h"
 
 #include "GLFW/glfw3.h"
+#include "Rendering/GraphicsContext.h"
 
 namespace Ivory {
 	class WinPlatformWindow : public Window {
@@ -23,6 +24,7 @@ namespace Ivory {
 	private:
 		virtual void init(const WindowProps& props);
 		virtual void shutdown();
+		std::shared_ptr<GraphicsContext> m_context;
 
 		GLFWwindow* m_window;
 
