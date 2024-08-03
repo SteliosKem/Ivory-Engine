@@ -25,4 +25,15 @@ namespace Ivory {
 		}
 		return nullptr;
 	}
+
+	VertexArray* VertexArray::create_array() {
+		switch (Renderer::get_api()) {
+		case RendererAPI::OpenGL:
+			return new OpenGLVertexArray();
+		case RendererAPI::None:
+		default:
+			IV_CORE_ASSERT("Rendering API not supported");
+		}
+		return nullptr;
+	}
 }

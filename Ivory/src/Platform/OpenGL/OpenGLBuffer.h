@@ -31,4 +31,23 @@ namespace Ivory {
 		uint32_t m_rendererID;
 		uint32_t m_count;
 	};
+
+	class OpenGLVertexArray : public VertexArray {
+	public:
+		OpenGLVertexArray();
+		virtual ~OpenGLVertexArray() {}
+
+		void bind() const override;
+		void unbind() const override;
+
+		void add_vertex_buffer(const std::shared_ptr<VertexBuffer>& vertex_buffer) override;
+		void set_index_buffer(const std::shared_ptr<IndexBuffer>& index_buffer) override;
+
+		const std::vector<std::shared_ptr<VertexBuffer>>& get_vertex_buffers() const { return m_vertex_buffers; }
+		const std::shared_ptr<IndexBuffer>& get_index_buffer() const { return m_index_buffer; }
+	private:
+		std::vector<std::shared_ptr<VertexBuffer>> m_vertex_buffers;
+		std::shared_ptr<IndexBuffer> m_index_buffer;
+		uint32_t m_rendererID;
+	};
 }

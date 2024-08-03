@@ -9,13 +9,7 @@ namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_instance = nullptr;
 
-	static GLenum shader_to_opengl_type(ShaderDataType type) {
-		switch (type) {
-		case ShaderDataType::Float: return GL_FLOAT;
-		case ShaderDataType::Vector3: return GL_FLOAT;
-		case ShaderDataType::Vector4: return GL_FLOAT;
-		}
-	}
+	
 
 	Application::Application() {
 		// Only one application can run at a time
@@ -28,8 +22,7 @@ namespace Ivory {
 		m_imgui_layer = std::make_shared<ImGuiLayer>();
 		push_overlay(m_imgui_layer);
 
-		glGenVertexArrays(1, &m_vertex_array);
-		glBindVertexArray(m_vertex_array);
+		/*m_vertex_array.reset(VertexArray::create_array());
 
 		float vertices[3 * 7] = { 
 			-0.25f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
@@ -39,35 +32,44 @@ namespace Ivory {
 
 		m_vertex_buffer.reset(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
 
-		BufferLayout layout = {
-			{ShaderDataType::Vector3, "a_Position"},
-			{ShaderDataType::Vector4, "a_Color"},
-		};
+		
 
-		m_vertex_buffer->set_layout(layout);
-
-		uint32_t i = 0;
-		for (const BufferElement& element : m_vertex_buffer->get_layout()) {
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, element.get_count(), shader_to_opengl_type(element.shader_type), 
-				element.normalized ? GL_TRUE : GL_FALSE, m_vertex_buffer->get_layout().get_stride(), (const void*)element.offset);
-			i++;
-		}
+		m_vertex_array->add_vertex_buffer(m_vertex_buffer);
 
 		unsigned int indeces[3] = { 0, 1, 2 };
 		m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
+		m_vertex_array->set_index_buffer(m_index_buffer);*/
+
+		m_square_VA.reset(VertexArray::create_array());
+
+		float vertices[3 * 4] = {
+			-0.5f, -0.5f, 0.0f,
+			 0.5f, -0.5f, 0.0f,
+			 0.5f,   0.0f, 0.0f,
+			-0.5f,   0.0f, 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> square_VB = std::shared_ptr<VertexBuffer>(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
+
+		BufferLayout layout = {
+			{ShaderDataType::Vector3, "a_Position"},
+		};
+		square_VB->set_layout(layout);
+		m_square_VA->add_vertex_buffer(square_VB);
+
+		unsigned int indeces[6] = { 0, 1, 2, 2, 3, 0 };
+		//m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
+		std::shared_ptr<IndexBuffer> square_IB(IndexBuffer::create_buffer(indeces, 6));
+
+		m_square_VA->set_index_buffer(square_IB);
 
 		std::string vertex_src = R"(
 			#version 330
 
 			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			out vec4 v_Color;
 
 			void main() {
 				gl_Position = vec4(a_Position, 1.0);
-				v_Color = a_Color;
 			}
 
 		)";
@@ -77,11 +79,8 @@ namespace Ivory {
 
 			layout(location = 0) out vec4 color;
 
-			in vec4 v_Color;
-
 			void main() {
-				color = vec4(1.0, 0.0, 1.0, 0.0);
-				color = v_Color;
+				color = vec4(0.8, 0.6, 0.3, 1.0);
 			}
 
 		)";
@@ -108,8 +107,8 @@ namespace Ivory {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			m_shader->bind();
-			glBindVertexArray(m_vertex_array);
-			glDrawElements(GL_TRIANGLES, m_index_buffer->get_count(), GL_UNSIGNED_INT, nullptr);
+			m_square_VA->bind();
+			glDrawElements(GL_TRIANGLES, m_square_VA->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
 
 			// Update every layer
 			for (shared_ptr<Layer>& layer : m_layer_stack)
