@@ -8,6 +8,7 @@
 #include "ImGui/ImGuiLayer.h"
 
 #include "Rendering/Shader.h"
+#include <Rendering/Buffer.h>
 
 namespace Ivory {
 	class IVORY_API Application
@@ -36,8 +37,10 @@ namespace Ivory {
 
 		static Application* s_instance;
 
-		unsigned int m_vertex_array, m_vertex_buffer, m_index_buffer;
+		unsigned int m_vertex_array;
 		std::unique_ptr<Shader> m_shader;
+		std::unique_ptr<VertexBuffer> m_vertex_buffer;
+		std::unique_ptr<IndexBuffer> m_index_buffer;
 	};
 
 	Application* create_application();

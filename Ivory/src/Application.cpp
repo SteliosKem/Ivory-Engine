@@ -23,25 +23,19 @@ namespace Ivory {
 		glGenVertexArrays(1, &m_vertex_array);
 		glBindVertexArray(m_vertex_array);
 
-		glGenBuffers(1, &m_vertex_buffer);
-		glBindBuffer(GL_ARRAY_BUFFER, m_vertex_buffer);
-
 		float vertices[3 * 3] = { 
 			-0.25f, -0.5f, 0.0f,
 			0.25f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f
 		};
 
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		m_vertex_buffer.reset(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
 
-		glGenBuffers(1, &m_index_buffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_index_buffer);
-
 		unsigned int indeces[3] = { 0, 1, 2 };
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
+		m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
 
 		std::string vertex_src = R"(
 			#version 330
@@ -88,7 +82,7 @@ namespace Ivory {
 
 			m_shader->bind();
 			glBindVertexArray(m_vertex_array);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, m_index_buffer->get_count(), GL_UNSIGNED_INT, nullptr);
 
 			// Update every layer
 			for (shared_ptr<Layer>& layer : m_layer_stack)
