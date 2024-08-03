@@ -2,8 +2,8 @@
 #include "Application.h"
 #include "Events/WindowEvent.h"
 #include "Events/KeyEvent.h"
-#include <glad/glad.h>
 #include "Input.h"
+#include "Rendering/Renderer.h"
 
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -103,12 +103,16 @@ namespace Ivory {
 
 	void Application::run() {
 		while (m_running) {
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::clear();
+
+			Renderer::begin_scene();
 
 			m_shader->bind();
-			m_square_VA->bind();
-			glDrawElements(GL_TRIANGLES, m_square_VA->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
+
+			Renderer::submit(m_square_VA);
+
+			Renderer::end_scene();
 
 			// Update every layer
 			for (shared_ptr<Layer>& layer : m_layer_stack)

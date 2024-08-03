@@ -1362,6 +1362,9 @@
     <ClInclude Include="src\Rendering\Buffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
+    <ClInclude Include="src\Rendering\RendererAPI.h" />
+    <ClInclude Include="src\Rendering\RenderCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1399,5 +1402,8 @@
     <ClCompile Include="src\Rendering\Buffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
+    <ClCompile Include="src\Rendering\RendererAPI.cpp" />
+    <ClCompile Include="src\Rendering\RenderCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

@@ -162,11 +162,14 @@
     <ClInclude Include="src\MouseButtonCodes.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\Windows\WinPlatformInput.h" />
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h" />
     <ClInclude Include="src\Rendering\Buffer.h" />
     <ClInclude Include="src\Rendering\GraphicsContext.h" />
+    <ClInclude Include="src\Rendering\RenderCommand.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
+    <ClInclude Include="src\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
@@ -597,13 +600,16 @@
     <ClCompile Include="src\Logging\Log.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformWindow.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Rendering\Buffer.cpp" />
+    <ClCompile Include="src\Rendering\RenderCommand.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
+    <ClCompile Include="src\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\Rendering\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -6,9 +6,9 @@
 namespace Ivory {
 	VertexBuffer* VertexBuffer::create_buffer(float* vertices, uint32_t size) {
 		switch (Renderer::get_api()) {
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLVertexBuffer(vertices, size);
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 		default:
 			IV_CORE_ASSERT("Rendering API not supported");
 		}
@@ -17,9 +17,9 @@ namespace Ivory {
 
 	IndexBuffer* IndexBuffer::create_buffer(uint32_t* indeces, uint32_t size) {
 		switch (Renderer::get_api()) {
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLIndexBuffer(indeces, size);
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 		default:
 			IV_CORE_ASSERT("Rendering API not supported");
 		}
@@ -28,9 +28,9 @@ namespace Ivory {
 
 	VertexArray* VertexArray::create_array() {
 		switch (Renderer::get_api()) {
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLVertexArray();
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 		default:
 			IV_CORE_ASSERT("Rendering API not supported");
 		}
