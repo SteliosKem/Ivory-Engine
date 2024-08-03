@@ -9,6 +9,14 @@ namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application* Application::s_instance = nullptr;
 
+	static GLenum shader_to_opengl_type(ShaderDataType type) {
+		switch (type) {
+		case ShaderDataType::Float: return GL_FLOAT;
+		case ShaderDataType::Vector3: return GL_FLOAT;
+		case ShaderDataType::Vector4: return GL_FLOAT;
+		}
+	}
+
 	Application::Application() {
 		// Only one application can run at a time
 		IV_CORE_ASSERT(!s_instance, "Application already exists");
@@ -23,16 +31,28 @@ namespace Ivory {
 		glGenVertexArrays(1, &m_vertex_array);
 		glBindVertexArray(m_vertex_array);
 
-		float vertices[3 * 3] = { 
-			-0.25f, -0.5f, 0.0f,
-			0.25f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
+		float vertices[3 * 7] = { 
+			-0.25f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+			 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+			 0.0f,   0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 		};
 
 		m_vertex_buffer.reset(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+		BufferLayout layout = {
+			{ShaderDataType::Vector3, "a_Position"},
+			{ShaderDataType::Vector4, "a_Color"},
+		};
+
+		m_vertex_buffer->set_layout(layout);
+
+		uint32_t i = 0;
+		for (const BufferElement& element : m_vertex_buffer->get_layout()) {
+			glEnableVertexAttribArray(i);
+			glVertexAttribPointer(i, element.get_count(), shader_to_opengl_type(element.shader_type), 
+				element.normalized ? GL_TRUE : GL_FALSE, m_vertex_buffer->get_layout().get_stride(), (const void*)element.offset);
+			i++;
+		}
 
 		unsigned int indeces[3] = { 0, 1, 2 };
 		m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
@@ -41,9 +61,13 @@ namespace Ivory {
 			#version 330
 
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
+
+			out vec4 v_Color;
 
 			void main() {
 				gl_Position = vec4(a_Position, 1.0);
+				v_Color = a_Color;
 			}
 
 		)";
@@ -53,8 +77,11 @@ namespace Ivory {
 
 			layout(location = 0) out vec4 color;
 
+			in vec4 v_Color;
+
 			void main() {
-				color = vec4(0.5, 0.4, 0.1, 1.0);
+				color = vec4(1.0, 0.0, 1.0, 0.0);
+				color = v_Color;
 			}
 
 		)";
