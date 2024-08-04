@@ -11,7 +11,7 @@ namespace Ivory {
 
 	
 
-	Application::Application() : m_camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	Application::Application() {
 		// Only one application can run at a time
 		IV_CORE_ASSERT(!s_instance, "Application already exists");
 		s_instance = this;
@@ -22,53 +22,7 @@ namespace Ivory {
 		m_imgui_layer = std::make_shared<ImGuiLayer>();
 		push_overlay(m_imgui_layer);
 
-		m_square_VA.reset(VertexArray::create_array());
-
-		float vertices[3 * 4] = {
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			 0.5f,   0.5f, 0.0f,
-			-0.5f,   0.5f, 0.0f
-		};
-
-		std::shared_ptr<VertexBuffer> square_VB = std::shared_ptr<VertexBuffer>(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
-
-		BufferLayout layout = {
-			{ShaderDataType::Vector3, "a_Position"},
-		};
-		square_VB->set_layout(layout);
-		m_square_VA->add_vertex_buffer(square_VB);
-
-		unsigned int indeces[6] = { 0, 1, 2, 2, 3, 0 };
-		std::shared_ptr<IndexBuffer> square_IB(IndexBuffer::create_buffer(indeces, 6));
-
-		m_square_VA->set_index_buffer(square_IB);
-
-		std::string vertex_src = R"(
-			#version 330
-
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_view_projection;
-
-			void main() {
-				gl_Position = u_view_projection * vec4(a_Position, 1.0);
-			}
-
-		)";
-
-		std::string fragment_src = R"(
-			#version 330
-
-			layout(location = 0) out vec4 color;
-
-			void main() {
-				color = vec4(0.8, 0.6, 0.3, 1.0);
-			}
-
-		)";
-
-		m_shader = std::make_unique<Shader>(vertex_src, fragment_src);
+		
 	}
 
 	void Application::on_event(Event& e) {
@@ -86,18 +40,7 @@ namespace Ivory {
 
 	void Application::run() {
 		while (m_running) {
-			RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
-			RenderCommand::clear();
 			
-			m_camera.set_position({ 0.5f, 0.5f, 0 });
-			m_camera.set_rotation(45.0f);
-
-			Renderer::begin_scene(m_camera);
-
-			Renderer::submit(m_square_VA, m_shader);
-
-			Renderer::end_scene();
-
 			// Update every layer
 			for (shared_ptr<Layer>& layer : m_layer_stack)
 				layer->on_update();

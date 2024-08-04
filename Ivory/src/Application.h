@@ -38,12 +38,6 @@ namespace Ivory {
 
 		static Application* s_instance;
 
-		std::shared_ptr<Shader> m_shader;
-		std::shared_ptr<VertexArray> m_vertex_array;
-
-		std::shared_ptr<VertexArray> m_square_VA;
-
-		OrthographicCamera m_camera;
 	};
 
 	Application* create_application();

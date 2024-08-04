@@ -19,6 +19,8 @@
 
 #define BIT(x) (1 << x)
 
+#define IV_BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
 #define GLM_FORCE_CTOR_INIT
 
 using Real = float;

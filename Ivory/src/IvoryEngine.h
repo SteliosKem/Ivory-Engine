@@ -12,4 +12,12 @@ using Real = float;
 #include "MouseButtonCodes.h"
 #include "KeyCodes.h"
 
+#include "Rendering/Buffer.h"
+#include "Rendering/GraphicsContext.h"
+#include "Rendering/OrthographicCamera.h"
+#include "Rendering/RenderCommand.h"
+#include "Rendering/Renderer.h"
+#include "Rendering/RendererAPI.h"
+#include "Rendering/Shader.h"
+
 #include "Entry.h"
