@@ -167,6 +167,7 @@
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h" />
     <ClInclude Include="src\Rendering\Buffer.h" />
     <ClInclude Include="src\Rendering\GraphicsContext.h" />
+    <ClInclude Include="src\Rendering\OrthographicCamera.h" />
     <ClInclude Include="src\Rendering\RenderCommand.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\RendererAPI.h" />
@@ -607,6 +608,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Rendering\Buffer.cpp" />
+    <ClCompile Include="src\Rendering\OrthographicCamera.cpp" />
     <ClCompile Include="src\Rendering\RenderCommand.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\RendererAPI.cpp" />

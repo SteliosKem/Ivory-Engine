@@ -11,7 +11,7 @@ namespace Ivory {
 
 	
 
-	Application::Application() {
+	Application::Application() : m_camera(-1.0f, 1.0f, -1.0f, 1.0f) {
 		// Only one application can run at a time
 		IV_CORE_ASSERT(!s_instance, "Application already exists");
 		s_instance = this;
@@ -21,24 +21,6 @@ namespace Ivory {
 
 		m_imgui_layer = std::make_shared<ImGuiLayer>();
 		push_overlay(m_imgui_layer);
-
-		/*m_vertex_array.reset(VertexArray::create_array());
-
-		float vertices[3 * 7] = { 
-			-0.25f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
-			 0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-			 0.0f,   0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		};
-
-		m_vertex_buffer.reset(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
-
-		
-
-		m_vertex_array->add_vertex_buffer(m_vertex_buffer);
-
-		unsigned int indeces[3] = { 0, 1, 2 };
-		m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
-		m_vertex_array->set_index_buffer(m_index_buffer);*/
 
 		m_square_VA.reset(VertexArray::create_array());
 
@@ -58,7 +40,6 @@ namespace Ivory {
 		m_square_VA->add_vertex_buffer(square_VB);
 
 		unsigned int indeces[6] = { 0, 1, 2, 2, 3, 0 };
-		//m_index_buffer.reset(IndexBuffer::create_buffer(indeces, 3));
 		std::shared_ptr<IndexBuffer> square_IB(IndexBuffer::create_buffer(indeces, 6));
 
 		m_square_VA->set_index_buffer(square_IB);
@@ -68,8 +49,10 @@ namespace Ivory {
 
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_view_projection;
+
 			void main() {
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_view_projection * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -109,6 +92,8 @@ namespace Ivory {
 			Renderer::begin_scene();
 
 			m_shader->bind();
+			m_shader->upload_uniform_mat4("u_view_projection", m_camera.get_vp_matrix());
+			glm::mat4 mat(1.0f);
 
 			Renderer::submit(m_square_VA);
 

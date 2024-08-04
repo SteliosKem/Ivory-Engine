@@ -2,6 +2,7 @@
 #include "Shader.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Ivory {
 	Shader::Shader(const std::string& vertex_src, const std::string& fragment_src) {
@@ -122,5 +123,10 @@ namespace Ivory {
 
 	void Shader::unbind() const {
 		glDeleteProgram(m_rendererID);
+	}
+
+	void Shader::upload_uniform_mat4(const std::string& name, const glm::mat4& matrix) {
+		GLint location = glGetUniformLocation(m_rendererID, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

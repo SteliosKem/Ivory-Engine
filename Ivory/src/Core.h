@@ -19,6 +19,8 @@
 
 #define BIT(x) (1 << x)
 
+#define GLM_FORCE_CTOR_INIT
+
 using Real = float;
 
 // Uncomment to compile with double precision

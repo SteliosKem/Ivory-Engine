@@ -9,6 +9,7 @@
 
 #include "Rendering/Shader.h"
 #include <Rendering/Buffer.h>
+#include "Rendering/OrthographicCamera.h"
 
 namespace Ivory {
 	class IVORY_API Application
@@ -41,6 +42,8 @@ namespace Ivory {
 		std::shared_ptr<VertexArray> m_vertex_array;
 
 		std::shared_ptr<VertexArray> m_square_VA;
+
+		OrthographicCamera m_camera;
 	};
 
 	Application* create_application();
