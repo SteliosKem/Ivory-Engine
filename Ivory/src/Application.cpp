@@ -11,7 +11,7 @@ namespace Ivory {
 
 	
 
-	Application::Application() : m_camera(-1.0f, 1.0f, -1.0f, 1.0f) {
+	Application::Application() : m_camera(-1.6f, 1.6f, -0.9f, 0.9f) {
 		// Only one application can run at a time
 		IV_CORE_ASSERT(!s_instance, "Application already exists");
 		s_instance = this;
@@ -27,8 +27,8 @@ namespace Ivory {
 		float vertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
 			 0.5f, -0.5f, 0.0f,
-			 0.5f,   0.0f, 0.0f,
-			-0.5f,   0.0f, 0.0f
+			 0.5f,   0.5f, 0.0f,
+			-0.5f,   0.5f, 0.0f
 		};
 
 		std::shared_ptr<VertexBuffer> square_VB = std::shared_ptr<VertexBuffer>(VertexBuffer::create_buffer(vertices, sizeof(vertices)));
@@ -88,14 +88,13 @@ namespace Ivory {
 		while (m_running) {
 			RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::clear();
+			
+			m_camera.set_position({ 0.5f, 0.5f, 0 });
+			m_camera.set_rotation(45.0f);
 
-			Renderer::begin_scene();
+			Renderer::begin_scene(m_camera);
 
-			m_shader->bind();
-			m_shader->upload_uniform_mat4("u_view_projection", m_camera.get_vp_matrix());
-			glm::mat4 mat(1.0f);
-
-			Renderer::submit(m_square_VA);
+			Renderer::submit(m_square_VA, m_shader);
 
 			Renderer::end_scene();
 
