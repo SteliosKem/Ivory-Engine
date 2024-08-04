@@ -1,7 +1,7 @@
-#include "Sandbox.h"
+#include "Editor.h"
 
 
 
 Ivory::Application* Ivory::create_application() {
-	return new Sandbox();
+	return new Editor();
 }

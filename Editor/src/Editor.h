@@ -25,10 +25,10 @@ public:
 	}
 };
 
-class Sandbox : public Ivory::Application {
+class Editor : public Ivory::Application {
 public:
-	Sandbox() { 
+	Editor() {
 		push_layer(std::make_shared<ExampleLayer>());
 	}
-	~Sandbox() {}
+	~Editor() {}
 };
