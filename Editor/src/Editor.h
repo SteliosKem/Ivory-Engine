@@ -57,14 +57,20 @@ public:
 		m_shader = std::make_unique<Ivory::Shader>(vertex_src, fragment_src);
 	}
 
-	void on_update() override {
+	void on_update(Ivory::Timestep delta_time) override {
+		IV_INFO(delta_time.get_ms());
 		m_mouse_pos = glm::vec2(Ivory::Input::mouse_pos().x(), Ivory::Input::mouse_pos().y());
 		if (Ivory::Input::is_mouse_button_pressed(2)) {
-			IV_INFO(m_mouse_pos.x - m_last_mouse_pos.x);
-			IV_INFO(m_mouse_pos.y - m_last_mouse_pos.y);
-			m_camera_pos.x += -(m_mouse_pos.x - m_last_mouse_pos.x) * 0.004f;
-			m_camera_pos.y += (m_mouse_pos.y - m_last_mouse_pos.y) * 0.004f;
+			//IV_INFO(m_mouse_pos.x - m_last_mouse_pos.x);
+			//IV_INFO(m_mouse_pos.y - m_last_mouse_pos.y);
+			m_camera_pos.x += -(m_mouse_pos.x - m_last_mouse_pos.x) * 0.12f * delta_time;
+			m_camera_pos.y += (m_mouse_pos.y - m_last_mouse_pos.y) * 0.12f * delta_time;
+			ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 		}
+		else {
+			ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+		}
+		m_camera_pos.z += Ivory::Input::
 
 		Ivory::RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
 		Ivory::RenderCommand::clear();
@@ -104,6 +110,7 @@ private:
 class Editor : public Ivory::Application {
 public:
 	Editor() {
+		Ivory::Application::get_window().set_vsync(false);
 		push_layer(std::make_shared<ExampleLayer>());
 	}
 	~Editor() {}

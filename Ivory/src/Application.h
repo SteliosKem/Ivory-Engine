@@ -10,6 +10,7 @@
 #include "Rendering/Shader.h"
 #include <Rendering/Buffer.h>
 #include "Rendering/OrthographicCamera.h"
+#include "Core/Timestep.h"
 
 namespace Ivory {
 	class IVORY_API Application
@@ -37,7 +38,7 @@ namespace Ivory {
 		LayerStack m_layer_stack;
 
 		static Application* s_instance;
-
+		float m_last_frame_time = 0.0f;
 	};
 
 	Application* create_application();

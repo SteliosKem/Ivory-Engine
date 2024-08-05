@@ -3,6 +3,8 @@
 #include "Core.h"
 #include "Events/Event.h"
 
+#include "Core/Timestep.h"
+
 namespace Ivory {
 	class IVORY_API Layer {
 	public:
@@ -11,7 +13,7 @@ namespace Ivory {
 
 		virtual void on_attach() {}
 		virtual void on_detach() {}
-		virtual void on_update() {}
+		virtual void on_update(Timestep time_step) {}
 		virtual void on_imgui_render() {}
 		virtual void on_event(Event& e) {}
 

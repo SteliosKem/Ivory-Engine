@@ -8,6 +8,8 @@ using Real = float;
 #include "ImGui/ImGuiLayer.h"
 #include "IMath.h"
 
+#include "Core/Timestep.h"
+
 #include "Input.h"
 #include "MouseButtonCodes.h"
 #include "KeyCodes.h"

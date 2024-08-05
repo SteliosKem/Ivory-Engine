@@ -4,6 +4,7 @@
 #include "Events/KeyEvent.h"
 #include "Input.h"
 #include "Rendering/Renderer.h"
+#include "Platform/Platform.h"
 
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -40,10 +41,13 @@ namespace Ivory {
 
 	void Application::run() {
 		while (m_running) {
-			
+			float time = Platform::get_time();
+			Timestep timestep = time - m_last_frame_time;
+			m_last_frame_time = time;
+
 			// Update every layer
 			for (shared_ptr<Layer>& layer : m_layer_stack)
-				layer->on_update();
+				layer->on_update(timestep);
 
 			// Start imgui frame
 			m_imgui_layer->begin();
