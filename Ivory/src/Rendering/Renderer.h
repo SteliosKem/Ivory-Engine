@@ -9,7 +9,7 @@ namespace Ivory {
 		static void begin_scene(OrthographicCamera& camera);
 		static void end_scene();
 
-		static void submit(const std::shared_ptr<VertexArray>& vertex_array, const std::shared_ptr<Shader>& shader);
+		static void submit(const std::shared_ptr<VertexArray>& vertex_array, const std::shared_ptr<Shader>& shader, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API get_api() { return RendererAPI::get_api(); }
 		//inline static void set_api(RendererAPI::API api) { s_renderer_api = api; }

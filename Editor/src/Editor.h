@@ -3,6 +3,8 @@
 
 #include "imgui.h"
 
+#include "glm/gtc/matrix_transform.hpp"
+
 // For testing layers
 class ExampleLayer : public Ivory::Layer {
 public:
@@ -36,9 +38,10 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_view_projection;
+			uniform mat4 u_transform;
 
 			void main() {
-				gl_Position = u_view_projection * vec4(a_Position, 1.0);
+				gl_Position = u_view_projection * u_transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -70,7 +73,6 @@ public:
 		else {
 			ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 		}
-		m_camera_pos.z += Ivory::Input::
 
 		Ivory::RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
 		Ivory::RenderCommand::clear();
@@ -78,7 +80,7 @@ public:
 		m_camera.set_position(m_camera_pos);
 		Ivory::Renderer::begin_scene(m_camera);
 
-		Ivory::Renderer::submit(m_square_VA, m_shader);
+		Ivory::Renderer::submit(m_square_VA, m_shader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
 		Ivory::Renderer::end_scene();
 
