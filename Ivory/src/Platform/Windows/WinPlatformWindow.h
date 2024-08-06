@@ -19,6 +19,7 @@ namespace Ivory {
 		void set_vsync(bool enabled);
 		bool get_vsync() const;
 
+		void set_image(const std::string& path) override;
 
 		inline virtual void* get_native() const { return m_window; };
 	private:

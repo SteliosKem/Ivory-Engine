@@ -1,9 +1,12 @@
 #pragma once
 #include <IvoryEngine.h>
-
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui.h"
 
 #include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/type_ptr.hpp>
+
+const std::string icon_path = "C:/Projects/Ivory-Engine/Assets/IVlogo.png";
 
 // For testing layers
 class ExampleLayer : public Ivory::Layer {
@@ -51,13 +54,18 @@ public:
 
 			layout(location = 0) out vec4 color;
 
+			uniform vec3 u_color;
+			uniform vec3 u_light_direction;
+
 			void main() {
-				color = vec4(0.8, 0.6, 0.3, 1.0);
+				//color = vec4(0.8, 0.6, 0.3, 1.0);
+				color = vec4(u_color, 1.0f);
 			}
 
 		)";
 
-		m_shader = std::make_unique<Ivory::Shader>(vertex_src, fragment_src);
+		m_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(vertex_src, fragment_src));
+		m_color = glm::vec3(0.5f, 0.2f, 0.1f);
 	}
 
 	void on_update(Ivory::Timestep delta_time) override {
@@ -80,6 +88,9 @@ public:
 		m_camera.set_position(m_camera_pos);
 		Ivory::Renderer::begin_scene(m_camera);
 
+		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_shader)->bind();
+		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_shader)->upload_uniform_vec3("u_color", m_color);
+
 		Ivory::Renderer::submit(m_square_VA, m_shader, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f)));
 
 		Ivory::Renderer::end_scene();
@@ -88,7 +99,9 @@ public:
 	}
 
 	void on_imgui_render() override {
-		
+		ImGui::Begin("Color");
+		ImGui::ColorPicker3("Color", glm::value_ptr(m_color));
+		ImGui::End();
 
 	}
 
@@ -105,6 +118,7 @@ private:
 	glm::vec2 m_mouse_pos{0.0f};
 
 	glm::vec2 m_last_mouse_pos{0.0f};
+	glm::vec3 m_color;
 
 	Ivory::OrthographicCamera m_camera;
 };
@@ -112,8 +126,9 @@ private:
 class Editor : public Ivory::Application {
 public:
 	Editor() {
-		Ivory::Application::get_window().set_vsync(false);
+		//Ivory::Application::get_window().set_vsync(false);
 		push_layer(std::make_shared<ExampleLayer>());
+		get_window().set_image(icon_path);
 	}
 	~Editor() {}
 };

@@ -15,6 +15,7 @@ IncludeDir["GLFW"] = "Ivory/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ivory/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ivory/vendor/imgui"
 IncludeDir["glm"] = "Ivory/vendor/glm"
+IncludeDir["stb"] = "Ivory/vendor/stb"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
@@ -46,7 +47,8 @@ project "Ivory"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb}"
 	}
 
 	links {
