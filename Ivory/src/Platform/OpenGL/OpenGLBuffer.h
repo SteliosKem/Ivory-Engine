@@ -35,7 +35,7 @@ namespace Ivory {
 	class OpenGLVertexArray : public VertexArray {
 	public:
 		OpenGLVertexArray();
-		virtual ~OpenGLVertexArray() {}
+		virtual ~OpenGLVertexArray();
 
 		void bind() const override;
 		void unbind() const override;

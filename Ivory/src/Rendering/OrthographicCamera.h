@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Ivory {
 	class OrthographicCamera {
@@ -22,6 +23,7 @@ namespace Ivory {
 
 		glm::vec3 m_position;
 		float m_zrotation = 0.0f;
+		float m_right, m_left, m_top, m_bottom;
 
 		void recalculate_view_matrix();
 	};

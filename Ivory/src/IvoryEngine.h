@@ -21,5 +21,6 @@ using Real = float;
 #include "Rendering/Renderer.h"
 #include "Rendering/RendererAPI.h"
 #include "Rendering/Shader.h"
+#include "Rendering/Texture.h"
 
 #include "Entry.h"

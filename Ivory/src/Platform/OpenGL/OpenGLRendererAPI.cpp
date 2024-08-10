@@ -13,6 +13,7 @@ namespace Ivory {
 	}
 
 	void OpenGLRendererAPI::draw_indexed(const std::shared_ptr<VertexArray>& vertex_array) {
+		vertex_array->bind();
 		glDrawElements(GL_TRIANGLES, vertex_array->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
 	}
 }

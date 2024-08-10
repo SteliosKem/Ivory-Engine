@@ -5,6 +5,10 @@
 namespace Ivory {
 	OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top)
 		: m_projection_matrix(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)), m_position(0, 0, 0), m_view_matrix(1.0f) {
+		m_left = left;
+		m_right = right;
+		m_bottom = bottom;
+		m_top = top;
 		m_vp_matrix = m_projection_matrix * m_view_matrix;
 	}
 

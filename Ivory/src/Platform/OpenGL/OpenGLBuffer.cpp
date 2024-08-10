@@ -7,6 +7,7 @@ namespace Ivory {
 	static GLenum shader_to_opengl_type(ShaderDataType type) {
 		switch (type) {
 		case ShaderDataType::Float: return GL_FLOAT;
+		case ShaderDataType::Vector2: return GL_FLOAT;
 		case ShaderDataType::Vector3: return GL_FLOAT;
 		case ShaderDataType::Vector4: return GL_FLOAT;
 		}
@@ -52,7 +53,11 @@ namespace Ivory {
 	// VERTEX ARRAY
 
 	OpenGLVertexArray::OpenGLVertexArray() {
-		glCreateVertexArrays(2, &m_rendererID);
+		glCreateVertexArrays(1, &m_rendererID);
+	}
+
+	OpenGLVertexArray::~OpenGLVertexArray() {
+		glDeleteVertexArrays(1, &m_rendererID);
 	}
 
 	void OpenGLVertexArray::bind() const {
