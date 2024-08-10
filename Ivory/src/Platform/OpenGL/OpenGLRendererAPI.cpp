@@ -4,6 +4,11 @@
 #include <glad/glad.h>
 
 namespace Ivory {
+	void OpenGLRendererAPI::init() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	void OpenGLRendererAPI::set_clear_color(const glm::vec4& color) {
 		glClearColor(color.r, color.g, color.b, color.a);
 	}

@@ -9,6 +9,10 @@ namespace Ivory {
 		s_scene_data->vp_matrix = camera.get_vp_matrix();
 	}
 
+	void Renderer::init() {
+		RenderCommand::init();
+	}
+
 	void Renderer::end_scene() {
 
 	}

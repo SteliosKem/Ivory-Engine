@@ -4,6 +4,7 @@
 namespace Ivory {
 	class RenderCommand {
 	public:
+		inline static void init() { s_rendererAPI->init(); }
 		inline static void set_clear_color(const glm::vec4& color) { s_rendererAPI->set_clear_color(color); }
 		inline static void clear() { s_rendererAPI->clear(); }
 

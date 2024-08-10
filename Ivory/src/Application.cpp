@@ -20,6 +20,8 @@ namespace Ivory {
 		m_window = std::unique_ptr<Window>(Window::create());
 		m_window->set_event_callback(BIND_EVENT_FN(on_event));
 
+		Renderer::init();
+
 		m_imgui_layer = std::make_shared<ImGuiLayer>();
 		push_overlay(m_imgui_layer);
 

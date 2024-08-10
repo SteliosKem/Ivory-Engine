@@ -125,7 +125,7 @@ public:
 		m_texture_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(texture_vertex_src, texture_fragment_src));
 		m_color = glm::vec3(0.5f, 0.2f, 0.1f);
 
-		m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Assets/asd.png");
+		m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Assets/Zeus.png");
 
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->bind();
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->upload_uniform_int("u_texture", 0);
@@ -172,6 +172,11 @@ public:
 	}
 
 	bool on_scroll(Ivory::MouseScrollEvent& e) {
+		if (e.get_offset_y() < 0)
+			m_camera.set_scale(m_camera.get_scale() * 1.5f);
+		else
+			m_camera.set_scale(m_camera.get_scale() / 1.5f);
+
 		return false;
 	}
 
