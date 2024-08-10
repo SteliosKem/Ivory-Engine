@@ -28,7 +28,7 @@ namespace Ivory {
 
 	void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shader_srcs) {
 		GLuint program = glCreateProgram();
-		std::vector<GLenum> glShader_IDs(shader_srcs.size());
+		std::vector<GLenum> glShader_IDs;
 
 		for (auto& kv : shader_srcs) {
 			GLenum type = kv.first;
