@@ -2,87 +2,73 @@
 #include "Rendering/Renderer.h"
 #include "OpenGLShader.h"
 
+#include "Util.h"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Ivory {
+	static GLenum get_shader_type(const std::string& type) {
+		if (type == "vertex") return GL_VERTEX_SHADER;
+		else if (type == "fragment") return GL_FRAGMENT_SHADER;
+		IV_CORE_ASSERT(false, "Unknown shader type");
+		return 0;
+	}
+
+	OpenGLShader::OpenGLShader(const std::string& file_path) {
+		std::string file = read_file(file_path);
+		compile(preprocess(file));
+	}
+
 	OpenGLShader::OpenGLShader(const std::string& vertex_src, const std::string& fragment_src) {
-		// Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		std::unordered_map<GLenum, std::string> sources;
+		sources[GL_VERTEX_SHADER] = vertex_src;
+		sources[GL_FRAGMENT_SHADER] = fragment_src;
+		compile(sources);
+	}
 
-		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		const char* source = vertex_src.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
+	void OpenGLShader::compile(const std::unordered_map<GLenum, std::string>& shader_srcs) {
+		GLuint program = glCreateProgram();
+		std::vector<GLenum> glShader_IDs(shader_srcs.size());
 
-		// Compile the vertex shader
-		glCompileShader(vertexShader);
+		for (auto& kv : shader_srcs) {
+			GLenum type = kv.first;
+			const std::string& src = kv.second;
+			GLuint shader = glCreateShader(type);
 
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+			// Send the vertex shader source code to GL
+			// Note that std::string's .c_str is NULL character terminated.
+			const char* source = src.c_str();
+			glShaderSource(shader, 1, &source, 0);
 
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+			// Compile the vertex shader
+			glCompileShader(shader);
 
-			// We don't need the shader anymore.
-			glDeleteShader(vertexShader);
+			GLint isCompiled = 0;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+			if (isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 
-			// Use the infoLog as you see fit.
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
 
-			IV_CORE_ERROR("Vertext shader compilation failed");
-			IV_CORE_ERROR((const char*)infoLog.data());
-			IV_CORE_ASSERT(false, "Vertext shader compilation failed");
-			return;
+				// We don't need the shader anymore.
+				glDeleteShader(shader);
+
+				// Use the infoLog as you see fit.
+
+				IV_CORE_ERROR("Shader compilation failed");
+				IV_CORE_ERROR((const char*)infoLog.data());
+				IV_CORE_ASSERT(false, "Shader compilation failed");
+				break;
+			}
+			glAttachShader(program, shader);
+			glShader_IDs.push_back(shader);
 		}
+		m_rendererID = program;
 
-		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		source = fragment_src.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
-
-		// Compile the fragment shader
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(fragmentShader);
-			// Either of them. Don't leak shaders.
-			glDeleteShader(vertexShader);
-
-			// Use the infoLog as you see fit.
-
-			IV_CORE_ERROR("Shader linkage failed");
-			IV_CORE_ERROR((const char*)infoLog.data());
-			IV_CORE_ASSERT(false, "Shader linkage failed");
-			return;
-		}
-
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		m_rendererID = glCreateProgram();
-		GLuint program = m_rendererID;
-
-		// Attach our shaders to our program
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
 
 		// Link our program
 		glLinkProgram(program);
@@ -102,8 +88,8 @@ namespace Ivory {
 			// We don't need the program anymore.
 			glDeleteProgram(program);
 			// Don't leak shaders either.
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
+			for (auto id : glShader_IDs)
+				glDeleteShader(id);
 
 			// Use the infoLog as you see fit.
 
@@ -112,8 +98,8 @@ namespace Ivory {
 		}
 
 		// Always detach shaders after a successful link.
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
+		for (auto id : glShader_IDs)
+			glDetachShader(program, id);
 	}
 
 	void OpenGLShader::bind() const {
@@ -122,6 +108,29 @@ namespace Ivory {
 
 	void OpenGLShader::unbind() const {
 		glDeleteProgram(m_rendererID);
+	}
+
+	std::unordered_map<GLenum, std::string> OpenGLShader::preprocess(const std::string& source) {
+		std::unordered_map<GLenum, std::string> shader_srcs;
+
+		const char* type_token = "#type";
+		size_t token_length = strlen(type_token);
+		size_t pos = source.find(type_token, 0);
+		while (pos != std::string::npos) {
+			size_t end_of_line = source.find_first_of("\r\n", pos);
+			IV_CORE_ASSERT(end_of_line != std::string::npos, "Syntax error");
+			end_of_line == std::string::npos ? IV_CORE_ERROR("Syntax error") : 0;
+			size_t begin = pos + token_length + 1;
+			std::string type = source.substr(begin, end_of_line - begin);
+			IV_CORE_ASSERT(type == "vertex" || type == "fragment" || type == "pixel", "Invalid type specifier '" + type + "'");
+			!(type == "vertex" || type == "fragment" || type == "pixel") ? IV_CORE_ERROR("Invalid type specifier '" + type + "'") : 0;
+
+			size_t next_line_pos = source.find_first_not_of("\r\n", end_of_line);
+			pos = source.find(type_token, next_line_pos);
+			shader_srcs[get_shader_type(type)] = source.substr(next_line_pos, pos - (next_line_pos == std::string::npos ? source.size() - 1 : next_line_pos));
+		}
+
+		return shader_srcs;
 	}
 
 	void OpenGLShader::upload_uniform_mat4(const std::string& name, const glm::mat4& matrix) {

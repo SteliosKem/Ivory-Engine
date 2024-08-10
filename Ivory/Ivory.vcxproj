@@ -177,6 +177,7 @@
     <ClInclude Include="src\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
+    <ClInclude Include="src\Util.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />

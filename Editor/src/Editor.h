@@ -6,7 +6,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
-const std::string icon_path = "C:/Projects/Ivory-Engine/Assets/IVlogo.png";
+const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
+const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
 
 // For testing layers
 class ExampleLayer : public Ivory::Layer {
@@ -122,10 +123,10 @@ public:
 		)";
 
 		m_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(vertex_src, fragment_src));
-		m_texture_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(texture_vertex_src, texture_fragment_src));
+		m_texture_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(shader_path));
 		m_color = glm::vec3(0.5f, 0.2f, 0.1f);
 
-		m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Assets/Zeus.png");
+		m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/Zeus.png");
 
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->bind();
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->upload_uniform_int("u_texture", 0);

@@ -1,10 +1,13 @@
 #pragma once
 #include "Rendering/Shader.h"
 
+using GLenum = unsigned int;
+
 namespace Ivory {
 	class OpenGLShader : public Shader {
 	public:
 		OpenGLShader(const std::string& vertex_src, const std::string& fragment_src);
+		OpenGLShader(const std::string& file_path);
 		~OpenGLShader() {}
 
 		void bind() const override;
@@ -20,6 +23,9 @@ namespace Ivory {
 		void upload_uniform_vec2(const std::string& name, const glm::vec2& vector);
 		void upload_uniform_float(const std::string& name, float num);
 	private:
+		void compile(const std::unordered_map<GLenum, std::string>& shader_srcs);
+		std::unordered_map<GLenum, std::string> preprocess(const std::string& source);
+
 		uint32_t m_rendererID;
 	};
 }
