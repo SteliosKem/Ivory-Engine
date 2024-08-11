@@ -4,7 +4,7 @@
 #include "Logging/Log.h"
 
 std::string read_file(const std::string& file_path) {
-	std::ifstream file(file_path, std::ios::in, std::ios::binary);
+	std::ifstream file(file_path, std::ios::in | std::ios::binary);
 	std::string result = "";
 	if (file) {
 		file.seekg(0, std::ios::end);

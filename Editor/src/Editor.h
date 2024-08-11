@@ -122,14 +122,14 @@ public:
 
 		)";
 
-		m_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(vertex_src, fragment_src));
-		m_texture_shader = std::unique_ptr<Ivory::Shader>(Ivory::Shader::create(shader_path));
+		m_shader = Ivory::Shader::create("string_shader", vertex_src, fragment_src);
+		std::shared_ptr<Ivory::Shader>& shader = m_shader_lib.load(shader_path);
 		m_color = glm::vec3(0.5f, 0.2f, 0.1f);
 
 		m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/Zeus.png");
 
-		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->bind();
-		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_texture_shader)->upload_uniform_int("u_texture", 0);
+		std::dynamic_pointer_cast<Ivory::OpenGLShader>(shader)->bind();
+		std::dynamic_pointer_cast<Ivory::OpenGLShader>(shader)->upload_uniform_int("u_texture", 0);
 	}
 
 	void on_update(Ivory::Timestep delta_time) override {
@@ -152,7 +152,7 @@ public:
 		Ivory::Renderer::begin_scene(m_camera);
 
 		m_texture->bind();
-		Ivory::Renderer::submit(m_square_VA, m_texture_shader, glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
+		Ivory::Renderer::submit(m_square_VA, m_shader_lib.get("shader"), glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_shader)->bind();
 		std::dynamic_pointer_cast<Ivory::OpenGLShader>(m_shader)->upload_uniform_vec3("u_color", m_color);
@@ -183,8 +183,10 @@ public:
 
 	void on_event(Ivory::Event& e) override;
 private:
+	Ivory::ShaderLibrary m_shader_lib;
+
 	std::shared_ptr<Ivory::Shader> m_shader;
-	std::shared_ptr<Ivory::Shader> m_texture_shader;
+	//std::shared_ptr<Ivory::Shader> m_texture_shader;
 	std::shared_ptr<Ivory::VertexArray> m_vertex_array;
 
 	std::shared_ptr<Ivory::VertexArray> m_square_VA;

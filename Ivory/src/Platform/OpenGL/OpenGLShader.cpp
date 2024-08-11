@@ -5,6 +5,7 @@
 #include "Util.h"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <filesystem>
 
 namespace Ivory {
 	static GLenum get_shader_type(const std::string& type) {
@@ -15,11 +16,13 @@ namespace Ivory {
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& file_path) {
+		std::filesystem::path path = file_path;
+		m_name = path.stem().string();
 		std::string file = read_file(file_path);
 		compile(preprocess(file));
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertex_src, const std::string& fragment_src) {
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertex_src, const std::string& fragment_src) {
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertex_src;
 		sources[GL_FRAGMENT_SHADER] = fragment_src;

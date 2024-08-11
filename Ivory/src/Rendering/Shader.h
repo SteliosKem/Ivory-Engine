@@ -10,9 +10,20 @@ namespace Ivory {
 		virtual void bind() const = 0;
 		virtual void unbind() const = 0;
 
-		static Shader* create(const std::string& file_path);
-		static Shader* create(const std::string& vertex_src, const std::string& fragment_src);
+		virtual const std::string& get_name() const = 0;
+
+		static std::shared_ptr<Shader> create(const std::string& file_path);
+		static std::shared_ptr<Shader> create(const std::string& name, const std::string& vertex_src, const std::string& fragment_src);
+	};
+
+	class ShaderLibrary {
+	public:
+		void add(const std::shared_ptr<Shader>& shader);
+		std::shared_ptr<Shader> load(const std::string& file_path);
+		std::shared_ptr<Shader> load(const std::string& vertex_src, const std::string& fragment_src);
+
+		std::shared_ptr<Shader> get(const std::string& name);
 	private:
-		uint32_t m_rendererID;
+		std::unordered_map<std::string, std::shared_ptr<Shader>> m_shaders;
 	};
 }

@@ -6,12 +6,14 @@ using GLenum = unsigned int;
 namespace Ivory {
 	class OpenGLShader : public Shader {
 	public:
-		OpenGLShader(const std::string& vertex_src, const std::string& fragment_src);
+		OpenGLShader(const std::string& name, const std::string& vertex_src, const std::string& fragment_src);
 		OpenGLShader(const std::string& file_path);
 		~OpenGLShader() {}
 
 		void bind() const override;
 		void unbind() const override;
+
+		const std::string& get_name() const override { return m_name; }
 
 		void upload_uniform_mat4(const std::string& name, const glm::mat4& matrix);
 		void upload_uniform_mat3(const std::string& name, const glm::mat3& matrix);
@@ -27,5 +29,6 @@ namespace Ivory {
 		std::unordered_map<GLenum, std::string> preprocess(const std::string& source);
 
 		uint32_t m_rendererID;
+		std::string m_name;
 	};
 }
