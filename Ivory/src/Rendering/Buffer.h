@@ -102,7 +102,7 @@ namespace Ivory {
 		virtual void set_layout(const BufferLayout& layout) = 0;
 		virtual const BufferLayout& get_layout() = 0;
 
-		static VertexBuffer* create_buffer(float* vertices, uint32_t size);
+		static std::shared_ptr<VertexBuffer> create_buffer(float* vertices, uint32_t size);
 	};
 
 	class IndexBuffer {
@@ -114,7 +114,7 @@ namespace Ivory {
 
 		virtual uint32_t get_count() = 0;
 
-		static IndexBuffer* create_buffer(uint32_t* indeces, uint32_t size);
+		static std::shared_ptr<IndexBuffer> create_buffer(uint32_t* indeces, uint32_t size);
 	};
 
 	class VertexArray {
@@ -130,6 +130,6 @@ namespace Ivory {
 		virtual const std::vector<std::shared_ptr<VertexBuffer>>& get_vertex_buffers() const = 0;
 		virtual const std::shared_ptr<IndexBuffer>& get_index_buffer() const = 0;
 
-		static VertexArray* create_array();
+		static std::shared_ptr<VertexArray> create_array();
 	};
 }

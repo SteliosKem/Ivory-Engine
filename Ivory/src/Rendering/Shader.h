@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
+#include <memory>
 
 namespace Ivory {
 	class Shader {
@@ -20,7 +21,6 @@ namespace Ivory {
 	public:
 		void add(const std::shared_ptr<Shader>& shader);
 		std::shared_ptr<Shader> load(const std::string& file_path);
-		std::shared_ptr<Shader> load(const std::string& vertex_src, const std::string& fragment_src);
 
 		std::shared_ptr<Shader> get(const std::string& name);
 	private:

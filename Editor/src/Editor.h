@@ -1,5 +1,7 @@
 #pragma once
 #include <Core/IvoryEngine.h>
+
+#include "Core/Entry.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui.h"
 
@@ -7,7 +9,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "ImGui/ImGuiNotify.h"
-#include "OrthoCameraController.h"
+
+#include "Test2D.h"
 
 const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
 const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
@@ -16,7 +19,7 @@ const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/
 class ExampleLayer : public Ivory::Layer {
 public:
 	ExampleLayer() : Layer("Example"), m_camera_controller(1280.0f / 720.f) {
-		m_solid_square_VA.reset(Ivory::VertexArray::create_array());
+		m_solid_square_VA = Ivory::VertexArray::create_array();
 
 		float solid_vertices[3 * 4] = {
 			-0.5f, -0.5f, 0.0f,
@@ -67,7 +70,7 @@ public:
 
 		)";
 
-		m_square_VA.reset(Ivory::VertexArray::create_array());
+		m_square_VA = Ivory::VertexArray::create_array();
 
 		float vertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -207,7 +210,9 @@ class Editor : public Ivory::Application {
 public:
 	Editor() {
 		//Ivory::Application::get_window().set_vsync(false);
-		push_layer(std::make_shared<ExampleLayer>());
+		push_layer(std::make_shared<Test2D>());
+		//push_layer(std::make_shared<ExampleLayer>());
+		
 		get_window().set_image(icon_path);
 	}
 	~Editor() {}
