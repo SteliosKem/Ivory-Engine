@@ -54,17 +54,38 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Core\Application.h">
+      <Filter>src\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Core\Core.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Entry.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\IMath.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Input.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\IvoryEngine.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\KeyCodes.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\MouseButtonCodes.h">
+      <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Timestep.h">
       <Filter>src\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Entry.h">
-      <Filter>src</Filter>
+    <ClInclude Include="src\Core\Util.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Window.h">
+      <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Events\Event.h">
       <Filter>src\Events</Filter>
@@ -78,9 +99,6 @@
     <ClInclude Include="src\Events\WindowEvent.h">
       <Filter>src\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\IMath.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\ImGui\IconsFontAwesome6.h">
       <Filter>src\ImGui</Filter>
     </ClInclude>
@@ -93,15 +111,6 @@
     <ClInclude Include="src\ImGui\imgui_spectrum.h">
       <Filter>src\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Input.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IvoryEngine.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KeyCodes.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\Layers\Layer.h">
       <Filter>src\Layers</Filter>
     </ClInclude>
@@ -111,7 +120,7 @@
     <ClInclude Include="src\Logging\Log.h">
       <Filter>src\Logging</Filter>
     </ClInclude>
-    <ClInclude Include="src\MouseButtonCodes.h">
+    <ClInclude Include="src\OrthoCameraController.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -161,12 +170,6 @@
     </ClInclude>
     <ClInclude Include="src\Rendering\Texture.h">
       <Filter>src\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Util.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Window.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>src</Filter>
@@ -1421,8 +1424,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Core\Application.cpp">
+      <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp">
       <Filter>src\ImGui</Filter>
@@ -1441,6 +1444,9 @@
     </ClCompile>
     <ClCompile Include="src\Logging\Log.cpp">
       <Filter>src\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrthoCameraController.cpp">
+      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>

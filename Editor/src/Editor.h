@@ -1,5 +1,5 @@
 #pragma once
-#include <IvoryEngine.h>
+#include <Core/IvoryEngine.h>
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui.h"
 

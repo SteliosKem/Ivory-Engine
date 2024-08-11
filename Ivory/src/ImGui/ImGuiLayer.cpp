@@ -6,7 +6,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "imgui_spectrum.h"
 #include "GLFW/glfw3.h"
-#include "Application.h"
+#include "Core/Application.h"
 
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "pch.h"
-#include "Core.h"
+#include "Core/Core.h"
 
 namespace Ivory {
 	enum class EventType {

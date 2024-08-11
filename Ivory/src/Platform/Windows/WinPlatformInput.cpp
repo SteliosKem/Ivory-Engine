@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WinPlatformInput.h"
 
-#include "Application.h"
+#include "Core/Application.h"
 #include "GLFW/glfw3.h"
 
 namespace Ivory {

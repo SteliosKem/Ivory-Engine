@@ -2,7 +2,7 @@
 #include "Rendering/Renderer.h"
 #include "OpenGLShader.h"
 
-#include "Util.h"
+#include "Core/Util.h"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <filesystem>

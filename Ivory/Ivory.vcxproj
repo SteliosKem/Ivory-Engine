@@ -143,26 +143,28 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Core.h" />
+    <ClInclude Include="src\Core\Application.h" />
+    <ClInclude Include="src\Core\Core.h" />
+    <ClInclude Include="src\Core\Entry.h" />
+    <ClInclude Include="src\Core\IMath.h" />
+    <ClInclude Include="src\Core\Input.h" />
+    <ClInclude Include="src\Core\IvoryEngine.h" />
+    <ClInclude Include="src\Core\KeyCodes.h" />
+    <ClInclude Include="src\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Core\Timestep.h" />
-    <ClInclude Include="src\Entry.h" />
+    <ClInclude Include="src\Core\Util.h" />
+    <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Events\Event.h" />
     <ClInclude Include="src\Events\KeyEvent.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
-    <ClInclude Include="src\IMath.h" />
     <ClInclude Include="src\ImGui\IconsFontAwesome6.h" />
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ImGui\ImGuiNotify.h" />
     <ClInclude Include="src\ImGui\imgui_spectrum.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\IvoryEngine.h" />
-    <ClInclude Include="src\KeyCodes.h" />
     <ClInclude Include="src\Layers\Layer.h" />
     <ClInclude Include="src\Layers\LayerStack.h" />
     <ClInclude Include="src\Logging\Log.h" />
-    <ClInclude Include="src\MouseButtonCodes.h" />
     <ClInclude Include="src\OrthoCameraController.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
@@ -180,8 +182,6 @@
     <ClInclude Include="src\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
-    <ClInclude Include="src\Util.h" />
-    <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -601,7 +601,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLoad.cpp" />
     <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />
