@@ -11,6 +11,10 @@
 #include "GLFW/glfw3.h"
 #include "glad/glad.h"
 
+#include "ImGuiNotify.h"
+#include "IconsFontAwesome6.h"
+#include <fstream>
+
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
 	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
@@ -38,6 +42,29 @@ namespace Ivory {
         
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 410");
+
+        io.Fonts->AddFontDefault();
+
+        float baseFontSize = 16.0f; // Default font size
+        float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
+
+        // Check if FONT_ICON_FILE_NAME_FAS is a valid path
+        //std::ifstream fontAwesomeFile(FONT_ICON_FILE_NAME_FAS);
+
+        //if (!fontAwesomeFile.good())
+        //{
+            // If it's not good, then we can't find the font and should abort
+        //    std::cerr << "Could not find the FontAwesome font file." << std::endl;
+        //    abort();
+        //}
+
+        static const ImWchar iconsRanges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+        ImFontConfig iconsConfig;
+        iconsConfig.MergeMode = true;
+        iconsConfig.PixelSnapH = true;
+        iconsConfig.GlyphMinAdvanceX = iconFontSize;
+        // WILL CHANGE
+        io.Fonts->AddFontFromFileTTF("C:/Projects/Ivory-Engine/Ivory/src/ImGui/fa-solid-900.ttf", iconFontSize, &iconsConfig, iconsRanges);
 	}
 
 	void ImGuiLayer::on_detach() {

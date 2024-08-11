@@ -6,6 +6,8 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
+#include "ImGui/ImGuiNotify.h"
+
 const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
 const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
 
@@ -169,7 +171,6 @@ public:
 		ImGui::Begin("Color");
 		ImGui::ColorPicker3("Color", glm::value_ptr(m_color));
 		ImGui::End();
-
 	}
 
 	bool on_scroll(Ivory::MouseScrollEvent& e) {

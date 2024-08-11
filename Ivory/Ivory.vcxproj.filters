@@ -81,7 +81,13 @@
     <ClInclude Include="src\IMath.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\ImGui\IconsFontAwesome6.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\ImGui\ImGuiLayer.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiNotify.h">
       <Filter>src\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\ImGui\imgui_spectrum.h">
@@ -117,6 +123,12 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Platform.h">
       <Filter>src\Platform</Filter>
     </ClInclude>
@@ -146,6 +158,12 @@
     </ClInclude>
     <ClInclude Include="src\Rendering\Shader.h">
       <Filter>src\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\Texture.h">
+      <Filter>src\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util.h">
+      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Window.h">
       <Filter>src</Filter>
@@ -1401,10 +1419,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="src\Rendering\Texture.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="src\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp">
@@ -1437,6 +1451,12 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WinPlatformInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1461,11 +1481,19 @@
     <ClCompile Include="src\Rendering\Shader.cpp">
       <Filter>src\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering\Texture.cpp">
+      <Filter>src\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="src\Rendering\Texture.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ImGui\fa-regular-400.ttf">
+      <Filter>src\ImGui</Filter>
+    </None>
+    <None Include="src\ImGui\fa-solid-900.ttf">
+      <Filter>src\ImGui</Filter>
+    </None>
   </ItemGroup>
 </Project>

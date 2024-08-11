@@ -152,7 +152,9 @@
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
     <ClInclude Include="src\IMath.h" />
+    <ClInclude Include="src\ImGui\IconsFontAwesome6.h" />
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\ImGui\ImGuiNotify.h" />
     <ClInclude Include="src\ImGui\imgui_spectrum.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\IvoryEngine.h" />
@@ -618,10 +620,14 @@
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\Rendering\Shader.cpp" />
+    <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\Rendering\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ImGui\fa-regular-400.ttf" />
+    <None Include="src\ImGui\fa-solid-900.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
