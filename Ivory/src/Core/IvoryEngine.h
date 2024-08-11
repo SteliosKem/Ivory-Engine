@@ -19,6 +19,7 @@ using Real = float;
 #include "Rendering/OrthographicCamera.h"
 #include "Rendering/RenderCommand.h"
 #include "Rendering/Renderer.h"
+#include "Rendering/Renderer2D.h"
 #include "Rendering/RendererAPI.h"
 #include "Rendering/Shader.h"
 #include "Rendering/Texture.h"
