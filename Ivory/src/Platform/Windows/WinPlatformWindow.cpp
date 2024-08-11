@@ -123,6 +123,13 @@ namespace Ivory {
 			MouseMovedEvent e((float)x_pos, (float)y_pos);
 			data.event_callback(e);
 		});
+
+		glfwSetWindowIconifyCallback(m_window, [](GLFWwindow* window, int iconified) {
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			WindowResizeEvent e(0.0f, 0.0f);
+			data.event_callback(e);
+		});
 	}
 
 	void WinPlatformWindow::shutdown() {

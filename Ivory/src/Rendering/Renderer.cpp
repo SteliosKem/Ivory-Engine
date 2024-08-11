@@ -9,6 +9,10 @@ namespace Ivory {
 		s_scene_data->vp_matrix = camera.get_vp_matrix();
 	}
 
+	void Renderer::on_window_resize(uint32_t width, uint32_t height) {
+		RenderCommand::set_viewport(0, 0, width, height);
+	}
+
 	void Renderer::init() {
 		RenderCommand::init();
 	}

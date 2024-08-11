@@ -21,4 +21,8 @@ namespace Ivory {
 		vertex_array->bind();
 		glDrawElements(GL_TRIANGLES, vertex_array->get_index_buffer()->get_count(), GL_UNSIGNED_INT, nullptr);
 	}
+
+	void OpenGLRendererAPI::set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+		glViewport(x, y, width, height);
+	}
 }

@@ -30,10 +30,11 @@ namespace Ivory {
 		inline static Application& get() { return *s_instance; }
 	private:
 		bool on_window_close(WindowCloseEvent& e);
+		bool on_window_resize(WindowResizeEvent& e);
 
 		std::unique_ptr<Window> m_window;
 		std::shared_ptr<ImGuiLayer> m_imgui_layer;
-		bool m_running = true;
+		bool m_running = true, m_minimized = false;
 
 		LayerStack m_layer_stack;
 
