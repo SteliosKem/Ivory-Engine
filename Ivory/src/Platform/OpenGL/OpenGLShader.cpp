@@ -167,4 +167,15 @@ namespace Ivory {
 		glUniform1i(location, num);
 	}
 
+	void OpenGLShader::set_mat4(const std::string& name, const glm::mat4& mat) {
+		upload_uniform_mat4(name, mat);
+	}
+
+	void OpenGLShader::set_vec4(const std::string& name, const glm::vec4& vec) {
+		upload_uniform_vec4(name, vec);
+	}
+
+	void OpenGLShader::set_vec3(const std::string& name, const glm::vec3& vec) {
+		upload_uniform_vec3(name, vec);
+	}
 }

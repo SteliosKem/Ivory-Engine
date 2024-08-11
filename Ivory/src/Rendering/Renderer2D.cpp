@@ -47,8 +47,8 @@ namespace Ivory {
 
 	void Renderer2D::begin_scene(const OrthographicCamera& camera) {
 		std::dynamic_pointer_cast<OpenGLShader>(s_data->shader)->bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_data->shader)->upload_uniform_mat4("u_view_projection", camera.get_vp_matrix());
-		std::dynamic_pointer_cast<OpenGLShader>(s_data->shader)->upload_uniform_mat4("u_transform", glm::mat4(1.0f));
+		s_data->shader->set_mat4("u_view_projection", camera.get_vp_matrix());
+		
 	}
 	void Renderer2D::end_scene()
 	{
@@ -57,8 +57,11 @@ namespace Ivory {
 		draw_quad({ position.x, position.y, 0.0f }, size, color);
 	}
 	void Renderer2D::draw_quad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
-		std::dynamic_pointer_cast<OpenGLShader>(s_data->shader)->bind();
-		std::dynamic_pointer_cast<OpenGLShader>(s_data->shader)->upload_uniform_vec4("u_color", color);
+		s_data->shader->bind();
+		s_data->shader->set_vec4("u_color", color);
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
+		s_data->shader->set_mat4("u_transform", transform);
 
 		s_data->vertex_array->bind();
 		RenderCommand::draw_indexed(s_data->vertex_array);

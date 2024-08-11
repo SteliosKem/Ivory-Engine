@@ -1,6 +1,6 @@
 #include "Test2D.h"
 #include "imgui.h"
-#include "Platform/OpenGL/OpenGLShader.h"
+
 #include <glm/gtc/type_ptr.hpp>
 
 Test2D::Test2D() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
@@ -27,7 +27,7 @@ void Test2D::on_update(Ivory::Timestep dt) {
 
 	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
 	Ivory::Renderer2D::draw_quad({0.0f, 0.0f}, {1.0f, 1.0f}, glm::vec4(m_color, 1.0f));
-
+	Ivory::Renderer2D::draw_quad({ 1.0f, -1.0f }, { 1.0f, 0.5f }, glm::vec4(m_color, 0.5f));
 	Ivory::Renderer2D::end_scene();
 }
 
@@ -37,4 +37,6 @@ void Test2D::on_imgui_render() {
 	ImGui::End();
 }
 
-void Test2D::on_event(Ivory::Event& e) {}
+void Test2D::on_event(Ivory::Event& e) {
+	m_camera_controller.on_event(e);
+}
