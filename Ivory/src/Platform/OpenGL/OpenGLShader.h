@@ -18,6 +18,7 @@ namespace Ivory {
 		void set_mat4(const std::string& name, const glm::mat4& mat) override;
 		void set_vec4(const std::string& name, const glm::vec4& vec) override;
 		void set_vec3(const std::string& name, const glm::vec3& vec) override;
+		void set_int(const std::string& name, int num) override;
 
 		void upload_uniform_mat4(const std::string& name, const glm::mat4& matrix);
 		void upload_uniform_mat3(const std::string& name, const glm::mat3& matrix);
