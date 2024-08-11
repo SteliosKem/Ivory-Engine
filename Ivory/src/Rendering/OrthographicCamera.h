@@ -13,6 +13,8 @@ namespace Ivory {
 		void set_scale(float scale) { m_scale = scale; recalculate_view_matrix(); }
 		float get_scale() const { return m_scale; }
 
+		void set_projection(float left, float right, float bottom, float top);
+
 		float get_rotation() const { return m_zrotation; }
 		void set_rotation(float rotation) { m_zrotation = rotation; recalculate_view_matrix(); }
 

@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "ImGui/ImGuiNotify.h"
+#include "OrthoCameraController.h"
 
 const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
 const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
@@ -14,7 +15,7 @@ const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/
 // For testing layers
 class ExampleLayer : public Ivory::Layer {
 public:
-	ExampleLayer() : Layer("Example"), m_camera(-1.6f, 1.6f, -0.9f, 0.9f) {
+	ExampleLayer() : Layer("Example"), m_camera_controller(1280.0f / 720.f) {
 		m_solid_square_VA.reset(Ivory::VertexArray::create_array());
 
 		float solid_vertices[3 * 4] = {
@@ -135,12 +136,9 @@ public:
 	}
 
 	void on_update(Ivory::Timestep delta_time) override {
-		m_mouse_pos = glm::vec2(Ivory::Input::mouse_pos().x(), Ivory::Input::mouse_pos().y());
+		m_camera_controller.on_update(delta_time);
+
 		if (Ivory::Input::is_mouse_button_pressed(2)) {
-			//IV_INFO(m_mouse_pos.x - m_last_mouse_pos.x);
-			//IV_INFO(m_mouse_pos.y - m_last_mouse_pos.y);
-			m_camera_pos.x += -(m_mouse_pos.x - m_last_mouse_pos.x) * 0.12f * delta_time;
-			m_camera_pos.y += (m_mouse_pos.y - m_last_mouse_pos.y) * 0.12f * delta_time;
 			ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 		}
 		else {
@@ -150,8 +148,7 @@ public:
 		Ivory::RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
 		Ivory::RenderCommand::clear();
 
-		m_camera.set_position(m_camera_pos);
-		Ivory::Renderer::begin_scene(m_camera);
+		Ivory::Renderer::begin_scene(m_camera_controller.get_camera());
 
 		m_texture->bind();
 		Ivory::Renderer::submit(m_square_VA, m_shader_lib.get("shader"), glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
@@ -174,15 +171,17 @@ public:
 	}
 
 	bool on_scroll(Ivory::MouseScrollEvent& e) {
-		if (e.get_offset_y() < 0)
+		/*if (e.get_offset_y() < 0)
 			m_camera.set_scale(m_camera.get_scale() * 1.5f);
 		else
 			m_camera.set_scale(m_camera.get_scale() / 1.5f);
 
-		return false;
+		return false;*/
 	}
 
-	void on_event(Ivory::Event& e) override;
+	void on_event(Ivory::Event& e) override {
+		m_camera_controller.on_event(e);
+	}
 private:
 	Ivory::ShaderLibrary m_shader_lib;
 
@@ -201,7 +200,7 @@ private:
 	glm::vec2 m_last_mouse_pos{0.0f};
 	glm::vec3 m_color;
 
-	Ivory::OrthographicCamera m_camera;
+	Ivory::OrthographicCameraController m_camera_controller;
 };
 
 class Editor : public Ivory::Application {
