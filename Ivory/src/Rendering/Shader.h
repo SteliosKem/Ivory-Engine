@@ -15,6 +15,7 @@ namespace Ivory {
 		virtual void set_vec4(const std::string& name, const glm::vec4& vec) = 0;
 		virtual void set_vec3(const std::string& name, const glm::vec3& vec) = 0;
 		virtual void set_int(const std::string& name, int num) = 0;
+		virtual void set_float(const std::string& name, float num) = 0;
 
 		virtual const std::string& get_name() const = 0;
 

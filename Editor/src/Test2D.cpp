@@ -26,7 +26,7 @@ void Test2D::on_update(Ivory::Timestep dt) {
 	Ivory::RenderCommand::clear();
 
 	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
-	Ivory::Renderer2D::draw_quad({1.0f, 1.0f}, {0.8f, 0.8f}, m_texture);
+	Ivory::Renderer2D::draw_rotated_quad({1.0f, 1.0f, 0.0f}, {0.8f, 0.8f}, 10.0f, m_texture);
 	Ivory::Renderer2D::draw_quad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, glm::vec4(m_color, 1.0f));
 	Ivory::Renderer2D::draw_quad({ 1.0f, -1.0f }, { 1.0f, 0.5f }, glm::vec4(m_color, 0.5f));
 	Ivory::Renderer2D::end_scene();

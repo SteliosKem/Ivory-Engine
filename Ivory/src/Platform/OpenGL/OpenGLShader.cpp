@@ -182,4 +182,8 @@ namespace Ivory {
 	void OpenGLShader::set_int(const std::string& name, int num) {
 		upload_uniform_int(name, num);
 	}
+
+	void OpenGLShader::set_float(const std::string& name, float num) {
+		upload_uniform_float(name, num);
+	}
 }
