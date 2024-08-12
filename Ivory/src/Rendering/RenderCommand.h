@@ -10,8 +10,8 @@ namespace Ivory {
 
 		inline static void set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) { s_rendererAPI->set_viewport(x, y, width, height); }
 
-		inline static void draw_indexed(const std::shared_ptr<VertexArray>& vertex_array) {
-			s_rendererAPI->draw_indexed(vertex_array);
+		inline static void draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t count = 0) {
+			s_rendererAPI->draw_indexed(vertex_array, count);
 		}
 	private:
 		static std::shared_ptr<RendererAPI> s_rendererAPI;

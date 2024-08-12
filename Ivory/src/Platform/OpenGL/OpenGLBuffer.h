@@ -6,11 +6,13 @@ namespace Ivory {
 	class OpenGLVertexBuffer : public VertexBuffer {
 	public:
 		OpenGLVertexBuffer(float* vertices, uint32_t size);
+		OpenGLVertexBuffer(uint32_t size);
 		virtual ~OpenGLVertexBuffer();
 
 		void bind() const override;
 		void unbind() const override;
 
+		void set_data(const void* data, uint32_t size) override;
 		void set_layout(const BufferLayout& layout) { m_layout = layout; }
 		const BufferLayout& get_layout() { return m_layout; }
 	private:

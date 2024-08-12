@@ -15,6 +15,17 @@ namespace Ivory {
 		return nullptr;
 	}
 
+	std::shared_ptr<VertexBuffer> VertexBuffer::create_buffer(uint32_t size) {
+		switch (Renderer::get_api()) {
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLVertexBuffer>(size);
+		case RendererAPI::API::None:
+		default:
+			IV_CORE_ASSERT("Rendering API not supported");
+		}
+		return nullptr;
+	}
+
 	std::shared_ptr<IndexBuffer> IndexBuffer::create_buffer(uint32_t* indeces, uint32_t size) {
 		switch (Renderer::get_api()) {
 		case RendererAPI::API::OpenGL:
