@@ -28,6 +28,7 @@ void Test2D::on_update(Ivory::Timestep dt) {
 	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
 
 	Ivory::Quad textured_quad{ {1.0f, 1.0f, 0.0f }, { 0.8f, 0.8f }, 0, {0.0f, 1.0f, 1.0f, 1.0f}, m_texture };
+	textured_quad.texture_info.tiling_factor = 4.0f;
 	Ivory::Quad quad2{};
 	quad2.color = glm::vec4(m_color, 1.0f);
 

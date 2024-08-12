@@ -4,6 +4,8 @@
 #include <memory>
 
 namespace Ivory {
+	
+
 	class Texture {
 	public:
 		virtual ~Texture() = default;

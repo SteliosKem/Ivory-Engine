@@ -150,7 +150,7 @@ namespace Ivory {
 
 	void Renderer2D::draw_quad(const Quad& quad) {
 		s_data->texture_shader->set_vec4("u_color", quad.color);
-		s_data->texture_shader->set_float("u_tiling_factor", 1.0f);
+		s_data->texture_shader->set_float("u_tiling_factor", quad.texture_info.tiling_factor);
 		quad.texture ? quad.texture->bind() : s_data->white_texture->bind();
 
 		glm::mat4 transform(1.0f);
