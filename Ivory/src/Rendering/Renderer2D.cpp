@@ -64,7 +64,7 @@ namespace Ivory {
 	void Renderer2D::end_scene()
 	{
 	}
-	void Renderer2D::draw_quad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) {
+	/*void Renderer2D::draw_quad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) {
 		draw_quad({ position.x, position.y, 0.0f }, size, color);
 	}
 	void Renderer2D::draw_quad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
@@ -142,6 +142,21 @@ namespace Ivory {
 		texture->bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_data->texture_shader->set_mat4("u_transform", transform);
+
+		s_data->vertex_array->bind();
+		RenderCommand::draw_indexed(s_data->vertex_array);
+	}*/
+
+	void Renderer2D::draw_quad(const Quad& quad) {
+		s_data->texture_shader->set_vec4("u_color", quad.color);
+		s_data->texture_shader->set_float("u_tiling_factor", 1.0f);
+		quad.texture ? quad.texture->bind() : s_data->white_texture->bind();
+
+		glm::mat4 transform(1.0f);
+		quad.rotation ?
+			transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::rotate(glm::mat4(1.0f), quad.rotation, { 0.0f, 0.0f, 1.0f }) * glm::scale(glm::mat4(1.0f), { quad.size.x, quad.size.y, 1.0f })
+			: transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::scale(glm::mat4(1.0f), { quad.size.x, quad.size.y, 1.0f });
 		s_data->texture_shader->set_mat4("u_transform", transform);
 
 		s_data->vertex_array->bind();
