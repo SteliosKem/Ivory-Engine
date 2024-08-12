@@ -9,8 +9,9 @@
 namespace Ivory {
 	struct Renderer2DStorage {
 		std::shared_ptr<VertexArray> vertex_array;
-		std::shared_ptr<Shader> color_shader;
+		//std::shared_ptr<Shader> color_shader;
 		std::shared_ptr<Shader> texture_shader;
+		std::shared_ptr<Texture2D> white_texture;
 	};
 
 	static Renderer2DStorage* s_data;
@@ -41,7 +42,9 @@ namespace Ivory {
 
 		s_data->vertex_array->set_index_buffer(solid_square_IB);
 
-		s_data->color_shader = Shader::create("C:/Projects/Ivory-Engine/Editor/Assets/shaders/flat.glsl");
+		s_data->white_texture = Texture2D::create(1, 1);
+		uint32_t white_data = 0xffffffff;
+		s_data->white_texture->set_data(&white_data, sizeof(uint32_t));
 		s_data->texture_shader = Shader::create("C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl");
 
 		s_data->texture_shader->bind();
@@ -52,8 +55,8 @@ namespace Ivory {
 	}
 
 	void Renderer2D::begin_scene(const OrthographicCamera& camera) {
-		s_data->color_shader->bind();
-		s_data->color_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
+		//s_data->color_shader->bind();
+		//s_data->color_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
 		
 		s_data->texture_shader->bind();
 		s_data->texture_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
@@ -65,11 +68,12 @@ namespace Ivory {
 		draw_quad({ position.x, position.y, 0.0f }, size, color);
 	}
 	void Renderer2D::draw_quad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) {
-		s_data->color_shader->bind();
-		s_data->color_shader->set_vec4("u_color", color);
+		//s_data->color_shader->bind();
+		s_data->texture_shader->set_vec4("u_color", color);
+		s_data->white_texture->bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), {size.x, size.y, 1.0f});
-		s_data->color_shader->set_mat4("u_transform", transform);
+		s_data->texture_shader->set_mat4("u_transform", transform);
 
 		s_data->vertex_array->bind();
 		RenderCommand::draw_indexed(s_data->vertex_array);
@@ -79,12 +83,25 @@ namespace Ivory {
 		draw_quad(glm::vec3{ position.x, position.y, 0.0f }, size, texture);
 	}
 	void Renderer2D::draw_quad(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture2D>& texture) {
-		s_data->texture_shader->bind();
+		s_data->texture_shader->set_vec4("u_color", {1.0f, 1.0f, 1.0f, 1.0f});
+		texture->bind();
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		s_data->texture_shader->set_mat4("u_transform", transform);
 
+		s_data->vertex_array->bind();
+		RenderCommand::draw_indexed(s_data->vertex_array);
+	}
+
+	void Renderer2D::draw_quad(const glm::vec2& position, const glm::vec2& size, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color) {
+		draw_quad(glm::vec3{ position.x, position.y, 0.0f }, size, texture, color);
+	}
+	void Renderer2D::draw_quad(const glm::vec3& position, const glm::vec2& size, const std::shared_ptr<Texture2D>& texture, const glm::vec4& color) {
+		s_data->texture_shader->set_vec4("u_color", color);
 		texture->bind();
+
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_data->texture_shader->set_mat4("u_transform", transform);
 
 		s_data->vertex_array->bind();
 		RenderCommand::draw_indexed(s_data->vertex_array);
