@@ -166,6 +166,10 @@ namespace Ivory {
 		GLint location = glGetUniformLocation(m_rendererID, name.c_str());
 		glUniform1i(location, num);
 	}
+	void OpenGLShader::upload_uniform_int_array(const std::string& name, int* data, uint32_t count) {
+		GLint location = glGetUniformLocation(m_rendererID, name.c_str());
+		glUniform1iv(location, count, data);
+	}
 
 	void OpenGLShader::set_mat4(const std::string& name, const glm::mat4& mat) {
 		upload_uniform_mat4(name, mat);
@@ -185,5 +189,9 @@ namespace Ivory {
 
 	void OpenGLShader::set_float(const std::string& name, float num) {
 		upload_uniform_float(name, num);
+	}
+
+	void OpenGLShader::set_int_array(const std::string& name, int* data, uint32_t count) {
+		upload_uniform_int_array(name, data, count);
 	}
 }
