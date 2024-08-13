@@ -31,6 +31,8 @@ namespace Ivory {
 
 		std::array<std::shared_ptr<Texture2D>, max_texture_slots> texture_slots;
 		uint32_t texture_slot_index = 1;
+
+		glm::vec4 quad_vertex_positions[4];
 	};
 
 	static Renderer2DStorage s_data;
@@ -82,6 +84,12 @@ namespace Ivory {
 		s_data.texture_shader->set_int_array("u_textures", samplers, s_data.max_texture_slots);
 
 		s_data.texture_slots[0] = s_data.white_texture;
+
+		s_data.quad_vertex_positions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
+		s_data.quad_vertex_positions[1] = {  0.5f, -0.5f, 0.0f, 1.0f };
+		s_data.quad_vertex_positions[2] = {  0.5f,  0.5f, 0.0f, 1.0f };
+		s_data.quad_vertex_positions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
+
 	}
 	void Renderer2D::shutdown() {
 	}
@@ -132,26 +140,28 @@ namespace Ivory {
 			}
 		}
 
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::rotate(glm::mat4(1.0f), quad.rotation, { 0.0f, 0.0f, 1.0f })
+			* glm::scale(glm::mat4(1.0f), { quad.size.x, quad.size.y, 0.0f });
 
-		s_data.quad_vertex_buffer_ptr->position = quad.position;
+		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[0];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 0.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
 		s_data.quad_vertex_buffer_ptr++;
 
-		s_data.quad_vertex_buffer_ptr->position = { quad.position.x + quad.size.x, quad.position.y, 0.0f };
+		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[1];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 0.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
 		s_data.quad_vertex_buffer_ptr++;
 
-		s_data.quad_vertex_buffer_ptr->position = { quad.position.x + quad.size.x, quad.position.y + quad.size.y, 0.0f };
+		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[2];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 1.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
 		s_data.quad_vertex_buffer_ptr++;
 
-		s_data.quad_vertex_buffer_ptr->position = { quad.position.x, quad.position.y + quad.size.y, 0.0f };
+		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[3];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 1.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;

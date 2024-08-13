@@ -14,6 +14,8 @@ void Test2D::on_attach() {
 void Test2D::on_detach() {}
 
 void Test2D::on_update(Ivory::Timestep dt) {
+	static float rot = 0;
+	rot += dt;
 	m_camera_controller.on_update(dt);
 
 	if (Ivory::Input::is_mouse_button_pressed(2)) {
@@ -29,7 +31,7 @@ void Test2D::on_update(Ivory::Timestep dt) {
 	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
 
 	Ivory::Quad textured_quad{ {1.1f, 1.1f, 0.0f }, { 0.8f, 0.8f }, 0, {0.4f, 1.0f, 1.0f, 1.0f}, m_texture };
-	Ivory::Quad textured_quad2{ {-1.1f, 1.1f, 0.0f }, { 2.0f, 2.0f }, 0, {0.4f, 1.0f, 1.0f, 1.0f}, m_texture2 };
+	Ivory::Quad textured_quad2{ {0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f }, rot, {1.0f, 1.0f, 1.0f, 1.0f}, m_texture2 };
 	textured_quad.texture_info.tiling_factor = 4.0f;
 	Ivory::Quad quad2{};
 	Ivory::Quad quad3{ {1.0f, 0, 0}, {1.0f, 1.0f}, 0, {0.5f, 0.2f, 0.2f, 1.0f} };
