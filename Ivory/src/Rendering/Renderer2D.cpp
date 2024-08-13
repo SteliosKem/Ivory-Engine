@@ -136,9 +136,11 @@ namespace Ivory {
 	}
 
 	void Renderer2D::draw_quad(const Quad& quad) {
+		constexpr size_t quad_vertex_count = 4;
 		if (s_data.quad_index_count >= Renderer2DStorage::max_indices)
 			new_batch();
 		float texture_index = 0.0f;
+		std::array<glm::vec2, 4> texture_coords = { glm::vec2(0.0f, 0.0f), {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
 
 		if (quad.texture) {
 			for (uint32_t i = 1; i < s_data.texture_slot_index; i++) {
@@ -153,12 +155,38 @@ namespace Ivory {
 				s_data.texture_slots[s_data.texture_slot_index] = quad.texture;
 				s_data.texture_slot_index++;
 			}
+
+			if (quad.sub_texture)
+				IV_WARN("Normal texture will shadow a sub-texture of spritesheet");
+		}
+		else if (quad.sub_texture) {
+			texture_coords = quad.sub_texture->get_texture_coords();
+			for (uint32_t i = 1; i < s_data.texture_slot_index; i++) {
+				if (*s_data.texture_slots[i].get() == *quad.sub_texture->get_texture().get()) {
+					texture_index = (float)i;
+					break;
+				}
+			}
+
+			if (texture_index == 0.0f) {
+				texture_index = s_data.texture_slot_index;
+				s_data.texture_slots[s_data.texture_slot_index] = quad.sub_texture->get_texture();
+				s_data.texture_slot_index++;
+			}
 		}
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::rotate(glm::mat4(1.0f), quad.rotation, { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { quad.size.x, quad.size.y, 0.0f });
 
-		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[0];
+		for(size_t i = 0; i < quad_vertex_count; i++) {
+			s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
+			s_data.quad_vertex_buffer_ptr->color = quad.color;
+			s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
+			s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+			s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
+			s_data.quad_vertex_buffer_ptr++;
+		}
+		/*s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[0];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 0.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
@@ -184,7 +212,7 @@ namespace Ivory {
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 1.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
 		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
-		s_data.quad_vertex_buffer_ptr++;
+		s_data.quad_vertex_buffer_ptr++;*/
 
 		s_data.quad_index_count += 6;
 

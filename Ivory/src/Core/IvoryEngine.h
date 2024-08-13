@@ -23,4 +23,5 @@ using Real = float;
 #include "Rendering/RendererAPI.h"
 #include "Rendering/Shader.h"
 #include "Rendering/Texture.h"
+#include "Rendering/SubTexture.h"
 #include "OrthoCameraController.h"

@@ -18,6 +18,9 @@ private:
 
 	std::shared_ptr<Ivory::Texture2D> m_texture;
 	std::shared_ptr<Ivory::Texture2D> m_texture2;
+	std::shared_ptr<Ivory::Texture2D> m_sprite_sheet;
+
+	std::shared_ptr<Ivory::SubTexture2D> m_sprite;
 
 	Ivory::OrthographicCameraController m_camera_controller;
 	glm::vec3 m_color{ 1.0f };

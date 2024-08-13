@@ -1422,6 +1422,8 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Rendering\Renderer2D.h" />
+    <ClInclude Include="src\Rendering\SubTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1493,6 +1495,8 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Rendering\Renderer2D.cpp" />
+    <ClCompile Include="src\Rendering\SubTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">

@@ -182,6 +182,7 @@
     <ClInclude Include="src\Rendering\Renderer2D.h" />
     <ClInclude Include="src\Rendering\RendererAPI.h" />
     <ClInclude Include="src\Rendering\Shader.h" />
+    <ClInclude Include="src\Rendering\SubTexture.h" />
     <ClInclude Include="src\Rendering\Texture.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -624,6 +625,7 @@
     <ClCompile Include="src\Rendering\Renderer2D.cpp" />
     <ClCompile Include="src\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\Rendering\Shader.cpp" />
+    <ClCompile Include="src\Rendering\SubTexture.cpp" />
     <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
