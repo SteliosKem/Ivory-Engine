@@ -27,5 +27,18 @@ namespace Ivory {
 		static void flush();
 
 		static void draw_quad(const Quad& quad);
+
+
+		struct Statistics {
+			uint32_t draw_calls = 0;
+			uint32_t quad_count = 0;
+
+			uint32_t get_vertex_count() { return quad_count * 4; }
+			uint32_t get_index_count() { return quad_count * 6; }
+		};
+		static void reset_stats();
+		static const Statistics& get_stats();
+	private:
+		static void new_batch();
 	};
 }

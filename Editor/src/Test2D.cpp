@@ -16,8 +16,10 @@ void Test2D::on_detach() {}
 void Test2D::on_update(Ivory::Timestep dt) {
 	static float rot = 0;
 	rot += dt;
+	float x_pos = 2 * sinf(rot);
 	m_camera_controller.on_update(dt);
 
+	Ivory::Renderer2D::reset_stats();
 	if (Ivory::Input::is_mouse_button_pressed(2)) {
 		ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 	}
@@ -41,15 +43,32 @@ void Test2D::on_update(Ivory::Timestep dt) {
 	Ivory::Renderer2D::draw_quad(quad3);
 	Ivory::Renderer2D::draw_quad(textured_quad2);
 	Ivory::Renderer2D::draw_quad(textured_quad);
+	Ivory::Renderer2D::end_scene();
+	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
+	for (float y = -5.0f; y < 5.0f; y += 0.25f) {
+		for (float x = -0.5f; x < 5.0f; x += 0.25f) {
+			glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.5f };
+			Ivory::Renderer2D::draw_quad({ {x + x_pos, y, 0}, {0.2f, 0.2f}, rot / 5, color, nullptr });
+		}
+	}
 	//Ivory::Renderer2D::draw_quad({ 1.1f, 1.1f, 0.0f }, { 0.8f, 0.8f }, m_texture2);
 	//Ivory::Renderer2D::draw_quad({ -1.1f, 1.1f, 0.0f }, { 2.0f, 2.0f }, m_texture);
 	
+	//Ivory::Renderer2D::end_scene();
 	Ivory::Renderer2D::end_scene();
 }
 
 void Test2D::on_imgui_render() {
-	ImGui::Begin("Color");
+	ImGui::Begin("Settings");
 	ImGui::ColorPicker3("Color", glm::value_ptr(m_color));
+
+	auto stats = Ivory::Renderer2D::get_stats();
+
+	ImGui::Text("Renderer Stats:");
+	ImGui::Text("Draw Calls: %d", stats.draw_calls);
+	ImGui::Text("Quads: %d", stats.quad_count);
+	ImGui::Text("Vertices: %d", stats.get_vertex_count());
+	ImGui::Text("Indices: %d", stats.get_index_count());
 	ImGui::End();
 }
 

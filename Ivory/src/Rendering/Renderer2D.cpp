@@ -12,12 +12,13 @@ namespace Ivory {
 		glm::vec4 color;
 		glm::vec2 texture_coord;
 		float texture_index;
+		float tiling_factor;
 	};
 
 	struct Renderer2DStorage {
 		const uint32_t max_quads = 10000;
 		const uint32_t max_vertices = 10000 * 4;
-		const uint32_t max_indices = 10000 * 6;
+		static const uint32_t max_indices = 10000 * 6;
 		static const uint32_t max_texture_slots = 32;
 
 		std::shared_ptr<VertexArray> quad_vertex_array;
@@ -33,6 +34,8 @@ namespace Ivory {
 		uint32_t texture_slot_index = 1;
 
 		glm::vec4 quad_vertex_positions[4];
+
+		Renderer2D::Statistics statistics;
 	};
 
 	static Renderer2DStorage s_data;
@@ -48,6 +51,7 @@ namespace Ivory {
 			{ShaderDataType::Vector4, "a_color"},
 			{ShaderDataType::Vector2, "a_texture_coord"},
 			{ShaderDataType::Float, "a_texture_index"},
+			{ShaderDataType::Float, "a_tiling_factor"},
 		};
 		s_data.quad_vertex_buffer->set_layout(solid_layout);
 		s_data.quad_vertex_array->add_vertex_buffer(s_data.quad_vertex_buffer);
@@ -120,9 +124,20 @@ namespace Ivory {
 		}
 
 		RenderCommand::draw_indexed(s_data.quad_vertex_array, s_data.quad_index_count);
+		s_data.statistics.draw_calls++;
+	}
+
+	void Renderer2D::new_batch() {
+		end_scene();
+		s_data.quad_index_count = 0;
+		s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
+
+		s_data.texture_slot_index = 1;
 	}
 
 	void Renderer2D::draw_quad(const Quad& quad) {
+		if (s_data.quad_index_count >= Renderer2DStorage::max_indices)
+			new_batch();
 		float texture_index = 0.0f;
 
 		if (quad.texture) {
@@ -147,26 +162,35 @@ namespace Ivory {
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 0.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
 		s_data.quad_vertex_buffer_ptr++;
 
 		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[1];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 0.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
 		s_data.quad_vertex_buffer_ptr++;
 
 		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[2];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 1.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
 		s_data.quad_vertex_buffer_ptr++;
 
 		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[3];
 		s_data.quad_vertex_buffer_ptr->color = quad.color;
 		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 1.0f };
 		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
+		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
 		s_data.quad_vertex_buffer_ptr++;
 
 		s_data.quad_index_count += 6;
+
+		s_data.statistics.quad_count++;
 	}
+
+	void Renderer2D::reset_stats() { memset(&s_data.statistics, 0, sizeof(s_data.statistics)); }
+	const Renderer2D::Statistics& Renderer2D::get_stats() { return s_data.statistics; }
 }
