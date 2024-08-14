@@ -4,24 +4,54 @@
 #include <glm/gtc/type_ptr.hpp>
 
 EditorLayer::EditorLayer() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
-
+    
 }
 
 void EditorLayer::on_attach() {
+    m_texture = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/Zeus.png");
+    m_texture2 = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png");
 
+    Ivory::FrameBufferSpecification frame_buffer_spec;
+    frame_buffer_spec.width = 1280;
+    frame_buffer_spec.height = 720;
+    m_frame_buffer = Ivory::FrameBuffer::create(frame_buffer_spec);
 }
 void EditorLayer::on_detach() {}
 
 void EditorLayer::on_update(Ivory::Timestep dt) {
+
+    Ivory::Renderer2D::reset_stats();
 	if (Ivory::Input::is_mouse_button_pressed(2)) {
 		ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 	}
 	else {
 		ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
 	}
-
+    m_frame_buffer->bind();
 	Ivory::RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
 	Ivory::RenderCommand::clear();
+
+    static float rot = 0;
+    rot += dt;
+    float x_pos = 2 * sinf(rot);
+    m_camera_controller.on_update(dt);
+
+    Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
+
+    Ivory::Quad textured_quad{ {1.1f, 1.1f, 0.0f }, { 0.8f, 0.8f }, 0, {0.4f, 1.0f, 1.0f, 1.0f}, m_texture };
+    Ivory::Quad textured_quad2{ {0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f }, rot, {1.0f, 1.0f, 1.0f, 1.0f}, m_texture2 };
+    textured_quad.texture_info.tiling_factor = 4.0f;
+    Ivory::Quad quad2{};
+    Ivory::Quad quad3{ {1.0f, 0, 0}, {1.0f, 1.0f}, 0, {0.5f, 0.2f, 0.2f, 1.0f} };
+    quad2.color = glm::vec4(0.5f, 1.0f, 0.5f, 1.0f);
+
+    Ivory::Renderer2D::draw_quad(quad2);
+    Ivory::Renderer2D::draw_quad(quad3);
+    Ivory::Renderer2D::draw_quad(textured_quad2);
+    Ivory::Renderer2D::draw_quad(textured_quad);
+    Ivory::Renderer2D::end_scene();
+
+    m_frame_buffer->unbind();
 }
 
 void EditorLayer::on_imgui_render() {
@@ -99,8 +129,9 @@ void EditorLayer::on_imgui_render() {
         ImGui::EndMenuBar();
     }
 
-    ImGui::Begin("Settings");
-    ImGui::Text("Testing...");
+    ImGui::Begin("Viewport");
+    uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
+    ImGui::Image((void*)texture_id, ImVec2{ 320.0f, 180.0f });
     ImGui::End();
 
     ImGui::End();

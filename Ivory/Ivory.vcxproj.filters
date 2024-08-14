@@ -1424,6 +1424,8 @@
     </ClInclude>
     <ClInclude Include="src\Rendering\Renderer2D.h" />
     <ClInclude Include="src\Rendering\SubTexture.h" />
+    <ClInclude Include="src\Rendering\FrameBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1497,6 +1499,8 @@
     </ClCompile>
     <ClCompile Include="src\Rendering\Renderer2D.cpp" />
     <ClCompile Include="src\Rendering\SubTexture.cpp" />
+    <ClCompile Include="src\Rendering\FrameBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">

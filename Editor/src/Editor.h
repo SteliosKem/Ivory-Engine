@@ -28,7 +28,11 @@ public:
 
 	void on_event(Ivory::Event& e) override;
 private:
+
+	std::shared_ptr<Ivory::Texture2D> m_texture;
+	std::shared_ptr<Ivory::Texture2D> m_texture2;
 	Ivory::OrthographicCameraController m_camera_controller;
+	std::shared_ptr<Ivory::FrameBuffer> m_frame_buffer;
 };
 
 class Editor : public Ivory::Application {
