@@ -12,6 +12,7 @@ namespace Ivory {
 
 		virtual uint32_t get_width() const = 0;
 		virtual uint32_t get_height() const = 0;
+		virtual uint32_t get_rendererID() const = 0;
 
 		virtual void set_data(void* data, uint32_t size) = 0;
 
