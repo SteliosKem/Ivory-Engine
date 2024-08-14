@@ -42,6 +42,7 @@ namespace Ivory {
 		}
 
 		inline bool is_handled() { return m_handled; }
+		inline void handled(bool is) { m_handled = is; }
 
 	protected:
 		bool m_handled = false;

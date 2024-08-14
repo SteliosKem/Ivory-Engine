@@ -19,6 +19,11 @@ void EditorLayer::on_attach() {
 void EditorLayer::on_detach() {}
 
 void EditorLayer::on_update(Ivory::Timestep dt) {
+    if (m_viewport_hovered && m_viewport_focused)
+        m_camera_controller.pass_events(true);
+    else
+        m_camera_controller.pass_events(false);
+    m_camera_controller.on_update(dt);
 
     Ivory::Renderer2D::reset_stats();
 	if (Ivory::Input::is_mouse_button_pressed(2)) {
@@ -34,7 +39,7 @@ void EditorLayer::on_update(Ivory::Timestep dt) {
     static float rot = 0;
     rot += dt;
     float x_pos = 2 * sinf(rot);
-    m_camera_controller.on_update(dt);
+    
 
     Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
 
@@ -131,6 +136,8 @@ void EditorLayer::on_imgui_render() {
 
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
     ImGui::Begin("Viewport");
+    m_viewport_focused = ImGui::IsWindowFocused();
+    m_viewport_hovered = ImGui::IsWindowHovered();
     ImVec2 vp_size = ImGui::GetContentRegionAvail();
     if (vp_size.x != m_viewport_size.x || vp_size.y != m_viewport_size.y) {
         m_viewport_size = { vp_size.x, vp_size.y };

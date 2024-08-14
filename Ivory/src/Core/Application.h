@@ -28,6 +28,8 @@ namespace Ivory {
 
 		inline Window& get_window() { return *m_window; }
 		inline static Application& get() { return *s_instance; }
+
+		std::shared_ptr<ImGuiLayer> get_imgui_layer() { return m_imgui_layer; }
 	private:
 		bool on_window_close(WindowCloseEvent& e);
 		bool on_window_resize(WindowResizeEvent& e);

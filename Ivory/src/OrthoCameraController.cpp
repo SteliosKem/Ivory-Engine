@@ -12,7 +12,7 @@ namespace Ivory {
 
 	void OrthographicCameraController::on_update(Timestep dt) {
 		glm::vec2 mouse_pos = Input::mouse_pos();
-		if (Input::is_mouse_button_pressed(2)) {
+		if (Input::is_mouse_button_pressed(2) && m_pass_events) {
 			//IV_INFO(m_mouse_pos.x - m_last_mouse_pos.x);
 			//IV_INFO(m_mouse_pos.y - m_last_mouse_pos.y);
 			m_camera_pos.x += -(mouse_pos.x - m_last_mouse_pos.x) * 0.0032f * m_zoom_level;
@@ -30,7 +30,8 @@ namespace Ivory {
 	}
 
 	bool OrthographicCameraController::on_mouse_scroll(MouseScrollEvent& e) {
-		e.get_offset_y() > 0 ? m_zoom_level /= 1.25 : m_zoom_level *= 1.25;
+		if(m_pass_events)
+			e.get_offset_y() > 0 ? m_zoom_level /= 1.25 : m_zoom_level *= 1.25;
 		calculate_view();
 		return false;
 	}

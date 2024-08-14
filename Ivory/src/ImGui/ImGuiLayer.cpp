@@ -101,4 +101,14 @@ namespace Ivory {
     }
 
     void ImGuiLayer::on_imgui_render() {}
+
+    void ImGuiLayer::on_event(Event& e) {
+        /*if (m_block_events) {
+            ImGuiIO& io = ImGui::GetIO();
+            e.handled(e.is_in_category(EventCategoryMouse) && io.WantCaptureMouse);
+            
+            //e.handled(e.is_in_category(EventCategoryKeyboard) && io.WantCaptureKeyboard);
+            IV_TRACE(e.is_in_category(EventCategoryKeyboard) && io.WantCaptureKeyboard);
+        }*/
+    }
 }
