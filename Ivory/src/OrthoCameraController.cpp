@@ -31,13 +31,17 @@ namespace Ivory {
 
 	bool OrthographicCameraController::on_mouse_scroll(MouseScrollEvent& e) {
 		e.get_offset_y() > 0 ? m_zoom_level /= 1.25 : m_zoom_level *= 1.25;
-		m_camera.set_projection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level);
+		calculate_view();
 		return false;
 	}
 	bool OrthographicCameraController::on_window_resize(WindowResizeEvent& e) {
 		m_aspect_ratio = (float)e.get_width() / (float)e.get_height();
-		m_camera.set_projection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level);
+		calculate_view();
 
 		return false;
+	}
+
+	void OrthographicCameraController::calculate_view() {
+		m_camera.set_projection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level);
 	}
 }

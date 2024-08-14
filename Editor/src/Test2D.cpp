@@ -3,6 +3,24 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+const uint32_t map_width = 30;
+const uint32_t map_height = 14;
+static const char* tiles =
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDDDDDDDDDRDDDDDDDD"
+"DDDDDDRDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDRDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDCCCCCCCDDDDDRDDDDDDDDDDDD"
+"DDDDDCCCCCCCDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDRDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDRDDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDRDDDDDDDDDDDDDDDDDDD"
+"DDDDDDDDDDDDDDDDDDDDDDDDDDRDDD"
+"DDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+
 Test2D::Test2D() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
 
 }
@@ -12,7 +30,9 @@ void Test2D::on_attach() {
 	m_texture2 = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png");
 	m_sprite_sheet = Ivory::Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/tilemap.png");
 
-	m_sprite = Ivory::SubTexture2D::create_from_coords(m_sprite_sheet, { 5, 1 }, { 16, 16 }, {2,1}, 1);
+	m_subtexture_map['D'] = Ivory::SubTexture2D::create_from_coords(m_sprite_sheet, {0, 6}, {16, 16}, {1,1}, 1);
+	m_subtexture_map['R'] = Ivory::SubTexture2D::create_from_coords(m_sprite_sheet, { 1, 6 }, { 16, 16 }, { 1,1 }, 1);
+	m_subtexture_map['C'] = Ivory::SubTexture2D::create_from_coords(m_sprite_sheet, { 4, 7 }, { 16, 16 }, { 1,1 }, 1);
 }
 void Test2D::on_detach() {}
 
@@ -63,6 +83,17 @@ void Test2D::on_update(Ivory::Timestep dt) {
 	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
 	Ivory::Renderer2D::draw_quad({ {10.0f, 0.0f, 0.0f}, {2.0f, 2.0f}, 0, {1.0f, 1.0f, 1.0f, 1.0f}, m_sprite_sheet});
 	Ivory::Renderer2D::draw_quad({ {10.0f, 2.0f, 0.0f}, {2.0f, 1.0f}, 0, {1.0f, 1.0f, 1.0f, 1.0f}, nullptr, m_sprite });
+	Ivory::Renderer2D::end_scene();
+
+	Ivory::Renderer2D::begin_scene(m_camera_controller.get_camera());
+	for (uint32_t y = 0; y < map_height; y++) {
+		for (uint32_t x = 0; x < map_width; x++) {
+			char type = tiles[x + y * map_width];
+			Ivory::Renderer2D::draw_quad({ {10.0f + x, 4.0f + y, 0.0f}, {1.0f, 1.0f}, 0, {1.0f, 1.0f, 1.0f, 1.0f}, nullptr, m_subtexture_map[type]});
+		}
+		
+	}
+	
 	Ivory::Renderer2D::end_scene();
 }
 

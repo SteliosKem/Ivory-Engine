@@ -24,4 +24,6 @@ private:
 
 	Ivory::OrthographicCameraController m_camera_controller;
 	glm::vec3 m_color{ 1.0f };
+
+	std::unordered_map<char, std::shared_ptr<Ivory::SubTexture2D>> m_subtexture_map;
 };

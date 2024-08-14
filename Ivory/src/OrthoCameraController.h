@@ -15,9 +15,13 @@ namespace Ivory {
 
 		OrthographicCamera& get_camera() { return m_camera; }
 		const OrthographicCamera& get_camera() const { return m_camera; }
+
+		float set_zoom_leve(float level) { m_zoom_level = level; calculate_view(); }
 	private:
 		bool on_mouse_scroll(MouseScrollEvent& e);
 		bool on_window_resize(WindowResizeEvent& e);
+
+		void calculate_view();
 
 		float m_aspect_ratio;
 		float m_zoom_level = 1.0f;
