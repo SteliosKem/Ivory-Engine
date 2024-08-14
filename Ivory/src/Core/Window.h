@@ -8,8 +8,8 @@ namespace Ivory {
 	// Window data
 	struct WindowProps {
 		std::string title = "Ivory Engine";
-		unsigned int width = 1280;
-		unsigned int height = 720;
+		uint32_t width = 1280;
+		uint32_t height = 720;
 	};
 
 	class IVORY_API Window {
@@ -20,8 +20,8 @@ namespace Ivory {
 		virtual ~Window() {}
 		virtual void on_update() = 0;
 
-		virtual unsigned int get_width() const = 0;
-		virtual unsigned int get_height() const = 0;
+		virtual uint32_t get_width() const = 0;
+		virtual uint32_t get_height() const = 0;
 
 		virtual void set_event_callback(const EventCallback& func) = 0;
 		virtual void set_vsync(bool enable) = 0;

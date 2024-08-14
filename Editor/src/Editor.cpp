@@ -129,10 +129,18 @@ void EditorLayer::on_imgui_render() {
         ImGui::EndMenuBar();
     }
 
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
     ImGui::Begin("Viewport");
+    ImVec2 vp_size = ImGui::GetContentRegionAvail();
+    if (vp_size.x != m_viewport_size.x || vp_size.y != m_viewport_size.y) {
+        m_viewport_size = { vp_size.x, vp_size.y };
+        m_frame_buffer->resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+        m_camera_controller.resize_bounds(vp_size.x, vp_size.y);
+    }
     uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
-    ImGui::Image((void*)texture_id, ImVec2{ 320.0f, 180.0f });
+    ImGui::Image((void*)texture_id, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{0, 1}, ImVec2{1, 0});
     ImGui::End();
+    ImGui::PopStyleVar();
 
     ImGui::End();
 }

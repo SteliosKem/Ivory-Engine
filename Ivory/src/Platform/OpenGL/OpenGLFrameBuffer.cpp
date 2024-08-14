@@ -5,14 +5,21 @@
 
 namespace Ivory {
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec) :m_specification(spec) {
-		resize();
+		validate();
 	}
 
 	OpenGLFrameBuffer::~OpenGLFrameBuffer() {
 		glDeleteFramebuffers(1, &m_rendererID);
+		glDeleteTextures(1, &m_color_attachment);
+		glDeleteTextures(1, &m_depth_attachment);
 	}
 
-	void OpenGLFrameBuffer::resize() {
+	void OpenGLFrameBuffer::validate() {
+		if (m_rendererID) {
+			glDeleteFramebuffers(1, &m_rendererID);
+			glDeleteTextures(1, &m_color_attachment);
+			glDeleteTextures(1, &m_depth_attachment);
+		}
 		glCreateFramebuffers(1, &m_rendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
 
@@ -37,9 +44,16 @@ namespace Ivory {
 
 	void OpenGLFrameBuffer::bind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
+		glViewport(0, 0, m_specification.width, m_specification.height);
 	}
 
 	void OpenGLFrameBuffer::unbind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	}
+
+	void OpenGLFrameBuffer::resize(uint32_t width, uint32_t height) {
+		m_specification.width = width;
+		m_specification.height = height;
+		validate();
 	}
 }

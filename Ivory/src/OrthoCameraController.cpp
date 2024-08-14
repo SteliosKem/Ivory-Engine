@@ -44,4 +44,9 @@ namespace Ivory {
 	void OrthographicCameraController::calculate_view() {
 		m_camera.set_projection(-m_aspect_ratio * m_zoom_level, m_aspect_ratio * m_zoom_level, -m_zoom_level, m_zoom_level);
 	}
+
+	void OrthographicCameraController::resize_bounds(float width, float height) {
+		m_aspect_ratio = width / height;
+		calculate_view();
+	}
 }

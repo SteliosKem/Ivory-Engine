@@ -12,12 +12,14 @@ namespace Ivory {
 
 	
 
-	Application::Application() {
+	Application::Application(const std::string& name) {
 		// Only one application can run at a time
 		IV_CORE_ASSERT(!s_instance, "Application already exists");
 		s_instance = this;
 		// Create window on application start
-		m_window = std::unique_ptr<Window>(Window::create());
+		WindowProps props{};
+		props.title = name;
+		m_window = std::unique_ptr<Window>(Window::create(props));
 		m_window->set_event_callback(BIND_EVENT_FN(on_event));
 
 		Renderer::init();

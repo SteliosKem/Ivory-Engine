@@ -13,6 +13,8 @@ namespace Ivory {
 		void on_update(Timestep dt);
 		void on_event(Event& e);
 
+		void resize_bounds(float width, float height);
+
 		OrthographicCamera& get_camera() { return m_camera; }
 		const OrthographicCamera& get_camera() const { return m_camera; }
 

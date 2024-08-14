@@ -16,7 +16,7 @@ namespace Ivory {
 	class IVORY_API Application
 	{
 	public:
-		Application();
+		Application(const std::string& name = "Ivory Engine");
 		virtual ~Application() {}
 		
 		void run();
