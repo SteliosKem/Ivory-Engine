@@ -11,7 +11,7 @@ namespace Ivory {
 	}
 
 	void OrthographicCameraController::on_update(Timestep dt) {
-		glm::vec2 mouse_pos = glm::vec2(Input::mouse_pos().x(), Input::mouse_pos().y());
+		glm::vec2 mouse_pos = Input::mouse_pos();
 		if (Input::is_mouse_button_pressed(2)) {
 			//IV_INFO(m_mouse_pos.x - m_last_mouse_pos.x);
 			//IV_INFO(m_mouse_pos.y - m_last_mouse_pos.y);

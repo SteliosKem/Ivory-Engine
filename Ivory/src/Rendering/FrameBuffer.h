@@ -12,6 +12,7 @@ namespace Ivory {
 
 	class FrameBuffer {
 	public:
+		virtual ~FrameBuffer() = default;
 		virtual void bind() = 0;
 		virtual void unbind() = 0;
 
