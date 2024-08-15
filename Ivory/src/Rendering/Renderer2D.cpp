@@ -99,9 +99,6 @@ namespace Ivory {
 	}
 
 	void Renderer2D::begin_scene(const OrthographicCamera& camera) {
-		//s_data->color_shader->bind();
-		//s_data->color_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
-		
 		s_data.texture_shader->bind();
 		s_data.texture_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
 
@@ -110,6 +107,19 @@ namespace Ivory {
 
 		s_data.texture_slot_index = 1;
 	}
+
+	void Renderer2D::begin_scene(const Camera& camera, const glm::mat4& transform) {
+		glm::mat4 view_projection = camera.get_projection() * glm::inverse(transform);
+
+		s_data.texture_shader->bind();
+		s_data.texture_shader->set_mat4("u_view_projection", view_projection);
+
+		s_data.quad_index_count = 0;
+		s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
+
+		s_data.texture_slot_index = 1;
+	}
+
 	void Renderer2D::end_scene()
 	{
 		uint32_t data_size = (uint8_t*)s_data.quad_vertex_buffer_ptr - (uint8_t*)s_data.quad_vertex_buffer_base;

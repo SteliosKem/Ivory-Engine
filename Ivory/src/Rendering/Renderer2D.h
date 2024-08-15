@@ -2,6 +2,7 @@
 #include "OrthographicCamera.h"
 #include "Texture.h"
 #include "SubTexture.h"
+#include "Scene/Camera.h"
 
 namespace Ivory {
 	struct TextureInfo {
@@ -25,6 +26,7 @@ namespace Ivory {
 		static void shutdown();
 
 		static void begin_scene(const OrthographicCamera& camera);
+		static void begin_scene(const Camera& camera, const glm::mat4& transform);
 		static void end_scene();
 
 		static void flush();

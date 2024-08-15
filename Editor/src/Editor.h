@@ -33,6 +33,8 @@ namespace Ivory {
 		std::shared_ptr<Ivory::Texture2D> m_texture2;
 
 		std::shared_ptr<Ivory::Scene> m_active_scene;
+
+		Entity m_camera_entity;
 		Ivory::OrthographicCameraController m_camera_controller;
 		std::shared_ptr<Ivory::FrameBuffer> m_frame_buffer;
 
@@ -46,8 +48,8 @@ namespace Ivory {
 	public:
 		Editor() {
 			//Ivory::Application::get_window().set_vsync(false);
-			push_layer(std::make_shared<Test2D>());
-			//push_layer(std::make_shared<EditorLayer>());
+			//push_layer(std::make_shared<Test2D>());
+			push_layer(std::make_shared<EditorLayer>());
 
 			get_window().set_image(icon_path);
 		}

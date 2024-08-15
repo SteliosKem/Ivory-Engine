@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Camera.h"
 
 namespace Ivory {
 	struct TagComponent {
@@ -27,5 +28,14 @@ namespace Ivory {
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
+	};
+
+	struct CameraComponent {
+		Camera camera;
+		bool active = true;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+		CameraComponent(const glm::mat4& projection) : camera(projection) {}
 	};
 }

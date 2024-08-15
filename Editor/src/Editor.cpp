@@ -21,8 +21,8 @@ namespace Ivory {
 
         Entity square_entity = m_active_scene->create_entity();
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
-        //m_active_scene->get_reg().emplace<TransformComponent>(square_entity);
-        //m_active_scene->get_reg().emplace<SpriteRendererComponent>(square_entity, glm::vec4{0.1f, 0.5f, 0.1f, 1.0f});
+        m_camera_entity = m_active_scene->create_entity("Camera");
+        m_camera_entity.add_component<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
     }
     void EditorLayer::on_detach() {}
 
@@ -50,7 +50,7 @@ namespace Ivory {
         float x_pos = 2 * sinf(rot);
 
 
-        Renderer2D::begin_scene(m_camera_controller.get_camera());
+        //Renderer2D::begin_scene(m_camera_controller.get_camera());
 
         /*Quad textured_quad{{1.1f, 1.1f, 0.0f}, {0.8f, 0.8f}, 0, {0.4f, 1.0f, 1.0f, 1.0f}, m_texture};
         Quad textured_quad2{ {0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f }, rot, {1.0f, 1.0f, 1.0f, 1.0f}, m_texture2 };
@@ -65,7 +65,7 @@ namespace Ivory {
         Renderer2D::draw_quad(textured_quad);*/
 
         m_active_scene->on_update(dt);
-        Renderer2D::end_scene();
+        //Renderer2D::end_scene();
 
         m_frame_buffer->unbind();
     }
