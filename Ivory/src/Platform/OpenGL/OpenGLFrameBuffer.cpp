@@ -4,6 +4,8 @@
 #include <glad/glad.h>
 
 namespace Ivory {
+	static const uint32_t s_max_frame_buffer_size = 8192;
+
 	OpenGLFrameBuffer::OpenGLFrameBuffer(const FrameBufferSpecification& spec) :m_specification(spec) {
 		validate();
 	}
@@ -52,6 +54,11 @@ namespace Ivory {
 	}
 
 	void OpenGLFrameBuffer::resize(uint32_t width, uint32_t height) {
+		if (width == 0 || height == 0 || width > s_max_frame_buffer_size || height > s_max_frame_buffer_size) {
+			IV_CORE_WARN("Attempted to resize framebuffer to {0}, {1}", width, height);
+			return;
+		}
+
 		m_specification.width = width;
 		m_specification.height = height;
 		validate();

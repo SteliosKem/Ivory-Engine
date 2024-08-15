@@ -16,6 +16,7 @@ IncludeDir["Glad"] = "Ivory/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ivory/vendor/imgui"
 IncludeDir["glm"] = "Ivory/vendor/glm"
 IncludeDir["stb"] = "Ivory/vendor/stb"
+IncludeDir["entt"] = "Ivory/vendor/entt/include"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
@@ -49,7 +50,8 @@ project "Ivory"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb}"
+		"%{IncludeDir.stb}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {
@@ -102,7 +104,8 @@ project "Editor"
 		"Ivory/vendor/spdlog/include",
 		"Ivory/src",
 		"Ivory/vendor/imgui",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links {

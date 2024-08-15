@@ -139,7 +139,7 @@ void EditorLayer::on_imgui_render() {
     m_viewport_focused = ImGui::IsWindowFocused();
     m_viewport_hovered = ImGui::IsWindowHovered();
     ImVec2 vp_size = ImGui::GetContentRegionAvail();
-    if (vp_size.x != m_viewport_size.x || vp_size.y != m_viewport_size.y) {
+    if ((vp_size.x != m_viewport_size.x || vp_size.y != m_viewport_size.y) && vp_size.x > 0 && vp_size.y > 0) {
         m_viewport_size = { vp_size.x, vp_size.y };
         m_frame_buffer->resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
         m_camera_controller.resize_bounds(vp_size.x, vp_size.y);
