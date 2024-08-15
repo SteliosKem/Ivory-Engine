@@ -2,6 +2,14 @@
 #include <glm/glm.hpp>
 
 namespace Ivory {
+	struct TagComponent {
+		std::string tag;
+
+		TagComponent() = default;
+		TagComponent(const TagComponent&) = default;
+		TagComponent(const std::string& str) : tag(str) {}
+	};
+
 	struct TransformComponent {
 		glm::mat4 transform{ 1.0f };
 

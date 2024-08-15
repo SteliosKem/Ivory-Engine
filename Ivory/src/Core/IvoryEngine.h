@@ -27,3 +27,4 @@ using Real = float;
 #include "Rendering/SubTexture.h"
 #include "OrthoCameraController.h"
 #include "Scene/Scene.h"
+#include "Scene/Entity.h"

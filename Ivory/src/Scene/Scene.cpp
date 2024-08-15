@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Scene.h"
 #include "Rendering/Renderer2D.h"
+#include "Entity.h"
 
 namespace Ivory {
 	Scene::Scene() {
@@ -8,8 +9,11 @@ namespace Ivory {
 
 	}
 
-	entt::entity Scene::create_entity() {
-		return m_registry.create();
+	Entity Scene::create_entity(const std::string& name) {
+		Entity e{ m_registry.create(), this };
+		e.add_component<TransformComponent>();
+		e.add_component<TagComponent>(name.empty() ? "New Entity" : name);
+		return e;
 	}
 
 	void Scene::on_update(Timestep dt) {

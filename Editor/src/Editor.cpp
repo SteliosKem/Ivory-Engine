@@ -19,9 +19,10 @@ namespace Ivory {
 
         m_active_scene = std::make_shared<Scene>();
 
-        auto square_entity = m_active_scene->create_entity();
-        m_active_scene->get_reg().emplace<TransformComponent>(square_entity);
-        m_active_scene->get_reg().emplace<SpriteRendererComponent>(square_entity, glm::vec4{0.1f, 0.5f, 0.1f, 1.0f});
+        Entity square_entity = m_active_scene->create_entity();
+        square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
+        //m_active_scene->get_reg().emplace<TransformComponent>(square_entity);
+        //m_active_scene->get_reg().emplace<SpriteRendererComponent>(square_entity, glm::vec4{0.1f, 0.5f, 0.1f, 1.0f});
     }
     void EditorLayer::on_detach() {}
 

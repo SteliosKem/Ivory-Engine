@@ -4,17 +4,19 @@
 #include "Components.h"
 
 namespace Ivory {
+	class Entity;
+
 	class Scene {
 	public:
 		Scene();
 		~Scene() {}
 
-		entt::entity create_entity();
-
-		entt::registry& get_reg() { return m_registry; }
+		Entity create_entity(const std::string& name = "");
 
 		void on_update(Timestep dt);
 	private:
 		entt::registry m_registry;
+
+		friend class Entity;
 	};
 }

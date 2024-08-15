@@ -46,8 +46,8 @@ namespace Ivory {
 	public:
 		Editor() {
 			//Ivory::Application::get_window().set_vsync(false);
-			//push_layer(std::make_shared<Test2D>());
-			push_layer(std::make_shared<EditorLayer>());
+			push_layer(std::make_shared<Test2D>());
+			//push_layer(std::make_shared<EditorLayer>());
 
 			get_window().set_image(icon_path);
 		}
