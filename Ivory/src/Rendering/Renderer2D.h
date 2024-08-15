@@ -15,7 +15,8 @@ namespace Ivory {
 		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
 		std::shared_ptr<Texture2D> texture{ nullptr };
 		std::shared_ptr<SubTexture2D> sub_texture{ nullptr };
-		TextureInfo texture_info;
+		TextureInfo texture_info{};
+		glm::mat4 transform{1.0f};
 	};
 
 	class Renderer2D {

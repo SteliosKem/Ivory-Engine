@@ -174,9 +174,12 @@ namespace Ivory {
 				s_data.texture_slot_index++;
 			}
 		}
-
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::rotate(glm::mat4(1.0f), quad.rotation, { 0.0f, 0.0f, 1.0f })
+		glm::mat4 transform;
+		if (quad.transform == glm::mat4{ 1.0f })
+			transform = glm::translate(glm::mat4(1.0f), quad.position) * glm::rotate(glm::mat4(1.0f), quad.rotation, { 0.0f, 0.0f, 1.0f })
 			* glm::scale(glm::mat4(1.0f), { quad.size.x, quad.size.y, 0.0f });
+		else
+			transform = quad.transform;
 
 		for(size_t i = 0; i < quad_vertex_count; i++) {
 			s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[i];
