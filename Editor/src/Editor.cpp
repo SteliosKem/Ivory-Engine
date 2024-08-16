@@ -129,11 +129,17 @@ namespace Ivory {
 
         // Submit the DockSpace
         ImGuiIO& io = ImGui::GetIO();
+        ImGuiStyle& style = ImGui::GetStyle();
+        float min_size = style.WindowMinSize.x;
+        style.WindowMinSize.x = 370.0f;
+
         if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
         {
             ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
             ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
         }
+
+        style.WindowMinSize.x = min_size;
         if (ImGui::BeginMenuBar())
         {
             if (ImGui::BeginMenu("Options"))

@@ -17,6 +17,10 @@ namespace Ivory {
 		return e;
 	}
 
+	void Scene::destroy_entity(Entity entity) {
+		m_registry.destroy(entity);
+	}
+
 	void Scene::on_update(Timestep dt) {
 		m_registry.view<CScriptComponent>().each([=](auto entity, auto& cscript_component) {
 			if (!cscript_component.instance) {
@@ -68,5 +72,27 @@ namespace Ivory {
 				camera_component.camera.set_viewport_size(width, height);
 			}
 		}
+	}
+
+	template<typename T>
+	void Scene::on_component_add(Entity entity, T& component) {
+		static_assert(false);
+	}
+
+	template<>
+	void Scene::on_component_add<TransformComponent>(Entity entity, TransformComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<TagComponent>(Entity entity, TagComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<CScriptComponent>(Entity entity, CScriptComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<CameraComponent>(Entity entity, CameraComponent& component) {
+		component.camera.set_viewport_size(m_vp_width, m_vp_height);
 	}
 }

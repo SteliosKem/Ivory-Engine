@@ -12,8 +12,9 @@ namespace Ivory {
 		template<typename T, typename... Args>
 		T& add_component(Args&&... args) {
 			IV_CORE_ASSERT(has_component<T>(), "Entity does not have component");
-
-			return m_scene->m_registry.emplace<T>(m_entity_handle, std::forward<Args>(args)...);
+			T& component = m_scene->m_registry.emplace<T>(m_entity_handle, std::forward<Args>(args)...);
+			m_scene->on_component_add<T>(*this, component);
+			return component;
 		}
 
 		template<typename T>
@@ -39,6 +40,7 @@ namespace Ivory {
 		operator uint32_t() const { return (uint32_t)m_entity_handle; }
 		bool operator==(const Entity& other) const { return m_entity_handle == other.m_entity_handle && m_scene == other.m_scene; }
 		bool operator!=(const Entity& other) const { return (*this == other); }
+		operator entt::entity() const { return m_entity_handle; }
 	private:
 		entt::entity m_entity_handle{ entt::null };
 		Scene* m_scene{ nullptr };
