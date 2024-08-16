@@ -45,4 +45,17 @@ namespace Ivory {
 			Renderer2D::end_scene();
 		}
 	}
+
+	void Scene::on_viewport_resize(uint32_t width, uint32_t height) {
+		m_vp_height = height;
+		m_vp_width = width;
+
+		auto view = m_registry.view<CameraComponent>();
+		for (auto entity : view) {
+			auto& camera_component = view.get<CameraComponent>(entity);
+			if (!camera_component.fixed_aspect_ratio) {
+				camera_component.camera.set_viewport_size(width, height);
+			}
+		}
+	}
 }

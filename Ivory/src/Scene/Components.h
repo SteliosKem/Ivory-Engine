@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "Camera.h"
+#include "SceneCamera.h"
 
 namespace Ivory {
 	struct TagComponent {
@@ -31,11 +31,11 @@ namespace Ivory {
 	};
 
 	struct CameraComponent {
-		Camera camera;
+		SceneCamera camera;
 		bool active = true;
+		bool fixed_aspect_ratio = false;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
-		CameraComponent(const glm::mat4& projection) : camera(projection) {}
 	};
 }

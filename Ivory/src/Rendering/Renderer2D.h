@@ -2,7 +2,7 @@
 #include "OrthographicCamera.h"
 #include "Texture.h"
 #include "SubTexture.h"
-#include "Scene/Camera.h"
+#include "Camera.h"
 
 namespace Ivory {
 	struct TextureInfo {

@@ -22,7 +22,7 @@ namespace Ivory {
         Entity square_entity = m_active_scene->create_entity();
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
         m_camera_entity = m_active_scene->create_entity("Camera");
-        m_camera_entity.add_component<CameraComponent>(glm::ortho(-16.0f, 16.0f, -9.0f, 9.0f, -1.0f, 1.0f));
+        m_camera_entity.add_component<CameraComponent>();
     }
     void EditorLayer::on_detach() {}
 
@@ -154,6 +154,7 @@ namespace Ivory {
             m_viewport_size = { vp_size.x, vp_size.y };
             m_frame_buffer->resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
             m_camera_controller.resize_bounds(vp_size.x, vp_size.y);
+            m_active_scene->on_viewport_resize((uint32_t)vp_size.x, (uint32_t)vp_size.y);
         }
         uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
         ImGui::Image((void*)texture_id, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
