@@ -19,5 +19,6 @@ namespace Ivory {
 		uint32_t m_vp_width{ 0 }, m_vp_height{ 0 };
 
 		friend class Entity;
+		friend class SceneHierarchy;
 	};
 }

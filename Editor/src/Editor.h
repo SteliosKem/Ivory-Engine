@@ -12,6 +12,8 @@
 
 #include "Test2D.h"
 
+#include "Panels/SceneHierarchy.h"
+
 const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
 const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
 
@@ -42,6 +44,8 @@ namespace Ivory {
 
 		bool m_viewport_focused = false;
 		bool m_viewport_hovered = false;
+
+		SceneHierarchy m_hierarchy;
 	};
 
 	class Editor : public Application {

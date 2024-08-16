@@ -135,10 +135,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Editor.h" />
+    <ClInclude Include="src\Panels\SceneHierarchy.h" />
     <ClInclude Include="src\Test2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor.cpp" />
+    <ClCompile Include="src\Panels\SceneHierarchy.cpp" />
     <ClCompile Include="src\Test2D.cpp" />
   </ItemGroup>
   <ItemGroup>

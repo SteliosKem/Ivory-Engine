@@ -32,7 +32,7 @@ namespace Ivory {
 		glm::mat4* camera_transform = nullptr;
 		auto view = m_registry.view<TransformComponent, CameraComponent>();
 		for (auto entity : view) {
-			auto[transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 			if (camera.active) {
 				main_camera = &camera.camera;

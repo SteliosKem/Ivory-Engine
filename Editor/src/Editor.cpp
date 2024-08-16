@@ -1,6 +1,7 @@
 #include "Editor.h"
 #include "imgui.h"
 
+
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Ivory {
@@ -19,7 +20,7 @@ namespace Ivory {
 
         m_active_scene = std::make_shared<Scene>();
 
-        Entity square_entity = m_active_scene->create_entity();
+        Entity square_entity = m_active_scene->create_entity("Sprite");
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
         m_camera_entity = m_active_scene->create_entity("Camera");
         m_camera_entity.add_component<CameraComponent>();
@@ -43,6 +44,7 @@ namespace Ivory {
         };
 
         m_camera_entity.add_component<CScriptComponent>().bind<CameraController>();
+        m_hierarchy.set_context(m_active_scene);
     }
     void EditorLayer::on_detach() {}
 
@@ -164,6 +166,8 @@ namespace Ivory {
             }
             ImGui::EndMenuBar();
         }
+
+        m_hierarchy.on_imgui_render();
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
