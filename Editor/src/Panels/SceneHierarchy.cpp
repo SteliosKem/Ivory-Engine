@@ -66,12 +66,66 @@ namespace Ivory {
 				if (ImGui::DragFloat3("Position", glm::value_ptr(transform.transform[3]), 0.1f)) {
 
 				}
-				if (ImGui::DragFloat3("Scale", glm::value_ptr(transform.transform[3]), 0.1f)) {
+				if (ImGui::DragFloat3("Scale", glm::value_ptr(transform.transform[0]), 0.1f)) {
 
 				}
-				if (ImGui::DragFloat3("Position", glm::value_ptr(transform.transform[3]), 0.1f)) {
+				if (ImGui::DragFloat3("Rotation", glm::value_ptr(transform.transform[3]), 0.1f)) {
 
 				}
+				ImGui::TreePop();
+			}
+		}
+		if (entity.has_component<CameraComponent>()) {
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera Component")) {
+				auto& camera_component = entity.get_component<CameraComponent>();
+				auto& camera = camera_component.camera;
+				
+				ImGui::Checkbox("Is Primary", &camera_component.active);
+				const char* projection_types[2] = {"Perspective", "Orthographic"};
+				const char* projection_string = projection_types[(int)camera.get_projection_type()];
+				if (ImGui::BeginCombo("Projection Type", projection_string)) {
+					for (int i = 0; i < 2; i++) {
+						bool is_selected = projection_string == projection_types[i];
+						if (ImGui::Selectable(projection_types[i], is_selected)) {
+							camera.set_projection_type((SceneCamera::ProjectionType)i);
+						}
+
+						if (is_selected)
+							ImGui::SetItemDefaultFocus();
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (camera.get_projection_type() == SceneCamera::ProjectionType::Perspective) {
+					float fov = glm::degrees(camera.get_vertical_fov());
+					if (ImGui::DragFloat("Vertical FOV", &fov))
+						camera.set_vertical_fov(glm::radians(fov));
+
+					float near_clip = camera.get_perspective_near_clip();
+					if (ImGui::DragFloat("Near Clip", &near_clip))
+						camera.set_perspective_near_clip(near_clip);
+
+					float far_clip = camera.get_perspective_far_clip();
+					if (ImGui::DragFloat("Far Clip", &far_clip))
+						camera.set_perspective_far_clip(far_clip);
+				}
+				else if (camera.get_projection_type() == SceneCamera::ProjectionType::Orthographic) {
+					float ortho_size = camera.get_ortho_size();
+					if (ImGui::DragFloat("Size", &ortho_size))
+						camera.set_ortho_size(ortho_size);
+
+					float near_clip = camera.get_ortho_near_clip();
+					if (ImGui::DragFloat("Near Clip", &near_clip))
+						camera.set_ortho_near_clip(near_clip);
+
+					float far_clip = camera.get_ortho_far_clip();
+					if (ImGui::DragFloat("Far Clip", &far_clip))
+						camera.set_ortho_far_clip(far_clip);
+
+					ImGui::Checkbox("Has Fixed Aspect Ratio", &camera_component.fixed_aspect_ratio);
+				}
+				
 				ImGui::TreePop();
 			}
 		}
