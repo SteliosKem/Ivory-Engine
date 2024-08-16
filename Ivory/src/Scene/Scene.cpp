@@ -29,27 +29,27 @@ namespace Ivory {
 		});
 
 		Camera* main_camera = nullptr;
-		glm::mat4* camera_transform = nullptr;
+		glm::mat4 camera_transform;
 		auto view = m_registry.view<TransformComponent, CameraComponent>();
 		for (auto entity : view) {
 			auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 			if (camera.active) {
 				main_camera = &camera.camera;
-				camera_transform = &transform.transform;
+				camera_transform = transform.get_transform();
 				break;
 			}
 		}
 
 		if (main_camera) {
-			Renderer2D::begin_scene(main_camera->get_projection(), *camera_transform);
+			Renderer2D::begin_scene(main_camera->get_projection(), camera_transform);
 
 			auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group) {
 				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 				Quad quad{};
 				quad.color = sprite.color;
-				quad.transform = transform;
+				quad.transform = transform.get_transform();
 				Renderer2D::draw_quad(quad);
 			}
 

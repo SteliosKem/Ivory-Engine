@@ -30,16 +30,7 @@ namespace Ivory {
             void on_create() {}
             void on_destroy() {}
             void on_update(Timestep dt) {
-                glm::mat4& transform = get_component<TransformComponent>().transform;
-                float speed = 5.0f;
-                if (Input::is_key_pressed(IV_KEY_A))
-                    transform[3][0] -= speed * dt;
-                if (Input::is_key_pressed(IV_KEY_D))
-                    transform[3][0] += speed * dt;
-                if (Input::is_key_pressed(IV_KEY_W))
-                    transform[3][1] += speed * dt;
-                if (Input::is_key_pressed(IV_KEY_S))
-                    transform[3][1] -= speed * dt;
+                
             }
         };
 
