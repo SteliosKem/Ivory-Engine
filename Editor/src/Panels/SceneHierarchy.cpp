@@ -129,5 +129,14 @@ namespace Ivory {
 				ImGui::TreePop();
 			}
 		}
+
+		if (entity.has_component<SpriteRendererComponent>()) {
+			if (ImGui::TreeNodeEx((void*)typeid(SpriteRendererComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Sprite Renderer Component")) {
+				auto& sprite_renderer = entity.get_component<SpriteRendererComponent>();
+				ImGui::ColorPicker4("Color", glm::value_ptr(sprite_renderer.color));
+				
+				ImGui::TreePop();
+			}
+		}
 	}
 }
