@@ -14,6 +14,7 @@ namespace Ivory {
 		void on_imgui_render();
 	private:
 		void draw_entity_node(Entity entity);
+		void draw_components(Entity entity);
 
 		std::shared_ptr<Scene> m_context;
 		Entity m_selection_context;

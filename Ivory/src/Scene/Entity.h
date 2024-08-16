@@ -25,7 +25,7 @@ namespace Ivory {
 
 		template<typename T>
 		bool has_component() {
-			return m_scene->m_registry.has<T>(m_entity_handle);
+			return m_scene->m_registry.all_of<T>(m_entity_handle);
 		}
 
 		template<typename T>
