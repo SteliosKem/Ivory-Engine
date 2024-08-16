@@ -23,6 +23,26 @@ namespace Ivory {
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
         m_camera_entity = m_active_scene->create_entity("Camera");
         m_camera_entity.add_component<CameraComponent>();
+
+        class CameraController : public ScriptableEntity {
+        public:
+            void on_create() {}
+            void on_destroy() {}
+            void on_update(Timestep dt) {
+                glm::mat4& transform = get_component<TransformComponent>().transform;
+                float speed = 5.0f;
+                if (Input::is_key_pressed(IV_KEY_A))
+                    transform[3][0] -= speed * dt;
+                if (Input::is_key_pressed(IV_KEY_D))
+                    transform[3][0] += speed * dt;
+                if (Input::is_key_pressed(IV_KEY_W))
+                    transform[3][1] += speed * dt;
+                if (Input::is_key_pressed(IV_KEY_S))
+                    transform[3][1] -= speed * dt;
+            }
+        };
+
+        m_camera_entity.add_component<CScriptComponent>().bind<CameraController>();
     }
     void EditorLayer::on_detach() {}
 

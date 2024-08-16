@@ -1,7 +1,6 @@
 #pragma once
 #include "entt.hpp"
 #include "Core/Timestep.h"
-#include "Components.h"
 
 namespace Ivory {
 	class Entity;

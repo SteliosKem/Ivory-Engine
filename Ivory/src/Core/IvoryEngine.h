@@ -28,3 +28,4 @@ using Real = float;
 #include "OrthoCameraController.h"
 #include "Scene/Scene.h"
 #include "Scene/Entity.h"
+#include "Scene/Components.h"

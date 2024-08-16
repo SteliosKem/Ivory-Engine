@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "SceneCamera.h"
+#include "ScriptableEntity.h"
 
 namespace Ivory {
 	struct TagComponent {
@@ -37,5 +38,18 @@ namespace Ivory {
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct CScriptComponent {
+		ScriptableEntity* instance = nullptr;
+
+		ScriptableEntity* (*instantiate_script)();
+		void (*destroy_script)(CScriptComponent*);
+
+		template<typename T>
+		void bind() {
+			instantiate_script = []() {return static_cast<ScriptableEntity*>(new T()); };
+			destroy_script = [](CScriptComponent* script_component) {delete script_component->instance; script_component->instance = nullptr; };
+		}
 	};
 }

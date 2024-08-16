@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Rendering/Renderer2D.h"
 #include "Entity.h"
+#include "Components.h"
 
 namespace Ivory {
 	Scene::Scene() {
@@ -17,11 +18,21 @@ namespace Ivory {
 	}
 
 	void Scene::on_update(Timestep dt) {
+		m_registry.view<CScriptComponent>().each([=](auto entity, auto& cscript_component) {
+			if (!cscript_component.instance) {
+				cscript_component.instance = cscript_component.instantiate_script();
+				cscript_component.instance->m_entity = Entity{ entity, this };
+				cscript_component.instance->on_create();
+			}
+
+			cscript_component.instance->on_update(dt);
+		});
+
 		Camera* main_camera = nullptr;
 		glm::mat4* camera_transform = nullptr;
 		auto view = m_registry.view<TransformComponent, CameraComponent>();
 		for (auto entity : view) {
-			auto&[transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+			auto[transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
 
 			if (camera.active) {
 				main_camera = &camera.camera;
