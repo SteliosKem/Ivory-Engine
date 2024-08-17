@@ -1,6 +1,6 @@
 #include "Editor.h"
 #include "imgui.h"
-
+#include "Windows/Dialogs.h"
 #include "Scene/SceneSerializer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <filesystem>
@@ -46,6 +46,7 @@ namespace Ivory {
     void EditorLayer::on_detach() {}
 
     void EditorLayer::on_update(Timestep dt) {
+
         if (m_viewport_hovered && m_viewport_focused)
             m_camera_controller.pass_events(true);
         else
@@ -148,24 +149,25 @@ namespace Ivory {
         style.WindowMinSize.x = min_size;
         if (ImGui::BeginMenuBar())
         {
-            if (ImGui::BeginMenu("Options"))
+            if (ImGui::BeginMenu("File"))
             {
-                // Disabling fullscreen would allow the window to be moved to the front of other windows,
-                // which we can't undo at the moment without finer window depth/z control.
-                ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen);
-                ImGui::MenuItem("Padding", NULL, &opt_padding);
-                ImGui::Separator();
+                char* path = "C:\\Projects\\Ivory-Engine";
+                //ImGui::MenuItem("Open Scene", NULL, &FileDialog::file_dialog_open);
+                if (ImGui::MenuItem("Open Scene", NULL, &FileDialog::file_dialog_open)) {
+                    FileDialog::file_dialog_open = true;
+                    FileDialog::file_dialog_open_type = FileDialog::FileDialogType::SelectFolder;
+                    FileDialog::file_dialog_open_type = FileDialog::FileDialogType::OpenFile
+                }
 
-                if (ImGui::MenuItem("Flag: NoSplit", "", (dockspace_flags & ImGuiDockNodeFlags_NoSplit) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoSplit; }
-                if (ImGui::MenuItem("Flag: NoResize", "", (dockspace_flags & ImGuiDockNodeFlags_NoResize) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoResize; }
-                if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_NoDockingInCentralNode; }
-                if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (dockspace_flags & ImGuiDockNodeFlags_AutoHideTabBar) != 0)) { dockspace_flags ^= ImGuiDockNodeFlags_AutoHideTabBar; }
-                if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode) != 0, opt_fullscreen)) { dockspace_flags ^= ImGuiDockNodeFlags_PassthruCentralNode; }
-                ImGui::Separator();
-
-                if (ImGui::MenuItem("Close", NULL, false))
-                    docking = false;
+                
+                ImGui::MenuItem("Save Scene", NULL, &FileDialog::file_dialog_open);
+                ImGui::MenuItem("Save Scene As", NULL, &FileDialog::file_dialog_open);
+                
                 ImGui::EndMenu();
+
+                if (FileDialog::file_dialog_open) {
+                    
+                }
             }
             ImGui::EndMenuBar();
         }

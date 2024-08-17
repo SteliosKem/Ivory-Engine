@@ -14,6 +14,7 @@
 
 #include "Panels/SceneHierarchy.h"
 
+
 const std::string icon_path = "Assets/IVlogo.png";
 const std::string shader_path = "Assets/shaders/shader.glsl";
 

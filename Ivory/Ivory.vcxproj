@@ -162,6 +162,7 @@
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ImGui\ImGuiNotify.h" />
     <ClInclude Include="src\ImGui\imgui_spectrum.h" />
+    <ClInclude Include="src\ImGui\L2DFileDialog.h" />
     <ClInclude Include="src\Layers\Layer.h" />
     <ClInclude Include="src\Layers\LayerStack.h" />
     <ClInclude Include="src\Logging\Log.h" />
