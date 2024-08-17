@@ -17,10 +17,12 @@ IncludeDir["ImGui"] = "Ivory/vendor/imgui"
 IncludeDir["glm"] = "Ivory/vendor/glm"
 IncludeDir["stb"] = "Ivory/vendor/stb"
 IncludeDir["entt"] = "Ivory/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "Ivory/vendor/yaml-cpp/include"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
 include "Ivory/vendor/imgui"
+include "Ivory/vendor/yaml-cpp"
 
 project "Ivory"
 	location "Ivory"
@@ -51,14 +53,16 @@ project "Ivory"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
 		"ImGui",
-		"opengl32.lib"
+		"opengl32.lib",
+		"yaml-cpp"
 	}
 
 	filter "system:windows"

@@ -1,8 +1,9 @@
 #include "Editor.h"
 #include "imgui.h"
 
-
+#include "Scene/SceneSerializer.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <filesystem>
 
 namespace Ivory {
     EditorLayer::EditorLayer() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
@@ -10,8 +11,8 @@ namespace Ivory {
     }
 
     void EditorLayer::on_attach() {
-        m_texture = Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/Zeus.png");
-        m_texture2 = Texture2D::create("C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png");
+        m_texture = Texture2D::create("Assets/Zeus.png");
+        m_texture2 = Texture2D::create("Assets/IVlogo.png");
 
         FrameBufferSpecification frame_buffer_spec;
         frame_buffer_spec.width = 1280;
@@ -20,7 +21,7 @@ namespace Ivory {
 
         m_active_scene = std::make_shared<Scene>();
 
-        Entity square_entity = m_active_scene->create_entity("Sprite");
+        /*Entity square_entity = m_active_scene->create_entity("Sprite");
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
         m_camera_entity = m_active_scene->create_entity("Camera");
         m_camera_entity.add_component<CameraComponent>();
@@ -34,8 +35,13 @@ namespace Ivory {
             }
         };
 
-        m_camera_entity.add_component<CScriptComponent>().bind<CameraController>();
+        m_camera_entity.add_component<CScriptComponent>().bind<CameraController>();*/
         m_hierarchy.set_context(m_active_scene);
+
+        SceneSerializer serializer(m_active_scene);
+
+        //serializer.serialize("Assets/scenes/Example.iscene");
+        serializer.deserialize("Assets/scenes/Example.iscene");
     }
     void EditorLayer::on_detach() {}
 

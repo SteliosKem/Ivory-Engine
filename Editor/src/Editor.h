@@ -14,8 +14,8 @@
 
 #include "Panels/SceneHierarchy.h"
 
-const std::string icon_path = "C:/Projects/Ivory-Engine/Editor/Assets/IVlogo.png";
-const std::string shader_path = "C:/Projects/Ivory-Engine/Editor/Assets/shaders/shader.glsl";
+const std::string icon_path = "Assets/IVlogo.png";
+const std::string shader_path = "Assets/shaders/shader.glsl";
 
 namespace Ivory {
 	class EditorLayer : public Ivory::Layer {

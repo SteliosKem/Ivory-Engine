@@ -23,6 +23,7 @@ namespace Ivory {
 		uint32_t m_vp_width{ 1 }, m_vp_height{ 1 };
 
 		friend class Entity;
+		friend class SceneSerializer;
 		friend class SceneHierarchy;
 	};
 }

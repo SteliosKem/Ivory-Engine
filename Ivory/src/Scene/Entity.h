@@ -5,6 +5,7 @@
 namespace Ivory {
 	class Entity {
 	public:
+		using all_entities = entt::entity;
 		Entity(entt::entity handle, Scene* scene) : m_entity_handle(handle), m_scene(scene) {}
 		Entity(const Entity& other) = default;
 		Entity() = default;
