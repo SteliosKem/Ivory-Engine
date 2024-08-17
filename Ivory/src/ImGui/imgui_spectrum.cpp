@@ -44,9 +44,9 @@ namespace ImGui {
             colors[ImGuiCol_Button] = ColorConvertU32ToFloat4(Spectrum::GRAY75); // match default button to Spectrum's 'Action Button'.
             colors[ImGuiCol_ButtonHovered] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
             colors[ImGuiCol_ButtonActive] = ColorConvertU32ToFloat4(Spectrum::GRAY200);
-            colors[ImGuiCol_Header] = ColorConvertU32ToFloat4(Spectrum::BLUE400);
-            colors[ImGuiCol_HeaderHovered] = ColorConvertU32ToFloat4(Spectrum::BLUE500);
-            colors[ImGuiCol_HeaderActive] = ColorConvertU32ToFloat4(Spectrum::BLUE600);
+            colors[ImGuiCol_Header] = ColorConvertU32ToFloat4(Spectrum::GRAY75);
+            colors[ImGuiCol_HeaderHovered] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
+            colors[ImGuiCol_HeaderActive] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
             colors[ImGuiCol_Separator] = ColorConvertU32ToFloat4(Spectrum::GRAY400);
             colors[ImGuiCol_SeparatorHovered] = ColorConvertU32ToFloat4(Spectrum::GRAY600);
             colors[ImGuiCol_SeparatorActive] = ColorConvertU32ToFloat4(Spectrum::GRAY700);
@@ -63,6 +63,21 @@ namespace ImGui {
             colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
             colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
             colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
+
+            // CUSTOM
+            colors[ImGuiCol_FrameBg] = ColorConvertU32ToFloat4(Spectrum::GRAY75); // match default button to Spectrum's 'Action Button'.
+            colors[ImGuiCol_FrameBgHovered] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
+            colors[ImGuiCol_FrameBgActive] = ColorConvertU32ToFloat4(Spectrum::GRAY200);
+
+            colors[ImGuiCol_Tab] = ColorConvertU32ToFloat4(Spectrum::GRAY100); // match default button to Spectrum's 'Action Button'.
+            colors[ImGuiCol_TabHovered] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
+            colors[ImGuiCol_TabActive] = ColorConvertU32ToFloat4(Spectrum::GRAY400);
+            colors[ImGuiCol_TabUnfocused] = ColorConvertU32ToFloat4(Spectrum::GRAY75);
+            colors[ImGuiCol_TabUnfocusedActive] = ColorConvertU32ToFloat4(Spectrum::GRAY100);
+
+            //colors[ImGuiCol_TitleBg] = ColorConvertU32ToFloat4(Spectrum::GRAY75); // match default button to Spectrum's 'Action Button'.
+            //colors[ImGuiCol_TitleBgActive] = ColorConvertU32ToFloat4(Spectrum::GRAY50);
+            //colors[ImGuiCol_TitleBgCollapsed] = ColorConvertU32ToFloat4(Spectrum::GRAY200);
         }
 
         const unsigned int SourceSansProRegular_compressed_data[149392 / 4] =
