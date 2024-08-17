@@ -31,6 +31,12 @@ namespace Ivory {
 
 		void on_event(Ivory::Event& e) override;
 	private:
+		bool on_key_pressed(KeyPressedEvent& e);
+
+		void open_scene();
+		void save_scene();
+		void save_scene_as();
+		void new_scene();
 
 		std::shared_ptr<Ivory::Texture2D> m_texture;
 		std::shared_ptr<Ivory::Texture2D> m_texture2;
@@ -45,6 +51,10 @@ namespace Ivory {
 
 		bool m_viewport_focused = false;
 		bool m_viewport_hovered = false;
+
+
+		bool m_willopen_scene = false;
+		bool m_willsave_scene = false;
 
 		SceneHierarchy m_hierarchy;
 	};

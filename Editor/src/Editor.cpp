@@ -148,8 +148,6 @@ namespace Ivory {
 
         style.WindowMinSize.x = min_size;
 
-        static bool open_scene = false;
-        static bool save_scene = false;
 
         if (ImGui::BeginMenuBar())
         {
@@ -157,28 +155,26 @@ namespace Ivory {
             {
                 //char* path = "C:\\Projects\\Ivory-Engine";
                 if (ImGui::MenuItem("New Scene", "Ctrl+N")) {
-                    m_active_scene = std::make_shared<Scene>();
-                    m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-                    m_hierarchy.set_context(m_active_scene);
+                    new_scene();
                 }
 
                 
 
                 if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
                     FileDialog::file_dialog_open = true;
-                    open_scene = true;
-                    save_scene = false;
+                    m_willopen_scene = true;
+                    m_willsave_scene = false;
                    
                 }
 
                 
-                if (ImGui::MenuItem("Save Scene", "Ctrl+S")) {
+                if (ImGui::MenuItem("Save Scene As", "Ctrl+Shift+S")) {
                     FileDialog::file_dialog_open = true;
-                    open_scene = false;
-                    save_scene = true;
+                    m_willopen_scene = false;
+                    m_willsave_scene = true;
                     
                 }
-                ImGui::MenuItem("Save Scene As", "Ctrl+Shift+S");
+                ImGui::MenuItem("Save Scene", "Ctrl+S");
                 
                 ImGui::EndMenu();
 
@@ -186,9 +182,6 @@ namespace Ivory {
             }
             ImGui::EndMenuBar();
         }
-
-       
-        
 
         m_hierarchy.on_imgui_render();
 
@@ -209,34 +202,78 @@ namespace Ivory {
         ImGui::PopStyleVar();
 
         ImGui::End();
-        if (FileDialog::file_dialog_open && open_scene) {
-            std::string file_path; FileDialogs::open_file("", file_path);
-            if (file_path != "") {
-                m_active_scene = std::make_shared<Scene>();
-                m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-                m_hierarchy.set_context(m_active_scene);
-
-                SceneSerializer serializer(m_active_scene);
-                serializer.deserialize(file_path);
-            }
-        }
-        else if (FileDialog::file_dialog_open && save_scene) {
-            std::string file_path; FileDialogs::save_file("", file_path);
-            if (file_path != "") {
-                SceneSerializer serializer(m_active_scene);
-                serializer.serialize(file_path);
-            }
-        }
+        if (FileDialog::file_dialog_open && m_willopen_scene)
+            open_scene();
+        else if (FileDialog::file_dialog_open && m_willsave_scene)
+            save_scene_as();
         else {
-            open_scene = false;
-            save_scene = false;
+            m_willopen_scene = false;
+            m_willsave_scene = false;
         }
     }
 
     void EditorLayer::on_event(Event& e) {
         m_camera_controller.on_event(e);
+
+        EventDispatcher dispatcher(e);
+        dispatcher.dispatch<KeyPressedEvent>(IV_BIND_EVENT_FN(EditorLayer::on_key_pressed));
+    }
+    bool EditorLayer::on_key_pressed(KeyPressedEvent& e) {
+        if (e.get_repeat_count() > 0)
+            return false;
+
+        bool control = Input::is_key_pressed(IV_KEY_LEFT_CONTROL) || Input::is_key_pressed(IV_KEY_RIGHT_CONTROL);
+        bool shift = Input::is_key_pressed(IV_KEY_LEFT_SHIFT) || Input::is_key_pressed(IV_KEY_RIGHT_SHIFT);
+        switch (e.get_keycode()) {
+        case IV_KEY_S: {
+            if (control && shift) {
+                FileDialog::file_dialog_open = true;
+                m_willopen_scene = false;
+                m_willsave_scene = true;
+            }
+                
+            else if (control)
+                save_scene();
+            break;
+        }
+        case IV_KEY_N:
+            if (control)
+                new_scene();
+            break;
+        case IV_KEY_O:
+            if (control) {
+                FileDialog::file_dialog_open = true;
+                m_willopen_scene = false;
+                m_willsave_scene = true;
+            }
+            break;
+        }
     }
 
+    void EditorLayer::open_scene() {
+        std::string file_path; FileDialogs::open_file("", file_path);
+        if (file_path != "") {
+            m_active_scene = std::make_shared<Scene>();
+            m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+            m_hierarchy.set_context(m_active_scene);
+
+            SceneSerializer serializer(m_active_scene);
+            serializer.deserialize(file_path);
+        }
+    }
+    void EditorLayer::save_scene() {}
+    void EditorLayer::save_scene_as() {
+        std::string file_path; FileDialogs::save_file("", file_path);
+        if (file_path != "") {
+            SceneSerializer serializer(m_active_scene);
+            serializer.serialize(file_path);
+        }
+    }
+    void EditorLayer::new_scene() {
+        m_active_scene = std::make_shared<Scene>();
+        m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+        m_hierarchy.set_context(m_active_scene);
+    }
 
     Application* create_application() {
         return new Editor();
