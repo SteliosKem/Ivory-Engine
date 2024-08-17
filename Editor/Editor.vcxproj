@@ -137,6 +137,7 @@
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\Panels\SceneHierarchy.h" />
     <ClInclude Include="src\Test2D.h" />
+    <ClInclude Include="src\Windows\Dialogs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor.cpp" />

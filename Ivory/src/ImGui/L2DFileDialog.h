@@ -79,9 +79,9 @@ namespace FileDialog {
 				initial_path_set = true;
 			}
 
-			ImGui::SetNextWindowSize(ImVec2(740.0f, 410.0f));
+			ImGui::SetNextWindowSize(ImVec2(740.0f, 425.0f));
 			const char* window_title = (type == FileDialogType::OpenFile ? "Select a file" : "Select a folder");
-			ImGui::Begin(window_title, nullptr, ImGuiWindowFlags_NoResize);
+			ImGui::Begin(window_title, nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking);
 
 			std::vector<std::filesystem::directory_entry> files;
 			std::vector<std::filesystem::directory_entry> folders;
@@ -243,7 +243,7 @@ namespace FileDialog {
 			std::string selected_file_path = file_dialog_current_path + (file_dialog_current_path.back() == '\\' ? "" : "\\") + (file_dialog_current_folder.size() > 0 ? file_dialog_current_folder : file_dialog_current_file);
 			char* buf = &selected_file_path[0];
 			ImGui::PushItemWidth(724);
-			ImGui::InputText("##text", buf, sizeof(buf), ImGuiInputTextFlags_ReadOnly);
+			ImGui::InputText("##text", buf, sizeof(buf));
 
 			ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 6);
 

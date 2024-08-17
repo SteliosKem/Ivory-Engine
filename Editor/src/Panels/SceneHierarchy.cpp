@@ -10,6 +10,7 @@ namespace Ivory {
 	}
 	void SceneHierarchy::set_context(const std::shared_ptr<Scene>& scene) {
 		m_context = scene;
+		m_selection_context = {};
 	}
 
 	template<typename T, typename UIFunction>

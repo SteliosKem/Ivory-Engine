@@ -147,30 +147,48 @@ namespace Ivory {
         }
 
         style.WindowMinSize.x = min_size;
+
+        static bool open_scene = false;
+        static bool save_scene = false;
+
         if (ImGui::BeginMenuBar())
         {
             if (ImGui::BeginMenu("File"))
             {
-                char* path = "C:\\Projects\\Ivory-Engine";
-                //ImGui::MenuItem("Open Scene", NULL, &FileDialog::file_dialog_open);
-                if (ImGui::MenuItem("Open Scene", NULL, &FileDialog::file_dialog_open)) {
-                    FileDialog::file_dialog_open = true;
-                    FileDialog::file_dialog_open_type = FileDialog::FileDialogType::SelectFolder;
-                    FileDialog::file_dialog_open_type = FileDialog::FileDialogType::OpenFile
+                //char* path = "C:\\Projects\\Ivory-Engine";
+                if (ImGui::MenuItem("New Scene", "Ctrl+N")) {
+                    m_active_scene = std::make_shared<Scene>();
+                    m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+                    m_hierarchy.set_context(m_active_scene);
                 }
 
                 
-                ImGui::MenuItem("Save Scene", NULL, &FileDialog::file_dialog_open);
-                ImGui::MenuItem("Save Scene As", NULL, &FileDialog::file_dialog_open);
+
+                if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
+                    FileDialog::file_dialog_open = true;
+                    open_scene = true;
+                    save_scene = false;
+                   
+                }
+
+                
+                if (ImGui::MenuItem("Save Scene", "Ctrl+S")) {
+                    FileDialog::file_dialog_open = true;
+                    open_scene = false;
+                    save_scene = true;
+                    
+                }
+                ImGui::MenuItem("Save Scene As", "Ctrl+Shift+S");
                 
                 ImGui::EndMenu();
 
-                if (FileDialog::file_dialog_open) {
-                    
-                }
+                
             }
             ImGui::EndMenuBar();
         }
+
+       
+        
 
         m_hierarchy.on_imgui_render();
 
@@ -191,6 +209,28 @@ namespace Ivory {
         ImGui::PopStyleVar();
 
         ImGui::End();
+        if (FileDialog::file_dialog_open && open_scene) {
+            std::string file_path; FileDialogs::open_file("", file_path);
+            if (file_path != "") {
+                m_active_scene = std::make_shared<Scene>();
+                m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+                m_hierarchy.set_context(m_active_scene);
+
+                SceneSerializer serializer(m_active_scene);
+                serializer.deserialize(file_path);
+            }
+        }
+        else if (FileDialog::file_dialog_open && save_scene) {
+            std::string file_path; FileDialogs::save_file("", file_path);
+            if (file_path != "") {
+                SceneSerializer serializer(m_active_scene);
+                serializer.serialize(file_path);
+            }
+        }
+        else {
+            open_scene = false;
+            save_scene = false;
+        }
     }
 
     void EditorLayer::on_event(Event& e) {
