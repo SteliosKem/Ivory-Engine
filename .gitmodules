@@ -13,3 +13,6 @@
 [submodule "Ivory/vendor/yaml-cpp"]
 	path = Ivory/vendor/yaml-cpp
 	url = https://github.com/thecherno/yaml-cpp
+[submodule "Ivory/vendor/ImGuizmo"]
+	path = Ivory/vendor/ImGuizmo
+	url = https://github.com/thecherno/imguizmo

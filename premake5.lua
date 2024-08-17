@@ -18,6 +18,7 @@ IncludeDir["glm"] = "Ivory/vendor/glm"
 IncludeDir["stb"] = "Ivory/vendor/stb"
 IncludeDir["entt"] = "Ivory/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Ivory/vendor/yaml-cpp/include"
+IncludeDir["ImGuizmo"] = "Ivory/vendor/ImGuizmo"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
@@ -42,7 +43,9 @@ project "Ivory"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/src/ImGui/**.ttf",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.h",
+		"%{prj.name}/vendor/ImGuizmo/ImGuizmo.cpp"
 	}
 
 	includedirs {
@@ -54,6 +57,7 @@ project "Ivory"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.yaml_cpp}"
 	}
 
@@ -64,6 +68,9 @@ project "Ivory"
 		"opengl32.lib",
 		"yaml-cpp"
 	}
+
+	filter "Ivory/vendor/ImGuizmo/**.cpp"
+	flags {"NoPCH"}
 
 	filter "system:windows"
 		systemversion "latest"
@@ -109,6 +116,7 @@ project "Editor"
 		"Ivory/src",
 		"Ivory/vendor/imgui",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGuizmo}",
 		"%{IncludeDir.entt}"
 	}
 

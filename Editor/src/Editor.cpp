@@ -4,6 +4,8 @@
 #include "Scene/SceneSerializer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <filesystem>
+#include "ImGuizmo.h"
+#include "Core/Math.h"
 
 namespace Ivory {
     EditorLayer::EditorLayer() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
@@ -201,6 +203,43 @@ namespace Ivory {
         ImGui::End();
         ImGui::PopStyleVar();
 
+        Entity selected = m_hierarchy.get_selected();
+        if (selected) {
+            IV_TRACE("HERE");
+            ImGuizmo::SetOrthographic(false);
+            ImGuizmo::SetDrawlist();
+            float window_width = (float)ImGui::GetWindowWidth();
+            float window_height = (float)ImGui::GetWindowHeight();
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
+
+            auto camera_entity = m_active_scene->get_primary_camera();
+            const auto& camera = camera_entity.get_component<CameraComponent>().camera;
+            const glm::mat4& camera_projection = camera.get_projection();
+            glm::mat4& camera_view = glm::inverse(camera_entity.get_component<TransformComponent>().get_transform());
+
+            auto& transform_component = selected.get_component<TransformComponent>();
+            glm::mat4 transform = transform_component.get_transform();
+
+            bool snap = Input::is_key_pressed(IV_KEY_LEFT_CONTROL);
+            float snap_value = m_gizmo == ImGuizmo::OPERATION::ROTATE ? 45.0f : 0.5f;
+
+            float snap_values[3] = { snap_value, snap_value, snap_value };
+
+            ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_projection), (ImGuizmo::OPERATION)m_gizmo, ImGuizmo::LOCAL, glm::value_ptr(transform)
+            , nullptr, snap ? snap_values : nullptr);
+
+            if (ImGuizmo::IsUsing()) {
+                glm::vec3 translation, rotation, scale;
+                decompose_transform(transform, translation, rotation, scale);
+                transform_component.translation = translation;
+                transform_component.rotation = rotation;
+                transform_component.scale = scale;
+            }
+
+
+        }
+
+
         ImGui::End();
         if (FileDialog::file_dialog_open && m_willopen_scene)
             open_scene();
@@ -247,6 +286,19 @@ namespace Ivory {
                 m_willsave_scene = true;
             }
             break;
+
+        case IV_KEY_Q:
+            m_gizmo = ImGuizmo::OPERATION::TRANSLATE;
+            break;
+        case IV_KEY_W:
+            m_gizmo = ImGuizmo::OPERATION::ROTATE;
+            break;
+        case IV_KEY_E:
+            m_gizmo = ImGuizmo::OPERATION::SCALE;
+            break;
+        case IV_KEY_R:
+            m_gizmo = -1;
+            break;
         }
     }
 
@@ -259,9 +311,21 @@ namespace Ivory {
 
             SceneSerializer serializer(m_active_scene);
             serializer.deserialize(file_path);
+
+            current_scene_file = file_path;
         }
     }
-    void EditorLayer::save_scene() {}
+    void EditorLayer::save_scene() {
+        if (current_scene_file.empty()) {
+            FileDialog::file_dialog_open = true;
+            m_willopen_scene = false;
+            m_willsave_scene = true;
+        }
+        else {
+            SceneSerializer serializer(m_active_scene);
+            serializer.serialize(current_scene_file);
+        }
+    }
     void EditorLayer::save_scene_as() {
         std::string file_path; FileDialogs::save_file("", file_path);
         if (file_path != "") {

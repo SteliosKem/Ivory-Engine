@@ -15,6 +15,8 @@ namespace Ivory {
 		void on_viewport_resize(uint32_t width, uint32_t height);
 
 		void on_update(Timestep dt);
+
+		Entity get_primary_camera();
 	private:
 		template<typename T>
 		void on_component_add(Entity entity, T& component);

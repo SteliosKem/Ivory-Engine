@@ -15,6 +15,8 @@
 #include "IconsFontAwesome6.h"
 #include <fstream>
 
+#include "ImGuizmo.h"
+
 namespace Ivory {
 #define BIND_EVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
 	ImGuiLayer::ImGuiLayer() : Layer("ImGuiLayer") {}
@@ -78,6 +80,7 @@ namespace Ivory {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
+        ImGuizmo::BeginFrame();
     }
 
     // On end of frame

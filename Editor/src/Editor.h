@@ -56,6 +56,9 @@ namespace Ivory {
 		bool m_willopen_scene = false;
 		bool m_willsave_scene = false;
 
+		std::string current_scene_file = "";
+		int m_gizmo = -1;
+
 		SceneHierarchy m_hierarchy;
 	};
 

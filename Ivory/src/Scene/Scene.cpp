@@ -74,6 +74,17 @@ namespace Ivory {
 		}
 	}
 
+	Entity Scene::get_primary_camera() {
+		auto view = m_registry.view<CameraComponent>();
+		for (auto id : view) {
+			const auto& camera = view.get<CameraComponent>(id);
+			return Entity{ id, this };
+			if (camera.active)
+				return Entity{ id, this };
+		}
+		return {};
+	}
+
 	template<typename T>
 	void Scene::on_component_add(Entity entity, T& component) {
 		static_assert(false);

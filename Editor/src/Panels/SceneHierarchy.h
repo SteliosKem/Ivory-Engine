@@ -12,6 +12,7 @@ namespace Ivory {
 		void set_context(const std::shared_ptr<Scene>& scene);
 
 		void on_imgui_render();
+		Entity get_selected() const { return m_selection_context; }
 	private:
 		void draw_entity_node(Entity entity);
 		void draw_components(Entity entity);
