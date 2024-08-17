@@ -6,6 +6,7 @@
 #include <filesystem>
 #include "ImGuizmo.h"
 #include "Core/Math.h"
+#include "Rendering/EditorCamera.h"
 
 namespace Ivory {
     EditorLayer::EditorLayer() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
@@ -44,25 +45,25 @@ namespace Ivory {
 
         //serializer.serialize("Assets/scenes/Example.iscene");
         serializer.deserialize("Assets/scenes/Example.iscene");
+
+        m_editor_camera = EditorCamera(30.0f, 16.0f / 9.0f, 0.01f, 1000.0f);
     }
     void EditorLayer::on_detach() {}
 
     void EditorLayer::on_update(Timestep dt) {
+        /*FrameBufferSpecification spec = m_frame_buffer->get_spec();
+        if (m_viewport_size.x > 0.0f && m_viewport_size.y > 0.0f && (spec.width != m_viewport_size.x || spec.height != m_viewport_size.y)) {
+            m_frame_buffer->resize((uint32_t)m_viewport_size.x, );
+
+        }*/
 
         if (m_viewport_hovered && m_viewport_focused)
             m_camera_controller.pass_events(true);
         else
             m_camera_controller.pass_events(false);
         m_camera_controller.on_update(dt);
-       
+        m_editor_camera.on_update(dt);
 
-        Renderer2D::reset_stats();
-        if (Input::is_mouse_button_pressed(2)) {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-        }
-        else {
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-        }
         m_frame_buffer->bind();
         RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         RenderCommand::clear();
@@ -71,23 +72,7 @@ namespace Ivory {
         rot += dt;
         float x_pos = 2 * sinf(rot);
 
-
-        //Renderer2D::begin_scene(m_camera_controller.get_camera());
-
-        /*Quad textured_quad{{1.1f, 1.1f, 0.0f}, {0.8f, 0.8f}, 0, {0.4f, 1.0f, 1.0f, 1.0f}, m_texture};
-        Quad textured_quad2{ {0.0f, 0.0f, 0.0f }, { 2.0f, 2.0f }, rot, {1.0f, 1.0f, 1.0f, 1.0f}, m_texture2 };
-        textured_quad.texture_info.tiling_factor = 4.0f;
-        Quad quad2{};
-        Quad quad3{ {1.0f, 0, 0}, {1.0f, 1.0f}, 0, {0.5f, 0.2f, 0.2f, 1.0f} };
-        quad2.color = glm::vec4(0.5f, 1.0f, 0.5f, 1.0f);
-
-        Renderer2D::draw_quad(quad2);
-        Renderer2D::draw_quad(quad3);
-        Renderer2D::draw_quad(textured_quad2);
-        Renderer2D::draw_quad(textured_quad);*/
-
-        m_active_scene->on_update(dt);
-        //Renderer2D::end_scene();
+        m_active_scene->on_update_editor(dt, m_editor_camera);
 
         m_frame_buffer->unbind();
     }
@@ -196,26 +181,27 @@ namespace Ivory {
             m_viewport_size = { vp_size.x, vp_size.y };
             m_frame_buffer->resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
             m_camera_controller.resize_bounds(vp_size.x, vp_size.y);
+            m_editor_camera.set_viewport_size(vp_size.x, vp_size.y);
             m_active_scene->on_viewport_resize((uint32_t)vp_size.x, (uint32_t)vp_size.y);
         }
         uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
         ImGui::Image((void*)texture_id, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
-        ImGui::End();
-        ImGui::PopStyleVar();
 
         Entity selected = m_hierarchy.get_selected();
         if (selected) {
-            IV_TRACE("HERE");
             ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetDrawlist();
             float window_width = (float)ImGui::GetWindowWidth();
             float window_height = (float)ImGui::GetWindowHeight();
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
 
-            auto camera_entity = m_active_scene->get_primary_camera();
+            /*auto camera_entity = m_active_scene->get_primary_camera();
             const auto& camera = camera_entity.get_component<CameraComponent>().camera;
             const glm::mat4& camera_projection = camera.get_projection();
-            glm::mat4& camera_view = glm::inverse(camera_entity.get_component<TransformComponent>().get_transform());
+            glm::mat4& camera_view = glm::inverse(camera_entity.get_component<TransformComponent>().get_transform());*/
+
+            const glm::mat4& camera_projection = m_editor_camera.get_projection();
+            glm::mat4 camera_view = m_editor_camera.get_view_matrix();
 
             auto& transform_component = selected.get_component<TransformComponent>();
             glm::mat4 transform = transform_component.get_transform();
@@ -226,18 +212,26 @@ namespace Ivory {
             float snap_values[3] = { snap_value, snap_value, snap_value };
 
             ImGuizmo::Manipulate(glm::value_ptr(camera_view), glm::value_ptr(camera_projection), (ImGuizmo::OPERATION)m_gizmo, ImGuizmo::LOCAL, glm::value_ptr(transform)
-            , nullptr, snap ? snap_values : nullptr);
+                , nullptr, snap ? snap_values : nullptr);
 
             if (ImGuizmo::IsUsing()) {
+                m_using_gizmo = true;
                 glm::vec3 translation, rotation, scale;
                 decompose_transform(transform, translation, rotation, scale);
                 transform_component.translation = translation;
                 transform_component.rotation = rotation;
                 transform_component.scale = scale;
             }
+            else
+                m_using_gizmo = false;
 
 
         }
+
+        ImGui::End();
+        ImGui::PopStyleVar();
+
+        
 
 
         ImGui::End();
@@ -253,6 +247,7 @@ namespace Ivory {
 
     void EditorLayer::on_event(Event& e) {
         m_camera_controller.on_event(e);
+        m_editor_camera.on_event(e);
 
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<KeyPressedEvent>(IV_BIND_EVENT_FN(EditorLayer::on_key_pressed));
@@ -288,16 +283,20 @@ namespace Ivory {
             break;
 
         case IV_KEY_Q:
-            m_gizmo = ImGuizmo::OPERATION::TRANSLATE;
+            if(!m_using_gizmo)
+                m_gizmo = ImGuizmo::OPERATION::TRANSLATE;
             break;
         case IV_KEY_W:
-            m_gizmo = ImGuizmo::OPERATION::ROTATE;
+            if (!m_using_gizmo)
+                m_gizmo = ImGuizmo::OPERATION::ROTATE;
             break;
         case IV_KEY_E:
-            m_gizmo = ImGuizmo::OPERATION::SCALE;
+            if (!m_using_gizmo)
+                m_gizmo = ImGuizmo::OPERATION::SCALE;
             break;
         case IV_KEY_R:
-            m_gizmo = -1;
+            if (!m_using_gizmo)
+                m_gizmo = -1;
             break;
         }
     }

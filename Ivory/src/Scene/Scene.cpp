@@ -20,8 +20,22 @@ namespace Ivory {
 	void Scene::destroy_entity(Entity entity) {
 		m_registry.destroy(entity);
 	}
+	void Scene::on_update_editor(Timestep dt, EditorCamera& camera) {
+		Renderer2D::begin_scene(camera);
 
-	void Scene::on_update(Timestep dt) {
+		auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group) {
+			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			Quad quad{};
+			quad.color = sprite.color;
+			quad.transform = transform.get_transform();
+			Renderer2D::draw_quad(quad);
+		}
+
+		Renderer2D::end_scene();
+	}
+
+	void Scene::on_update_runtime(Timestep dt) {
 		m_registry.view<CScriptComponent>().each([=](auto entity, auto& cscript_component) {
 			if (!cscript_component.instance) {
 				cscript_component.instance = cscript_component.instantiate_script();

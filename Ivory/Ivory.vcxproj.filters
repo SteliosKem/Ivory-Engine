@@ -1464,6 +1464,8 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Math.h" />
+    <ClInclude Include="src\Rendering\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1559,6 +1561,8 @@
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
       <Filter>vendor\ImGuizmo</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Math.cpp" />
+    <ClCompile Include="src\Rendering\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">

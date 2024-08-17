@@ -43,6 +43,9 @@ namespace Ivory {
 
 		std::shared_ptr<Ivory::Scene> m_active_scene;
 
+		
+		EditorCamera m_editor_camera; 
+
 		Entity m_camera_entity;
 		Ivory::OrthographicCameraController m_camera_controller;
 		std::shared_ptr<Ivory::FrameBuffer> m_frame_buffer;
@@ -58,6 +61,7 @@ namespace Ivory {
 
 		std::string current_scene_file = "";
 		int m_gizmo = -1;
+		bool m_using_gizmo = false;
 
 		SceneHierarchy m_hierarchy;
 	};

@@ -150,6 +150,7 @@
     <ClInclude Include="src\Core\Input.h" />
     <ClInclude Include="src\Core\IvoryEngine.h" />
     <ClInclude Include="src\Core\KeyCodes.h" />
+    <ClInclude Include="src\Core\Math.h" />
     <ClInclude Include="src\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Core\Util.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h" />
     <ClInclude Include="src\Rendering\Buffer.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
+    <ClInclude Include="src\Rendering\EditorCamera.h" />
     <ClInclude Include="src\Rendering\FrameBuffer.h" />
     <ClInclude Include="src\Rendering\GraphicsContext.h" />
     <ClInclude Include="src\Rendering\OrthographicCamera.h" />
@@ -614,6 +616,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp" />
+    <ClCompile Include="src\Core\Math.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLoad.cpp" />
     <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />
@@ -630,6 +633,7 @@
     <ClCompile Include="src\Platform\Windows\WinPlatformInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WinPlatformWindow.cpp" />
     <ClCompile Include="src\Rendering\Buffer.cpp" />
+    <ClCompile Include="src\Rendering\EditorCamera.cpp" />
     <ClCompile Include="src\Rendering\FrameBuffer.cpp" />
     <ClCompile Include="src\Rendering\OrthographicCamera.cpp" />
     <ClCompile Include="src\Rendering\RenderCommand.cpp" />

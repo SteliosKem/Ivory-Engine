@@ -98,6 +98,16 @@ namespace Ivory {
 	void Renderer2D::shutdown() {
 	}
 
+	void Renderer2D::begin_scene(const EditorCamera& camera) {
+		s_data.texture_shader->bind();
+		s_data.texture_shader->set_mat4("u_view_projection", camera.get_view_projection());
+
+		s_data.quad_index_count = 0;
+		s_data.quad_vertex_buffer_ptr = s_data.quad_vertex_buffer_base;
+
+		s_data.texture_slot_index = 1;
+	}
+
 	void Renderer2D::begin_scene(const OrthographicCamera& camera) {
 		s_data.texture_shader->bind();
 		s_data.texture_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
