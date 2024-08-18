@@ -17,6 +17,7 @@
     <ClInclude Include="src\Windows\Dialogs.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Panels\ContentBrowser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor.cpp" />
@@ -24,5 +25,6 @@
       <Filter>Panels</Filter>
     </ClCompile>
     <ClCompile Include="src\Test2D.cpp" />
+    <ClCompile Include="src\Panels\ContentBrowser.cpp" />
   </ItemGroup>
 </Project>

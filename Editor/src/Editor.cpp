@@ -191,6 +191,7 @@ namespace Ivory {
         }
 
         m_hierarchy.on_imgui_render();
+        m_content_browser.on_imgui_render();
 
         // VIEWPORT
 

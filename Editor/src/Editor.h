@@ -13,6 +13,7 @@
 #include "Test2D.h"
 
 #include "Panels/SceneHierarchy.h"
+#include "Panels/ContentBrowser.h"
 
 
 const std::string icon_path = "Assets/IVlogo.png";
@@ -67,6 +68,7 @@ namespace Ivory {
 		Entity m_entity_hovered;
 
 		SceneHierarchy m_hierarchy;
+		ContentBrowser m_content_browser;
 	};
 
 	class Editor : public Application {
