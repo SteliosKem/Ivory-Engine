@@ -48,6 +48,8 @@ namespace Ivory {
 		virtual void resize(uint32_t width, uint32_t height) = 0;
 		virtual int read_pixel(uint32_t attachment_index, int x, int y) = 0;
 
+		virtual void clear_attachment(uint32_t attachment_index, int value) = 0;
+
 		virtual uint32_t get_color_attachment_rendererID(uint32_t index = 0) const = 0;
 
 		virtual const FrameBufferSpecification& get_spec() const = 0;

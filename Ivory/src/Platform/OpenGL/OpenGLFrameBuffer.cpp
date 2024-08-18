@@ -18,6 +18,18 @@ namespace Ivory {
 		glBindTexture(texture_target(multisampled), id);
 	}
 
+	static GLenum to_gl_format(FrameBufferTextureFormat format) {
+		switch (format) {
+		case FrameBufferTextureFormat::RGBA8:
+			return GL_RGBA8;
+		case FrameBufferTextureFormat::RED_INTEGER:
+			return GL_RED_INTEGER;
+		}
+
+		IV_CORE_ASSERT(false, "Unkown format");
+		return 0;
+	}
+
 	static void attach_depth_texture(uint32_t id, int samples, GLenum format, GLenum attachment_type, uint32_t width, uint32_t height) {
 		bool multisampled = samples > 1;
 		if (multisampled)
@@ -149,6 +161,7 @@ namespace Ivory {
 	void OpenGLFrameBuffer::bind() {
 		glBindFramebuffer(GL_FRAMEBUFFER, m_rendererID);
 		glViewport(0, 0, m_specification.width, m_specification.height);
+
 	}
 
 	void OpenGLFrameBuffer::unbind() {
@@ -173,5 +186,12 @@ namespace Ivory {
 		int pixel_data;
 		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
 		return pixel_data;
+	}
+
+	void OpenGLFrameBuffer::clear_attachment(uint32_t attachment_index, int value) {
+		IV_CORE_ASSERT(attachment_index < m_color_attachments.size(), "Index out of bounds");
+
+		auto& spec = m_color_attachment_specs[attachment_index];
+		glClearTexImage(m_color_attachments[attachment_index], 0, to_gl_format(spec.texture_format), GL_INT, &value);
 	}
 }

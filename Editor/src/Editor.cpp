@@ -69,6 +69,8 @@ namespace Ivory {
         RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
         RenderCommand::clear();
 
+        m_frame_buffer->clear_attachment(1, -1);
+
         static float rot = 0;
         rot += dt;
         float x_pos = 2 * sinf(rot);
