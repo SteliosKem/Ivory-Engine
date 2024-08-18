@@ -13,6 +13,7 @@ namespace Ivory {
 
 		void on_imgui_render();
 		Entity get_selected() const { return m_selection_context; }
+		void set_selected(Entity entity);
 	private:
 		void draw_entity_node(Entity entity);
 		void draw_components(Entity entity);

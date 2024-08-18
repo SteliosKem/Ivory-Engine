@@ -88,8 +88,11 @@ namespace Ivory {
 
         if (mousex >= 0 && mousey >= 0 && mousex < (int)m_viewport_size.x && mousey < (int)m_viewport_size.y) {
             int pixel_data = m_frame_buffer->read_pixel(1, mousex, mousey);
-            IV_CORE_WARN(pixel_data);
+            //m_hierarchy.set_selected(pixel_data == -1 ? Entity() : Entity((entt::entity)pixel_data, m_active_scene.get()));
+
+            m_entity_hovered = pixel_data == -1 ? Entity() : Entity((entt::entity)pixel_data, m_active_scene.get());
         }
+       
 
         m_frame_buffer->unbind();
     }
@@ -284,6 +287,7 @@ namespace Ivory {
 
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<KeyPressedEvent>(IV_BIND_EVENT_FN(EditorLayer::on_key_pressed));
+        dispatcher.dispatch<MouseButtonPressedEvent>(IV_BIND_EVENT_FN(EditorLayer::on_mouse_button_pressed));
     }
     bool EditorLayer::on_key_pressed(KeyPressedEvent& e) {
         if (e.get_repeat_count() > 0)
@@ -332,6 +336,13 @@ namespace Ivory {
                 m_gizmo = -1;
             break;
         }
+    }
+
+    bool EditorLayer::on_mouse_button_pressed(MouseButtonPressedEvent& e) {
+        if (e.get_mouse_button() == IV_MOUSE_BUTTON_1 && m_viewport_hovered && m_entity_hovered && !ImGuizmo::IsOver()) {
+            m_hierarchy.set_selected(m_entity_hovered);
+        }
+        return false;
     }
 
     void EditorLayer::open_scene() {

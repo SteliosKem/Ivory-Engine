@@ -6,8 +6,6 @@
 
 namespace Ivory {
 	Scene::Scene() {
-		entt::entity entity = m_registry.create();
-
 	}
 
 	Entity Scene::create_entity(const std::string& name) {

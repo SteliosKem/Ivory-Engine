@@ -32,6 +32,7 @@ namespace Ivory {
 		void on_event(Ivory::Event& e) override;
 	private:
 		bool on_key_pressed(KeyPressedEvent& e);
+		bool on_mouse_button_pressed(MouseButtonPressedEvent& e);
 
 		void open_scene();
 		void save_scene();
@@ -62,6 +63,8 @@ namespace Ivory {
 		std::string current_scene_file = "";
 		int m_gizmo = -1;
 		bool m_using_gizmo = false;
+
+		Entity m_entity_hovered;
 
 		SceneHierarchy m_hierarchy;
 	};

@@ -260,4 +260,8 @@ namespace Ivory {
 			ImGui::ColorPicker4("Color", glm::value_ptr(component.color));
 		});
 	}
+
+	void SceneHierarchy::set_selected(Entity entity) {
+		m_selection_context = entity;
+	}
 }
