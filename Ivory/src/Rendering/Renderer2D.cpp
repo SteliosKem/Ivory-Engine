@@ -2,6 +2,7 @@
 #include "Renderer2D.h"
 #include "Buffer.h"
 #include "Shader.h"
+#include "Scene/Components.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "RenderCommand.h"
@@ -13,6 +14,9 @@ namespace Ivory {
 		glm::vec2 texture_coord;
 		float texture_index;
 		float tiling_factor;
+
+		//Editor only
+		int entity_id = 0;
 	};
 
 	struct Renderer2DStorage {
@@ -52,6 +56,7 @@ namespace Ivory {
 			{ShaderDataType::Vector2, "a_texture_coord"},
 			{ShaderDataType::Float, "a_texture_index"},
 			{ShaderDataType::Float, "a_tiling_factor"},
+			{ShaderDataType::Int, "a_entity_id"},
 		};
 		s_data.quad_vertex_buffer->set_layout(solid_layout);
 		s_data.quad_vertex_array->add_vertex_buffer(s_data.quad_vertex_buffer);
@@ -207,39 +212,21 @@ namespace Ivory {
 			s_data.quad_vertex_buffer_ptr->texture_coord = texture_coords[i];
 			s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
 			s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
+			s_data.quad_vertex_buffer_ptr->entity_id = quad.entity_id;
 			s_data.quad_vertex_buffer_ptr++;
 		}
-		/*s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[0];
-		s_data.quad_vertex_buffer_ptr->color = quad.color;
-		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 0.0f };
-		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
-		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
-		s_data.quad_vertex_buffer_ptr++;
-
-		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[1];
-		s_data.quad_vertex_buffer_ptr->color = quad.color;
-		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 0.0f };
-		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
-		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
-		s_data.quad_vertex_buffer_ptr++;
-
-		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[2];
-		s_data.quad_vertex_buffer_ptr->color = quad.color;
-		s_data.quad_vertex_buffer_ptr->texture_coord = { 1.0f, 1.0f };
-		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
-		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
-		s_data.quad_vertex_buffer_ptr++;
-
-		s_data.quad_vertex_buffer_ptr->position = transform * s_data.quad_vertex_positions[3];
-		s_data.quad_vertex_buffer_ptr->color = quad.color;
-		s_data.quad_vertex_buffer_ptr->texture_coord = { 0.0f, 1.0f };
-		s_data.quad_vertex_buffer_ptr->texture_index = texture_index;
-		s_data.quad_vertex_buffer_ptr->tiling_factor = quad.texture_info.tiling_factor;
-		s_data.quad_vertex_buffer_ptr++;*/
 
 		s_data.quad_index_count += 6;
 
 		s_data.statistics.quad_count++;
+	}
+
+	void Renderer2D::draw_sprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id) {
+		Quad quad{};
+		quad.color = sprite.color;
+		quad.transform = transform;
+		quad.entity_id = entity_id;
+		draw_quad(quad);
 	}
 
 	void Renderer2D::reset_stats() { memset(&s_data.statistics, 0, sizeof(s_data.statistics)); }

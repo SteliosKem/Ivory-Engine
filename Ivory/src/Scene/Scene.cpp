@@ -26,10 +26,8 @@ namespace Ivory {
 		auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 		for (auto entity : group) {
 			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Quad quad{};
-			quad.color = sprite.color;
-			quad.transform = transform.get_transform();
-			Renderer2D::draw_quad(quad);
+			Renderer2D::draw_sprite(transform.get_transform(), sprite, (int)entity);
+
 		}
 
 		Renderer2D::end_scene();
@@ -65,10 +63,7 @@ namespace Ivory {
 			auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group) {
 				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-				Quad quad{};
-				quad.color = sprite.color;
-				quad.transform = transform.get_transform();
-				Renderer2D::draw_quad(quad);
+				Renderer2D::draw_sprite(transform.get_transform(), sprite, (int)entity);
 			}
 
 			Renderer2D::end_scene();

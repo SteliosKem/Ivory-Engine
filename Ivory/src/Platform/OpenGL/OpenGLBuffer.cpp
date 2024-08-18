@@ -10,6 +10,11 @@ namespace Ivory {
 		case ShaderDataType::Vector2: return GL_FLOAT;
 		case ShaderDataType::Vector3: return GL_FLOAT;
 		case ShaderDataType::Vector4: return GL_FLOAT;
+		case ShaderDataType::Int: return GL_INT;
+		case ShaderDataType::IVector4: return GL_INT;
+		case ShaderDataType::IVector3: return GL_INT;
+		case ShaderDataType::IVector2: return GL_INT;
+
 		}
 	}
 
@@ -87,10 +92,28 @@ namespace Ivory {
 
 		uint32_t i = 0;
 		for (const BufferElement& element : vertex_buffer->get_layout()) {
-			glEnableVertexAttribArray(i);
-			glVertexAttribPointer(i, element.get_count(), shader_to_opengl_type(element.shader_type),
-				element.normalized ? GL_TRUE : GL_FALSE, vertex_buffer->get_layout().get_stride(), (const void*)element.offset);
-			i++;
+			switch (element.shader_type) {
+			case ShaderDataType::Float:
+			case ShaderDataType::Vector2:
+			case ShaderDataType::Vector3:
+			case ShaderDataType::Vector4:
+			case ShaderDataType::Mat3:
+			case ShaderDataType::Mat4:
+				glEnableVertexAttribArray(i);
+				glVertexAttribPointer(i, element.get_count(), shader_to_opengl_type(element.shader_type),
+					element.normalized ? GL_TRUE : GL_FALSE, vertex_buffer->get_layout().get_stride(), (const void*)element.offset);
+				i++;
+				break;
+			case ShaderDataType::Int:
+			case ShaderDataType::IVector2:
+			case ShaderDataType::IVector3:
+			case ShaderDataType::IVector4:
+				glEnableVertexAttribArray(i);
+				glVertexAttribIPointer(i, element.get_count(), shader_to_opengl_type(element.shader_type),
+					vertex_buffer->get_layout().get_stride(), (const void*)element.offset);
+				i++;
+				break;
+			}
 		}
 		m_vertex_buffers.push_back(vertex_buffer);
 	}

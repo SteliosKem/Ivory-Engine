@@ -4,6 +4,8 @@
 #include "SubTexture.h"
 #include "Camera.h"
 #include "EditorCamera.h"
+#include "Scene/Components.h"
+
 
 namespace Ivory {
 	struct TextureInfo {
@@ -19,6 +21,7 @@ namespace Ivory {
 		std::shared_ptr<SubTexture2D> sub_texture{ nullptr };
 		TextureInfo texture_info{};
 		glm::mat4 transform{1.0f};
+		int entity_id = -1;
 	};
 
 	class Renderer2D {
@@ -34,6 +37,7 @@ namespace Ivory {
 		static void flush();
 
 		static void draw_quad(const Quad& quad);
+		static void draw_sprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id);
 
 
 		struct Statistics {
