@@ -20,6 +20,7 @@ namespace Ivory {
         FrameBufferSpecification frame_buffer_spec;
         frame_buffer_spec.width = 1280;
         frame_buffer_spec.height = 720;
+        frame_buffer_spec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
         m_frame_buffer = FrameBuffer::create(frame_buffer_spec);
 
         m_active_scene = std::make_shared<Scene>();
