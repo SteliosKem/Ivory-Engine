@@ -20,7 +20,7 @@ namespace Ivory {
         FrameBufferSpecification frame_buffer_spec;
         frame_buffer_spec.width = 1280;
         frame_buffer_spec.height = 720;
-        frame_buffer_spec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::Depth };
+        frame_buffer_spec.attachments = { FrameBufferTextureFormat::RGBA8, FrameBufferTextureFormat::RED_INTEGER, FrameBufferTextureFormat::Depth };
         m_frame_buffer = FrameBuffer::create(frame_buffer_spec);
 
         m_active_scene = std::make_shared<Scene>();
@@ -74,6 +74,20 @@ namespace Ivory {
         float x_pos = 2 * sinf(rot);
 
         m_active_scene->on_update_editor(dt, m_editor_camera);
+
+        auto [mx, my] = ImGui::GetMousePos();
+        mx -= m_viewport_bounds[0].x;
+        my -= m_viewport_bounds[0].y;
+        glm::vec2 viewport_size = m_viewport_bounds[1] - m_viewport_bounds[0];
+        my = viewport_size.y - my;
+
+        int mousex = (int)mx;
+        int mousey = (int)my;
+
+        if (mousex >= 0 && mousey >= 0 && mousex < (int)m_viewport_size.x && mousey < (int)m_viewport_size.y) {
+            int pixel_data = m_frame_buffer->read_pixel(1, mousex, mousey);
+            IV_CORE_WARN(pixel_data);
+        }
 
         m_frame_buffer->unbind();
     }
@@ -173,8 +187,15 @@ namespace Ivory {
 
         m_hierarchy.on_imgui_render();
 
+        // VIEWPORT
+
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
         ImGui::Begin("Viewport");
+
+        float tab_height = ImGui::GetWindowSize().y - ImGui::GetContentRegionAvail().y;
+        auto viewport_offset = ImGui::GetCursorPos();
+        viewport_offset.y -= tab_height;
+
         m_viewport_focused = ImGui::IsWindowFocused();
         m_viewport_hovered = ImGui::IsWindowHovered();
         ImVec2 vp_size = ImGui::GetContentRegionAvail();
@@ -187,6 +208,15 @@ namespace Ivory {
         }
         uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
         ImGui::Image((void*)texture_id, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+        auto window_size = ImGui::GetWindowSize();
+        ImVec2 min_bound = ImGui::GetWindowPos();
+        min_bound.x += viewport_offset.x;
+        min_bound.y += viewport_offset.y;
+
+        ImVec2 max_bound = { min_bound.x + window_size.x, min_bound.y + window_size.y };
+        m_viewport_bounds[0] = { min_bound.x, min_bound.y };
+        m_viewport_bounds[1] = { max_bound.x, max_bound.y };
 
         Entity selected = m_hierarchy.get_selected();
         if (selected) {

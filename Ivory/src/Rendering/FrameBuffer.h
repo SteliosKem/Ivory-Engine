@@ -8,6 +8,7 @@ namespace Ivory {
 
 		//Color
 		RGBA8,
+		RED_INTEGER,
 
 		// Depth/Stencil
 		DEPTH24STENCIL8,
@@ -45,6 +46,7 @@ namespace Ivory {
 		virtual void unbind() = 0;
 
 		virtual void resize(uint32_t width, uint32_t height) = 0;
+		virtual int read_pixel(uint32_t attachment_index, int x, int y) = 0;
 
 		virtual uint32_t get_color_attachment_rendererID(uint32_t index = 0) const = 0;
 

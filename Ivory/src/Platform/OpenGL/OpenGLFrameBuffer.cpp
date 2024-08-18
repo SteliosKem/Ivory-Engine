@@ -35,12 +35,12 @@ namespace Ivory {
 		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment_type, texture_target(multisampled), id, 0);
 	}
 
-	static void attach_color_texture(uint32_t id, int samples, GLenum format, uint32_t width, uint32_t height, int index) {
+	static void attach_color_texture(uint32_t id, int samples, GLenum internal_format, GLenum format, uint32_t width, uint32_t height, int index) {
 		bool multisampled = samples > 1;
 		if (multisampled)
-			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, format, width, height, GL_FALSE);
+			glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, samples, internal_format, width, height, GL_FALSE);
 		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, format, GL_UNSIGNED_BYTE, nullptr);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -99,7 +99,10 @@ namespace Ivory {
 				bind_texture(multisample, m_color_attachments[i]);
 				switch (m_color_attachment_specs[i].texture_format) {
 				case FrameBufferTextureFormat::RGBA8:
-					attach_color_texture(m_color_attachments[i], m_specification.samples, GL_RGBA8, m_specification.width, m_specification.height, i);
+					attach_color_texture(m_color_attachments[i], m_specification.samples, GL_RGBA8, GL_RGBA, m_specification.width, m_specification.height, i);
+					break;
+				case FrameBufferTextureFormat::RED_INTEGER:
+					attach_color_texture(m_color_attachments[i], m_specification.samples, GL_R32I, GL_RED_INTEGER, m_specification.width, m_specification.height, i);
 					break;
 				}
 			}
@@ -111,6 +114,7 @@ namespace Ivory {
 			switch (m_depth_attachment_spec.texture_format) {
 			case FrameBufferTextureFormat::DEPTH24STENCIL8:
 				attach_depth_texture(m_depth_attachment, m_specification.samples, GL_DEPTH24_STENCIL8, GL_DEPTH_STENCIL_ATTACHMENT, m_specification.width, m_specification.height);
+				break;
 			}
 		}
 
@@ -160,5 +164,14 @@ namespace Ivory {
 		m_specification.width = width;
 		m_specification.height = height;
 		validate();
+	}
+
+	int OpenGLFrameBuffer::read_pixel(uint32_t attachment_index, int x, int y) {
+		IV_CORE_ASSERT(attachment_index < m_color_attachments.size(), "Index out of bounds");
+
+		glReadBuffer(GL_COLOR_ATTACHMENT0 + attachment_index);
+		int pixel_data;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixel_data);
+		return pixel_data;
 	}
 }
