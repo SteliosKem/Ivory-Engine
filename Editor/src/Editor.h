@@ -17,6 +17,8 @@
 
 #include "Windows/ProjectSetupWindow.h"
 
+#include "AlchemistSandbox.h"
+
 
 const std::string icon_path = "Assets/IVlogo.png";
 const std::string shader_path = "Assets/shaders/shader.glsl";
@@ -85,7 +87,8 @@ namespace Ivory {
 		Editor() {
 			//Ivory::Application::get_window().set_vsync(false);
 			//push_layer(std::make_shared<Test2D>());
-			push_layer(std::make_shared<EditorLayer>());
+			//push_layer(std::make_shared<EditorLayer>());
+			push_layer(std::make_shared<AlchemistSandbox>());
 
 			get_window().set_image(icon_path);
 		}
