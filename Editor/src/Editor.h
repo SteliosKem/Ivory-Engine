@@ -15,6 +15,8 @@
 #include "Panels/SceneHierarchy.h"
 #include "Panels/ContentBrowser.h"
 
+#include "Windows/ProjectSetupWindow.h"
+
 
 const std::string icon_path = "Assets/IVlogo.png";
 const std::string shader_path = "Assets/shaders/shader.glsl";
@@ -31,9 +33,12 @@ namespace Ivory {
 		void on_imgui_render() override;
 
 		void on_event(Ivory::Event& e) override;
+		void show_setup_window() {}
 	private:
 		bool on_key_pressed(KeyPressedEvent& e);
 		bool on_mouse_button_pressed(MouseButtonPressedEvent& e);
+
+		void create_project(const std::string& project_name, const std::string& project_path);
 
 		void open_scene();
 		void save_scene();
@@ -69,6 +74,10 @@ namespace Ivory {
 
 		SceneHierarchy m_hierarchy;
 		ContentBrowser m_content_browser;
+
+		ProjectSetupWindow m_setup_window;
+
+		std::string current_path;
 	};
 
 	class Editor : public Application {

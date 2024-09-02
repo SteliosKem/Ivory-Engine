@@ -18,6 +18,7 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Panels\ContentBrowser.h" />
+    <ClInclude Include="src\Windows\ProjectSetupWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor.cpp" />
@@ -26,5 +27,7 @@
     </ClCompile>
     <ClCompile Include="src\Test2D.cpp" />
     <ClCompile Include="src\Panels\ContentBrowser.cpp" />
+    <ClCompile Include="src\Windows\ProjectSetupWindow.cpp" />
+    <ClCompile Include="src\Windows\Dialogs.cpp" />
   </ItemGroup>
 </Project>

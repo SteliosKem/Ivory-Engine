@@ -6,7 +6,7 @@
 #include <filesystem>
 #include "ImGuizmo.h"
 #include "Core/Math.h"
-#include "Rendering/EditorCamera.h"
+#include <fstream>
 
 namespace Ivory {
     EditorLayer::EditorLayer() : Layer("Test2D"), m_camera_controller(1280.0f / 720.f) {
@@ -14,6 +14,19 @@ namespace Ivory {
     }
 
     void EditorLayer::on_attach() {
+        m_setup_window.set_create_callback([this](const std::string& name, const std::string& path) {
+            std::cout << path + name + ".iscene";
+            std::ofstream file(path + name + ".iscene");
+            m_active_scene = std::make_shared<Scene>();
+            m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+            m_hierarchy.set_context(m_active_scene);
+
+            SceneSerializer serializer(m_active_scene);
+            serializer.deserialize(path + name + ".iscene");
+
+            current_scene_file = path + name + ".iscene";
+            });
+        m_setup_window.show(false);
         m_texture = Texture2D::create("Assets/Zeus.png");
         m_texture2 = Texture2D::create("Assets/IVlogo.png");
 
@@ -98,6 +111,8 @@ namespace Ivory {
     }
 
     void EditorLayer::on_imgui_render() {
+        m_setup_window.on_imgui_render();
+
         static bool docking = true;
         static bool opt_fullscreen = true;
         static bool opt_padding = false;
@@ -168,7 +183,7 @@ namespace Ivory {
                 
 
                 if (ImGui::MenuItem("Open Scene", "Ctrl+O")) {
-                    FileDialog::file_dialog_open = true;
+                    FileDialogs::set_open(true);
                     m_willopen_scene = true;
                     m_willsave_scene = false;
                    
@@ -176,7 +191,7 @@ namespace Ivory {
 
                 
                 if (ImGui::MenuItem("Save Scene As", "Ctrl+Shift+S")) {
-                    FileDialog::file_dialog_open = true;
+                    FileDialogs::set_open(true);
                     m_willopen_scene = false;
                     m_willsave_scene = true;
                     
@@ -272,9 +287,9 @@ namespace Ivory {
 
 
         ImGui::End();
-        if (FileDialog::file_dialog_open && m_willopen_scene)
+        if (FileDialogs::is_open() && m_willopen_scene)
             open_scene();
-        else if (FileDialog::file_dialog_open && m_willsave_scene)
+        else if (FileDialogs::is_open() && m_willsave_scene)
             save_scene_as();
         else {
             m_willopen_scene = false;
@@ -299,7 +314,7 @@ namespace Ivory {
         switch (e.get_keycode()) {
         case IV_KEY_S: {
             if (control && shift) {
-                FileDialog::file_dialog_open = true;
+                FileDialogs::set_open(true);
                 m_willopen_scene = false;
                 m_willsave_scene = true;
             }
@@ -314,7 +329,7 @@ namespace Ivory {
             break;
         case IV_KEY_O:
             if (control) {
-                FileDialog::file_dialog_open = true;
+                FileDialogs::set_open(true);
                 m_willopen_scene = false;
                 m_willsave_scene = true;
             }
@@ -361,7 +376,7 @@ namespace Ivory {
     }
     void EditorLayer::save_scene() {
         if (current_scene_file.empty()) {
-            FileDialog::file_dialog_open = true;
+            FileDialogs::set_open(true);
             m_willopen_scene = false;
             m_willsave_scene = true;
         }

@@ -7,6 +7,15 @@ namespace Ivory {
 	
 
 	void ContentBrowser::on_imgui_render() {
+		static const float padding = 64.0f;
+		static const float thumbnail_size = 96.0f;
+		float cell_size = thumbnail_size + padding;
+
+		float panel_width = ImGui::GetContentRegionAvail().x;
+		int column_count = (int)(panel_width / cell_size);
+		if (column_count < 1)
+			column_count = 1;
+
 		ImGui::Begin("Content Browser");
 
 		if (m_current_dir != m_assets_dir) {
@@ -15,19 +24,30 @@ namespace Ivory {
 			}
 		}
 
+		ImGui::Columns(column_count, 0, false);
+
 		for (auto& p : std::filesystem::directory_iterator(m_current_dir)) {
-			//std::string path = p.path().string().c_str();
+			const auto& path = p.path();
 			auto relative_path = std::filesystem::relative(p.path(), m_assets_dir);
 			std::string name = relative_path.filename().string();
 
-			if (p.is_directory()) {
-				if (ImGui::Button(name.c_str())) {
+			std::shared_ptr<Texture2D> icon;
+			if (p.is_directory())
+				icon = m_folder_texture;
+			else
+				icon = m_file_texture;
+			// WILL ADD DIFFERENT TEXTURES FOR EACH FILE
+			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
+			ImGui::ImageButton((ImTextureID)icon->get_rendererID(), { thumbnail_size, thumbnail_size }, { 0, 1 }, { 1, 0 });
+			ImGui::PopStyleColor();
+
+			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+				if (p.is_directory()) {
 					m_current_dir /= p.path().filename();
 				}
 			}
-			else {
-				if (ImGui::Button(name.c_str()));
-			}
+			ImGui::TextWrapped(name.c_str());
+			ImGui::NextColumn();
 		}
 		ImGui::End();
 	}

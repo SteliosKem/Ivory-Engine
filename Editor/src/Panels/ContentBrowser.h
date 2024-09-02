@@ -1,14 +1,22 @@
 #pragma once
 #include <filesystem>
+#include <Rendering/Texture.h>
+
+static std::string icon_folder_path = "Assets/Textures/Icons/";
 
 namespace Ivory {
 	class ContentBrowser {
 	public:
-		ContentBrowser() = default;
+		ContentBrowser() {
+			m_folder_texture = Texture2D::create(icon_folder_path + "folder.png");
+			m_file_texture = Texture2D::create(icon_folder_path + "file.png");
+		}
 		void on_imgui_render();
 	private:
 		std::filesystem::path m_assets_dir = "Assets";
 		std::filesystem::path m_current_dir = m_assets_dir;
 		
+		std::shared_ptr<Texture2D> m_folder_texture;
+		std::shared_ptr<Texture2D> m_file_texture;
 	};
 }
