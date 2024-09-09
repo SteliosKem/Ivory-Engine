@@ -9,6 +9,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\AlchemistSandbox.h" />
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\Panels\ContentBrowser.h">
       <Filter>Panels</Filter>
@@ -23,9 +24,9 @@
     <ClInclude Include="src\Windows\ProjectSetupWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\AlchemistSandbox.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AlchemistSandbox.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\Panels\ContentBrowser.cpp">
       <Filter>Panels</Filter>
@@ -40,6 +41,5 @@
     <ClCompile Include="src\Windows\ProjectSetupWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\AlchemistSandbox.cpp" />
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@ IncludeDir["stb"] = "Ivory/vendor/stb"
 IncludeDir["entt"] = "Ivory/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Ivory/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Ivory/vendor/ImGuizmo"
-IncludeDir["Alchemist"] = "Ivory/vendor/Alchemist/src"
+IncludeDir["Alchemist"] = "Ivory/vendor/Alchemist/Alchemist/src"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
@@ -121,7 +121,8 @@ project "Editor"
 		"Ivory/vendor/imgui",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.Alchemist}"
 	}
 
 	links {
