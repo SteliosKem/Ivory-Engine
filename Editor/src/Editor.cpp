@@ -225,6 +225,14 @@ namespace Ivory {
         uint32_t texture_id = m_frame_buffer->get_color_attachment_rendererID();
         ImGui::Image((void*)texture_id, ImVec2{ m_viewport_size.x, m_viewport_size.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
+        if (ImGui::BeginDragDropTarget()) {
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+                const wchar_t* path = (const wchar_t*)payload->Data;
+                open_scene(std::filesystem::path("Assets") / path);
+            }
+            ImGui::EndDragDropTarget();
+        }
+
         auto window_size = ImGui::GetWindowSize();
         ImVec2 min_bound = ImGui::GetWindowPos();
         min_bound.x += viewport_offset.x;
@@ -359,15 +367,19 @@ namespace Ivory {
     void EditorLayer::open_scene() {
         std::string file_path; FileDialogs::open_file("", file_path);
         if (file_path != "") {
-            m_active_scene = std::make_shared<Scene>();
-            m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-            m_hierarchy.set_context(m_active_scene);
-
-            SceneSerializer serializer(m_active_scene);
-            serializer.deserialize(file_path);
-
-            current_scene_file = file_path;
+            open_scene(file_path);
         }
+    }
+
+    void EditorLayer::open_scene(const std::filesystem::path& file_path) {
+        m_active_scene = std::make_shared<Scene>();
+        m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+        m_hierarchy.set_context(m_active_scene);
+
+        SceneSerializer serializer(m_active_scene);
+        serializer.deserialize(file_path.string());
+
+        current_scene_file = file_path.string();
     }
     void EditorLayer::save_scene() {
         if (current_scene_file.empty()) {

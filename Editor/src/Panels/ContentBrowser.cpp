@@ -26,7 +26,9 @@ namespace Ivory {
 
 		ImGui::Columns(column_count, 0, false);
 
+		int i = 0;
 		for (auto& p : std::filesystem::directory_iterator(m_current_dir)) {
+			ImGui::PushID(i++);
 			const auto& path = p.path();
 			auto relative_path = std::filesystem::relative(p.path(), m_assets_dir);
 			std::string name = relative_path.filename().string();
@@ -42,7 +44,7 @@ namespace Ivory {
 
 			if (ImGui::BeginDragDropSource()) {
 				const wchar_t* item_path = relative_path.c_str();
-				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", item_path, wcslen(item_path) * sizeof(wchar_t), ImGuiCond_Once);
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", item_path, wcslen(item_path) * sizeof(wchar_t) + 2, ImGuiCond_Once);
 				ImGui::EndDragDropSource();
 			}
 
@@ -55,6 +57,7 @@ namespace Ivory {
 			}
 			ImGui::TextWrapped(name.c_str());
 			ImGui::NextColumn();
+			ImGui::PopID();
 		}
 		ImGui::End();
 	}

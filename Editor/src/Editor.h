@@ -41,6 +41,7 @@ namespace Ivory {
 		void create_project(const std::string& project_name, const std::string& project_path);
 
 		void open_scene();
+		void open_scene(const std::filesystem::path& path);
 		void save_scene();
 		void save_scene_as();
 		void new_scene();
