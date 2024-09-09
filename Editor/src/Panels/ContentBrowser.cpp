@@ -39,6 +39,13 @@ namespace Ivory {
 			// WILL ADD DIFFERENT TEXTURES FOR EACH FILE
 			ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 			ImGui::ImageButton((ImTextureID)icon->get_rendererID(), { thumbnail_size, thumbnail_size }, { 0, 1 }, { 1, 0 });
+
+			if (ImGui::BeginDragDropSource()) {
+				const wchar_t* item_path = relative_path.c_str();
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", item_path, wcslen(item_path) * sizeof(wchar_t), ImGuiCond_Once);
+				ImGui::EndDragDropSource();
+			}
+
 			ImGui::PopStyleColor();
 
 			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
