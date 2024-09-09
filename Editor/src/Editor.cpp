@@ -55,11 +55,6 @@ namespace Ivory {
         m_camera_entity.add_component<CScriptComponent>().bind<CameraController>();*/
         m_hierarchy.set_context(m_active_scene);
 
-        SceneSerializer serializer(m_active_scene);
-
-        //serializer.serialize("Assets/scenes/Example.iscene");
-        serializer.deserialize("Assets/scenes/Example.iscene");
-
         m_editor_camera = EditorCamera(30.0f, 16.0f / 9.0f, 0.01f, 1000.0f);
     }
     void EditorLayer::on_detach() {}
