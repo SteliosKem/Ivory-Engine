@@ -3,7 +3,7 @@
 #include "Scene/Components.h"
 #include <glm/gtc/type_ptr.hpp>
 #include "imgui_internal.h"
-
+#include <filesystem>
 namespace Ivory {
 	SceneHierarchy::SceneHierarchy(const std::shared_ptr<Scene>& scene) {
 		set_context(scene);
@@ -258,6 +258,18 @@ namespace Ivory {
 
 		draw_component<SpriteRendererComponent>("Sprite Renderer Component", entity, [](auto& component) {
 			ImGui::ColorPicker4("Color", glm::value_ptr(component.color));
+			if (component.texture)
+				ImGui::ImageButton((ImTextureID)component.texture->get_rendererID(), ImVec2{ 100.0f, 100.0f }, {0,1}, {1,0});
+			else
+				ImGui::Button("Texture", ImVec2{ 100.0f, 100.0f });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					component.texture = Texture2D::create((std::filesystem::path("Assets") / path).string());
+				}
+				ImGui::EndDragDropTarget();
+			}
+			ImGui::DragFloat("Tiling Factor", &component.tiling_factor, 0.1f, 0.0f);
 		});
 	}
 

@@ -12,7 +12,7 @@ uniform mat4 u_view_projection;
 
 out vec4 v_color;
 out vec2 v_texture_coord;
-out float v_texture_index;
+out flat float v_texture_index;
 out float v_tiling_factor;
 out flat int v_entity_id;
 
@@ -33,7 +33,7 @@ layout(location = 1) out int color2;
 
 in vec4 v_color;
 in vec2 v_texture_coord;
-in float v_texture_index;
+in flat float v_texture_index;
 in float v_tiling_factor;
 in flat int v_entity_id;
 

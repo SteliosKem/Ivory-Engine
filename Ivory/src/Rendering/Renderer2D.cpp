@@ -226,6 +226,8 @@ namespace Ivory {
 		quad.color = sprite.color;
 		quad.transform = transform;
 		quad.entity_id = entity_id;
+		quad.texture = sprite.texture;
+		quad.texture_info.tiling_factor = sprite.tiling_factor;
 		draw_quad(quad);
 	}
 

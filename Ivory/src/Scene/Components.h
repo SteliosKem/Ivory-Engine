@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
+#include "Rendering/Texture.h"
 
 namespace Ivory {
 	struct TagComponent {
@@ -33,6 +34,8 @@ namespace Ivory {
 
 	struct SpriteRendererComponent {
 		glm::vec4 color{ 1.0f };
+		std::shared_ptr<Texture2D> texture{ nullptr };
+		float tiling_factor = 1.0f;
 
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
