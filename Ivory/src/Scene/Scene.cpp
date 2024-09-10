@@ -9,7 +9,12 @@ namespace Ivory {
 	}
 
 	Entity Scene::create_entity(const std::string& name) {
+		return create_entity_with_uuid(Uuid(), name);
+	}
+
+	Entity Scene::create_entity_with_uuid(Uuid id, const std::string& name) {
 		Entity e{ m_registry.create(), this };
+		e.add_component<IdComponent>(id);
 		e.add_component<TransformComponent>();
 		e.add_component<TagComponent>(name.empty() ? "New Entity" : name);
 		return e;
@@ -108,6 +113,9 @@ namespace Ivory {
 
 	template<>
 	void Scene::on_component_add<CScriptComponent>(Entity entity, CScriptComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<IdComponent>(Entity entity, IdComponent& component) {}
 
 	template<>
 	void Scene::on_component_add<CameraComponent>(Entity entity, CameraComponent& component) {

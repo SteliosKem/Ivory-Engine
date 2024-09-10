@@ -154,6 +154,7 @@
     <ClInclude Include="src\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Core\Timestep.h" />
     <ClInclude Include="src\Core\Util.h" />
+    <ClInclude Include="src\Core\Uuid.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Events\Event.h" />
     <ClInclude Include="src\Events\KeyEvent.h" />
@@ -617,6 +618,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp" />
     <ClCompile Include="src\Core\Math.cpp" />
+    <ClCompile Include="src\Core\Uuid.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ImGui\ImGuiLoad.cpp" />
     <ClCompile Include="src\ImGui\imgui_spectrum.cpp" />

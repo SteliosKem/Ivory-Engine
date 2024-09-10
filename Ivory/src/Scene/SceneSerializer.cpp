@@ -68,9 +68,11 @@ namespace Ivory {
 	}
 
 	static void serialize_entity(YAML::Emitter& out, Entity entity) {
+		IV_CORE_ASSERT(entity.has_component<IdComponent>());
+
 		out << YAML::BeginMap;
 		out << YAML::Key << "Entity";
-		out << YAML::Value << "123";
+		out << YAML::Value << entity.get_component<IdComponent>().id;
 
 		if (entity.has_component<TagComponent>()) {
 			out << YAML::Key << "TagComponent";
@@ -172,7 +174,7 @@ namespace Ivory {
 
 				IV_CORE_TRACE("Deserialized entity with ID = {0} and name = {1}", uuid, name);
 			
-				Entity deserialized_entity = m_scene->create_entity(name);
+				Entity deserialized_entity = m_scene->create_entity_with_uuid(uuid, name);
 
 				auto transform_component = entity["TransformComponent"];
 				if (transform_component) {

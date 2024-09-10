@@ -2,6 +2,7 @@
 #include "entt.hpp"
 #include "Core/Timestep.h"
 #include "Rendering/EditorCamera.h"
+#include "Core/Uuid.h"
 
 namespace Ivory {
 	class Entity;
@@ -12,6 +13,7 @@ namespace Ivory {
 		~Scene() {}
 
 		Entity create_entity(const std::string& name = "");
+		Entity create_entity_with_uuid(Uuid id, const std::string& name = "");
 		void destroy_entity(Entity entity);
 		void on_viewport_resize(uint32_t width, uint32_t height);
 

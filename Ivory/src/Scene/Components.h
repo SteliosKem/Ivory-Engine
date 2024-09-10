@@ -2,12 +2,20 @@
 #include <glm/glm.hpp>
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
+#include "Core/Uuid.h"
+
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include "Rendering/Texture.h"
 
 namespace Ivory {
+	struct IdComponent {
+		Uuid id;
+		IdComponent() = default;
+		IdComponent(const IdComponent&) = default;
+	};
+
 	struct TagComponent {
 		std::string tag;
 

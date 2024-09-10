@@ -1466,6 +1466,7 @@
     </ClInclude>
     <ClInclude Include="src\Core\Math.h" />
     <ClInclude Include="src\Rendering\EditorCamera.h" />
+    <ClInclude Include="src\Core\Uuid.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1563,6 +1564,7 @@
     </ClCompile>
     <ClCompile Include="src\Core\Math.cpp" />
     <ClCompile Include="src\Rendering\EditorCamera.cpp" />
+    <ClCompile Include="src\Core\Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">
