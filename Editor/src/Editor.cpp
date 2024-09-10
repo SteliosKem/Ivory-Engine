@@ -27,8 +27,9 @@ namespace Ivory {
             current_scene_file = path + name + ".iscene";
             });
         m_setup_window.show(false);
-        m_texture = Texture2D::create("Assets/Zeus.png");
-        m_texture2 = Texture2D::create("Assets/IVlogo.png");
+
+        m_play_icon = Texture2D::create("Assets/EditorIcons/play.png");
+        m_stop_icon = Texture2D::create("Assets/EditorIcons/stop.png");
 
         FrameBufferSpecification frame_buffer_spec;
         frame_buffer_spec.width = 1280;
@@ -287,7 +288,7 @@ namespace Ivory {
         ImGui::PopStyleVar();
 
         
-
+        ui_toolbar();
 
         ImGui::End();
         if (FileDialogs::is_open() && m_willopen_scene)
@@ -298,6 +299,40 @@ namespace Ivory {
             m_willopen_scene = false;
             m_willsave_scene = false;
         }
+    }
+
+    void EditorLayer::on_scene_play() {
+        m_scene_state = SceneState::Play;
+    }
+
+    void EditorLayer::on_scene_stop() {
+        m_scene_state = SceneState::Edit;
+    }
+
+    void EditorLayer::ui_toolbar() {
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 2 });
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemInnerSpacing, ImVec2{ 0, 0 });
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0, 0, 0, 0 });
+        auto& colors = ImGui::GetStyle().Colors;
+        const auto& button_hovered = colors[ImGuiCol_ButtonHovered];
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ button_hovered.x, button_hovered.y, button_hovered.z, button_hovered.w * 1.1f });
+        const auto& button_active = colors[ImGuiCol_ButtonActive];
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ button_active.x, button_active.y, button_active.z, button_active.w * 1.1f });
+
+        ImGui::Begin("##toolbar", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+        float size = ImGui::GetWindowHeight() - 4.0f;
+        std::shared_ptr<Texture2D> icon = (m_scene_state == SceneState::Play ? m_stop_icon : m_play_icon);
+        ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - size * 0.5f);
+        if (ImGui::ImageButton((ImTextureID)icon->get_rendererID(), ImVec2{size, size }, ImVec2{0,0}, ImVec2{1,1}, 0)) {
+            if (m_scene_state == SceneState::Play)
+                m_scene_state = SceneState::Edit;
+            else if (m_scene_state == SceneState::Edit)
+                m_scene_state = SceneState::Play;
+        }
+        ImGui::PopStyleColor(3);
+        ImGui::PopStyleVar(2);
+        ImGui::End();
     }
 
     void EditorLayer::on_event(Event& e) {

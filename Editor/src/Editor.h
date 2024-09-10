@@ -46,8 +46,20 @@ namespace Ivory {
 		void save_scene_as();
 		void new_scene();
 
-		std::shared_ptr<Ivory::Texture2D> m_texture;
-		std::shared_ptr<Ivory::Texture2D> m_texture2;
+		void on_scene_play();
+		void on_scene_stop();
+
+		void ui_toolbar();
+
+		enum class SceneState {
+			Edit,
+			Play
+		};
+
+		SceneState m_scene_state = SceneState::Edit;
+
+		std::shared_ptr<Ivory::Texture2D> m_play_icon;
+		std::shared_ptr<Ivory::Texture2D> m_stop_icon;
 
 		std::shared_ptr<Ivory::Scene> m_active_scene;
 
