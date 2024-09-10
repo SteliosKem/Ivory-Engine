@@ -67,12 +67,7 @@ namespace Ivory {
 
         }*/
 
-        if (m_viewport_hovered && m_viewport_focused)
-            m_camera_controller.pass_events(true);
-        else
-            m_camera_controller.pass_events(false);
-        m_camera_controller.on_update(dt);
-        m_editor_camera.on_update(dt);
+        
 
         m_frame_buffer->bind();
         RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });
@@ -84,7 +79,24 @@ namespace Ivory {
         rot += dt;
         float x_pos = 2 * sinf(rot);
 
-        m_active_scene->on_update_editor(dt, m_editor_camera);
+        switch (m_scene_state) {
+        case SceneState::Edit: {
+            if (m_viewport_hovered && m_viewport_focused)
+                m_camera_controller.pass_events(true);
+            else
+                m_camera_controller.pass_events(false);
+            m_camera_controller.on_update(dt);
+            m_editor_camera.on_update(dt);
+
+            m_active_scene->on_update_editor(dt, m_editor_camera);
+            break;
+        }
+        case SceneState::Play: {
+            m_active_scene->on_update_runtime(dt);
+            break;
+        }
+        }
+        
 
         auto [mx, my] = ImGui::GetMousePos();
         mx -= m_viewport_bounds[0].x;
