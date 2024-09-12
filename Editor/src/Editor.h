@@ -49,6 +49,8 @@ namespace Ivory {
 		void on_scene_play();
 		void on_scene_stop();
 
+		void on_duplicate_entity();
+
 		void ui_toolbar();
 
 		// Editor Debugging Tools

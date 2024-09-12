@@ -404,6 +404,10 @@ namespace Ivory {
             if (!m_using_gizmo)
                 m_gizmo = -1;
             break;
+        case IV_KEY_D:
+            if(control)
+                on_duplicate_entity();
+            break;
         }
     }
 
@@ -485,6 +489,18 @@ namespace Ivory {
         m_active_scene = std::make_shared<Scene>();
         m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
         m_hierarchy.set_context(m_active_scene);
+    }
+
+    void EditorLayer::on_duplicate_entity() {
+        if (m_scene_state != SceneState::Edit) {
+            log_and_notify("Cannot duplicate entities while not in edit mode", LogType::Info);
+            return;
+        }
+
+        if (m_hierarchy.get_selected()) {
+            Entity entity = m_editor_scene->copy_entity(m_hierarchy.get_selected());
+            m_hierarchy.set_selected(entity);
+        }
     }
 
     Application* create_application() {

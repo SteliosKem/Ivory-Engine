@@ -107,8 +107,21 @@ namespace Ivory {
 		}
 	}
 
-	void Scene::copy_entity(Entity entity) {
+	template<typename T>
+	static void copy_component_if_exists(Entity source, Entity destination) {
+		if (source.has_component<T>())
+			destination.add_or_replace_component<T>(source.get_component<T>());
+	}
+
+	Entity Scene::copy_entity(Entity entity) {
 		Entity new_entity = create_entity(entity.get_component<TagComponent>().tag + " - Copy");
+
+		copy_component_if_exists<TransformComponent>(entity, new_entity);
+		copy_component_if_exists<CameraComponent>(entity, new_entity);
+		copy_component_if_exists<SpriteRendererComponent>(entity, new_entity);
+		copy_component_if_exists<CScriptComponent>(entity, new_entity);
+
+		return new_entity;
 	}
 
 	std::shared_ptr<Scene> Scene::copy(const std::shared_ptr<Scene>& scene) {

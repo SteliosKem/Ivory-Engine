@@ -18,6 +18,13 @@ namespace Ivory {
 			return component;
 		}
 
+		template<typename T, typename... Args>
+		T& add_or_replace_component(Args&&... args) {
+			T& component = m_scene->m_registry.emplace_or_replace<T>(m_entity_handle, std::forward<Args>(args)...);
+			m_scene->on_component_add<T>(*this, component);
+			return component;
+		}
+
 		template<typename T>
 		T& get_component() {
 			IV_CORE_ASSERT(!has_component<T>(), "Entity already has component");

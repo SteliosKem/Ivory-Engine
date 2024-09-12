@@ -21,7 +21,7 @@ namespace Ivory {
 		void on_update_editor(Timestep dt, EditorCamera& camera);
 
 		Entity get_primary_camera();
-		void copy_entity(Entity entity);
+		Entity copy_entity(Entity entity);
 
 		static std::shared_ptr<Scene> copy(const std::shared_ptr<Scene>& scene);
 	private:
