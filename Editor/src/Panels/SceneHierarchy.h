@@ -10,6 +10,7 @@ namespace Ivory {
 		SceneHierarchy() = default;
 		SceneHierarchy(const std::shared_ptr<Scene>& scene);
 		void set_context(const std::shared_ptr<Scene>& scene);
+		void set_allow_action_ptr(bool allow) { m_allowed_to_action = allow; }
 
 		void on_imgui_render();
 		Entity get_selected() const { return m_selection_context; }
@@ -17,6 +18,8 @@ namespace Ivory {
 	private:
 		void draw_entity_node(Entity entity);
 		void draw_components(Entity entity);
+
+		bool m_allowed_to_action;
 
 		std::shared_ptr<Scene> m_context;
 		Entity m_selection_context;

@@ -81,8 +81,10 @@ namespace Ivory {
 		if (ImGui::BeginPopupContextItem()) {
 			if (ImGui::MenuItem("Delete Entity"))
 				deleted = true;
-			if (ImGui::MenuItem("Duplicate Entity"))	
-				m_selection_context = m_context->copy_entity(entity);
+			if (ImGui::MenuItem("Duplicate Entity")) {
+				if(m_allowed_to_action)
+					m_selection_context = m_context->copy_entity(entity);
+			}
 			ImGui::EndPopup();
 		}
 

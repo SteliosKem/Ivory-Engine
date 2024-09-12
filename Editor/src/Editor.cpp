@@ -14,6 +14,7 @@ namespace Ivory {
     }
 
     void EditorLayer::on_attach() {
+        m_hierarchy.set_allow_action_ptr(true);
         m_setup_window.set_create_callback([this](const std::string& name, const std::string& path) {
             std::cout << path + name + ".iscene";
             std::ofstream file(path + name + ".iscene");
@@ -275,6 +276,7 @@ namespace Ivory {
             glm::mat4 transform = transform_component.get_transform();
 
             bool snap = Input::is_key_pressed(IV_KEY_LEFT_CONTROL);
+            bool alt = Input::is_key_pressed(IV_KEY_LEFT_ALT) || Input::is_key_pressed(IV_KEY_RIGHT_ALT);
             float snap_value = m_gizmo == ImGuizmo::OPERATION::ROTATE ? 45.0f : 0.5f;
 
             float snap_values[3] = { snap_value, snap_value, snap_value };
@@ -283,6 +285,8 @@ namespace Ivory {
                 , nullptr, snap ? snap_values : nullptr);
 
             if (ImGuizmo::IsUsing()) {
+                if (alt && m_using_gizmo == false)
+                    on_duplicate_entity();
                 m_using_gizmo = true;
                 glm::vec3 translation, rotation, scale;
                 decompose_transform(transform, translation, rotation, scale);
@@ -316,12 +320,16 @@ namespace Ivory {
     void EditorLayer::on_scene_play() {
         m_scene_state = SceneState::Play;
         m_active_scene = Scene::copy(m_editor_scene);
+        m_hierarchy.set_allow_action_ptr(false);
+        m_hierarchy.set_context(m_active_scene);
     }
 
     void EditorLayer::on_scene_stop() {
         m_scene_state = SceneState::Edit;
 
         m_active_scene = m_editor_scene;
+        m_hierarchy.set_allow_action_ptr(true);
+        m_hierarchy.set_context(m_active_scene);
     }
 
     void EditorLayer::ui_toolbar() {
@@ -429,16 +437,17 @@ namespace Ivory {
         switch (type) {
         case LogType::Info: {
             IV_INFO(message);
+            ImGui::InsertNotification({ ImGuiToastType::Info, 3000, message.c_str() });
             break;
         }
         case LogType::Warn: {
             IV_WARN(message);
-            ImGuiToast toast(ImGuiToastType::Warning, 3000, message.c_str());
             ImGui::InsertNotification({ ImGuiToastType::Warning, 3000, message.c_str() });
             break;
         }
         case LogType::Error:
             IV_ERROR(message);
+            ImGui::InsertNotification({ ImGuiToastType::Error, 3000, message.c_str() });
             break;
         }
     }
