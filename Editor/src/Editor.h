@@ -70,9 +70,7 @@ namespace Ivory {
 		std::shared_ptr<Ivory::Texture2D> m_play_icon;
 		std::shared_ptr<Ivory::Texture2D> m_stop_icon;
 
-		std::shared_ptr<Ivory::Scene> m_active_scene;
-		std::shared_ptr<Ivory::Scene> m_editor_scene;
-		std::shared_ptr<Ivory::Scene> m_runtime_scene;
+		std::shared_ptr<Ivory::Scene> m_active_scene, m_editor_scene;
 
 		
 		EditorCamera m_editor_camera; 

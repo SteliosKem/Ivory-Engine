@@ -96,6 +96,46 @@ namespace Ivory {
 		}
 		return {};
 	}
+	template<typename T>
+	static void copy_component(entt::registry& source, entt::registry& destination, const std::unordered_map<Uuid, entt::entity>& entity_map) {
+		auto view = source.view<T>();
+		for (auto e : view) {
+			Uuid uuid = source.get<IdComponent>(e).id;
+			entt::entity destination_entt_id = entity_map.at(uuid);
+			auto& component = source.get<T>(e);
+			destination.emplace_or_replace<T>(destination_entt_id, component);
+		}
+	}
+
+	void Scene::copy_entity(Entity entity) {
+		Entity new_entity = create_entity(entity.get_component<TagComponent>().tag + " - Copy");
+	}
+
+	std::shared_ptr<Scene> Scene::copy(const std::shared_ptr<Scene>& scene) {
+		std::shared_ptr<Scene> new_scene = std::make_shared<Scene>();
+
+		new_scene->m_vp_height = scene->m_vp_height;
+		new_scene->m_vp_width = scene->m_vp_width;
+
+		std::unordered_map<Uuid, entt::entity> entity_map;
+
+		auto& source_scene_reg = scene->m_registry;
+		auto& dest_scene_reg = new_scene->m_registry;
+		auto id_view = source_scene_reg.view<IdComponent>();
+		for (auto e : id_view) {
+			Uuid uuid = source_scene_reg.get<IdComponent>(e).id;
+			const std::string& name = source_scene_reg.get<TagComponent>(e).tag;
+			Entity entity = new_scene->create_entity_with_uuid(uuid, name);
+			entity_map[uuid] = (entt::entity)entity;
+		}
+
+		copy_component<TransformComponent>(dest_scene_reg, source_scene_reg, entity_map);
+		copy_component<CameraComponent>(dest_scene_reg, source_scene_reg, entity_map);
+		copy_component<SpriteRendererComponent>(dest_scene_reg, source_scene_reg, entity_map);
+		copy_component<CScriptComponent>(dest_scene_reg, source_scene_reg, entity_map);
+
+		return new_scene;
+	}
 
 	template<typename T>
 	void Scene::on_component_add(Entity entity, T& component) {

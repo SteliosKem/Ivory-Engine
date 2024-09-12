@@ -256,7 +256,7 @@ namespace Ivory {
         m_viewport_bounds[1] = { max_bound.x, max_bound.y };
 
         Entity selected = m_hierarchy.get_selected();
-        if (selected) {
+        if (selected && m_scene_state == SceneState::Edit) {
             ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetDrawlist();
             float window_width = (float)ImGui::GetWindowWidth();
@@ -315,10 +315,13 @@ namespace Ivory {
 
     void EditorLayer::on_scene_play() {
         m_scene_state = SceneState::Play;
+        m_active_scene = Scene::copy(m_editor_scene);
     }
 
     void EditorLayer::on_scene_stop() {
         m_scene_state = SceneState::Edit;
+
+        m_active_scene = m_editor_scene;
     }
 
     void EditorLayer::ui_toolbar() {
@@ -446,12 +449,17 @@ namespace Ivory {
             on_scene_stop();
         
 
-        m_active_scene = std::make_shared<Scene>();
-        m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
-        m_hierarchy.set_context(m_active_scene);
+        std::shared_ptr<Scene> new_scene = std::make_shared<Scene>();
+        
 
-        SceneSerializer serializer(m_active_scene);
-        serializer.deserialize(file_path.string());
+        SceneSerializer serializer(new_scene);
+        if (serializer.deserialize(file_path.string())) {
+            m_editor_scene = new_scene;
+            m_editor_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
+            m_hierarchy.set_context(m_editor_scene);
+            
+            m_active_scene = m_editor_scene;
+        }
 
         current_scene_file = file_path.string();
     }
