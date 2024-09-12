@@ -46,8 +46,6 @@ namespace Ivory {
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 410");
 
-        io.Fonts->AddFontDefault();
-
         float baseFontSize = 16.0f;
         float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
 

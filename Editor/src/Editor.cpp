@@ -419,15 +419,17 @@ namespace Ivory {
     }
 
     void EditorLayer::log_and_notify(const std::string& message, EditorLayer::LogType type) {
-        ImGuiToast toast();
         switch (type) {
-        case LogType::Info:
+        case LogType::Info: {
             IV_INFO(message);
             break;
-        case LogType::Warn:
+        }
+        case LogType::Warn: {
             IV_WARN(message);
-            ImGui::InsertNotification({ ImGuiToastType::Warning, 3000, message.c_str()});
+            ImGuiToast toast(ImGuiToastType::Warning, 3000, message.c_str());
+            ImGui::InsertNotification({ ImGuiToastType::Warning, 3000, message.c_str() });
             break;
+        }
         case LogType::Error:
             IV_ERROR(message);
             break;
