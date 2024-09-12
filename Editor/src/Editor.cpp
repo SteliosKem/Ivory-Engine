@@ -416,6 +416,10 @@ namespace Ivory {
             if(control)
                 on_duplicate_entity();
             break;
+        case IV_KEY_DELETE:
+            m_active_scene->destroy_entity(m_hierarchy.get_selected());
+            m_hierarchy.empty_selection();
+            break;
         }
     }
 
