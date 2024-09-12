@@ -418,7 +418,32 @@ namespace Ivory {
         }
     }
 
+    void EditorLayer::log_and_notify(const std::string& message, EditorLayer::LogType type) {
+        ImGuiToast toast();
+        switch (type) {
+        case LogType::Info:
+            IV_INFO(message);
+            break;
+        case LogType::Warn:
+            IV_WARN(message);
+            ImGui::InsertNotification({ ImGuiToastType::Warning, 3000, message.c_str()});
+            break;
+        case LogType::Error:
+            IV_ERROR(message);
+            break;
+        }
+    }
+
     void EditorLayer::open_scene(const std::filesystem::path& file_path) {
+        if (file_path.extension().string() != ".iscene") {
+            log_and_notify("Cannot open non-scene file in the Viewport", LogType::Warn);
+            return;
+        }
+
+        if (m_scene_state != SceneState::Edit)
+            on_scene_stop();
+        
+
         m_active_scene = std::make_shared<Scene>();
         m_active_scene->on_viewport_resize((uint32_t)m_viewport_size.x, (uint32_t)m_viewport_size.y);
         m_hierarchy.set_context(m_active_scene);

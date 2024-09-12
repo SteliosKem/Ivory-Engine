@@ -51,6 +51,15 @@ namespace Ivory {
 
 		void ui_toolbar();
 
+		// Editor Debugging Tools
+		enum class LogType {
+			Info,
+			Warn,
+			Error
+		};
+
+		void log_and_notify(const std::string& message, LogType type);
+
 		enum class SceneState {
 			Edit,
 			Play
@@ -62,6 +71,8 @@ namespace Ivory {
 		std::shared_ptr<Ivory::Texture2D> m_stop_icon;
 
 		std::shared_ptr<Ivory::Scene> m_active_scene;
+		std::shared_ptr<Ivory::Scene> m_editor_scene;
+		std::shared_ptr<Ivory::Scene> m_runtime_scene;
 
 		
 		EditorCamera m_editor_camera; 

@@ -13,6 +13,7 @@
 
 #include "ImGuiNotify.h"
 #include "IconsFontAwesome6.h"
+#include "fa_solid-900.h"
 #include <fstream>
 
 #include "ImGuizmo.h"
@@ -47,26 +48,15 @@ namespace Ivory {
 
         io.Fonts->AddFontDefault();
 
-        float baseFontSize = 16.0f; // Default font size
+        float baseFontSize = 16.0f;
         float iconFontSize = baseFontSize * 2.0f / 3.0f; // FontAwesome fonts need to have their sizes reduced by 2.0f/3.0f in order to align correctly
 
-        // Check if FONT_ICON_FILE_NAME_FAS is a valid path
-        //std::ifstream fontAwesomeFile(FONT_ICON_FILE_NAME_FAS);
-
-        //if (!fontAwesomeFile.good())
-        //{
-            // If it's not good, then we can't find the font and should abort
-        //    std::cerr << "Could not find the FontAwesome font file." << std::endl;
-        //    abort();
-        //}
-
-        static const ImWchar iconsRanges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
+        static constexpr ImWchar iconsRanges[] = { ICON_MIN_FA, ICON_MAX_16_FA, 0 };
         ImFontConfig iconsConfig;
         iconsConfig.MergeMode = true;
         iconsConfig.PixelSnapH = true;
         iconsConfig.GlyphMinAdvanceX = iconFontSize;
-        // WILL CHANGE
-        io.Fonts->AddFontFromFileTTF("C:/Projects/Ivory-Engine/Ivory/src/ImGui/fa-solid-900.ttf", iconFontSize, &iconsConfig, iconsRanges);
+        io.Fonts->AddFontFromMemoryCompressedTTF(fa_solid_900_compressed_data, fa_solid_900_compressed_size, iconFontSize, &iconsConfig, iconsRanges);
 	}
 
 	void ImGuiLayer::on_detach() {
@@ -90,6 +80,22 @@ namespace Ivory {
         Application& app = Application::get();
         // Set current display size
         io.DisplaySize = ImVec2(app.get_window().get_width(), app.get_window().get_height());
+
+        // Notifications style setup
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f); // Disable round borders
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f); // Disable borders
+
+        // Notifications color setup
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0.10f, 0.10f, 0.10f, 1.00f)); // Background color
+
+        // Main rendering function
+        ImGui::RenderNotifications();
+
+        //——————————————————————————————— WARNING ———————————————————————————————
+        // Argument MUST match the amount of ImGui::PushStyleVar() calls 
+        ImGui::PopStyleVar(2);
+        // Argument MUST match the amount of ImGui::PushStyleColor() calls 
+        ImGui::PopStyleColor(1);
 
         // Render the frame
         ImGui::Render();

@@ -1467,6 +1467,7 @@
     <ClInclude Include="src\Core\Math.h" />
     <ClInclude Include="src\Rendering\EditorCamera.h" />
     <ClInclude Include="src\Core\Uuid.h" />
+    <ClInclude Include="src\ImGui\fa_solid-900.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">

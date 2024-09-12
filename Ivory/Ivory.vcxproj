@@ -160,6 +160,7 @@
     <ClInclude Include="src\Events\KeyEvent.h" />
     <ClInclude Include="src\Events\MouseEvent.h" />
     <ClInclude Include="src\Events\WindowEvent.h" />
+    <ClInclude Include="src\ImGui\fa_solid-900.h" />
     <ClInclude Include="src\ImGui\IconsFontAwesome6.h" />
     <ClInclude Include="src\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ImGui\ImGuiNotify.h" />
