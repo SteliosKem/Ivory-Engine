@@ -21,7 +21,7 @@ namespace Ivory {
 	Uuid::Uuid() : m_uuid{ s_uniform_distribution(s_engine) } {
 	}
 
-	Uuid::Uuid(uint64_t id) {
+	Uuid::Uuid(uint64_t id) : m_uuid{id} {
 
 	}
 }
