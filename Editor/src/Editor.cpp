@@ -349,9 +349,10 @@ namespace Ivory {
         ImGui::SetCursorPosX((ImGui::GetWindowContentRegionMax().x * 0.5f) - size * 0.5f);
         if (ImGui::ImageButton((ImTextureID)icon->get_rendererID(), ImVec2{size, size }, ImVec2{0,0}, ImVec2{1,1}, 0)) {
             if (m_scene_state == SceneState::Play)
-                m_scene_state = SceneState::Edit;
+                on_scene_stop();
+
             else if (m_scene_state == SceneState::Edit)
-                m_scene_state = SceneState::Play;
+                on_scene_play();
         }
         ImGui::PopStyleColor(3);
         ImGui::PopStyleVar(2);

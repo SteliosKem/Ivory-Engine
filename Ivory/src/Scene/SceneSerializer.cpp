@@ -175,6 +175,7 @@ namespace Ivory {
 				IV_CORE_TRACE("Deserialized entity with ID = {0} and name = {1}", uuid, name);
 			
 				Entity deserialized_entity = m_scene->create_entity_with_uuid(uuid, name);
+				IV_INFO((uint64_t)deserialized_entity.get_component<IdComponent>().id);
 
 				auto transform_component = entity["TransformComponent"];
 				if (transform_component) {

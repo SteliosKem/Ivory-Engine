@@ -16,6 +16,7 @@ namespace Ivory {
 		Entity create_entity_with_uuid(Uuid id, const std::string& name = "");
 		void destroy_entity(Entity entity);
 		void on_viewport_resize(uint32_t width, uint32_t height);
+		void clear_entities();
 
 		void on_update_runtime(Timestep dt);
 		void on_update_editor(Timestep dt, EditorCamera& camera);
