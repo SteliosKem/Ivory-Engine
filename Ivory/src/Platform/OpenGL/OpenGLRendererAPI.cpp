@@ -20,8 +20,8 @@ namespace Ivory {
 	}
 
 	void OpenGLRendererAPI::draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t index_count) {
-		uint32_t count = index_count ? vertex_array->get_index_buffer()->get_count() : index_count;
 		vertex_array->bind();
+		uint32_t count = index_count ? vertex_array->get_index_buffer()->get_count() : index_count;
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
 

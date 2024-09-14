@@ -194,7 +194,10 @@ namespace Ivory {
 				m_selection_context.add_component<SpriteRendererComponent>();
 				ImGui::CloseCurrentPopup();
 			}
-
+			if (ImGui::MenuItem("Circle Renderer")) {
+				m_selection_context.add_component<CircleRendererComponent>();
+				ImGui::CloseCurrentPopup();
+			}
 			ImGui::EndPopup();
 		}
 
@@ -275,6 +278,13 @@ namespace Ivory {
 			}
 			ImGui::DragFloat("Tiling Factor", &component.tiling_factor, 0.1f, 0.0f);
 		});
+
+		draw_component<CircleRendererComponent>("Circle Renderer Component", entity, [](auto& component) {
+			ImGui::ColorPicker4("Color", glm::value_ptr(component.color));
+			ImGui::DragFloat("Radius", &component.radius, 0.025f, 0.0f);
+			ImGui::DragFloat("Thickness", &component.thickness, 0.025f, 0.0f, 1.0f);
+			ImGui::DragFloat("Fade", &component.fade, 0.00025f, 0.0f, 1.0f);
+			});
 	}
 
 	void SceneHierarchy::set_selected(Entity entity) {

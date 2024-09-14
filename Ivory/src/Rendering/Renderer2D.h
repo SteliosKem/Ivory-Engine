@@ -24,6 +24,14 @@ namespace Ivory {
 		int entity_id = -1;
 	};
 
+	struct Circle {
+		glm::vec4 color{ 1.0f, 1.0f, 1.0f, 1.0f };
+		glm::mat4 transform{ 1.0f };
+		float thickness = 1.0f;
+		float fade = 0.0f;
+		int entity_id = -1;
+	};
+
 	class Renderer2D {
 	public:
 		static void init();
@@ -37,6 +45,7 @@ namespace Ivory {
 		static void flush();
 
 		static void draw_quad(const Quad& quad);
+		static void draw_circle(const Circle& circle);
 		static void draw_sprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id);
 
 

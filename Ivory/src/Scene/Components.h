@@ -50,6 +50,16 @@ namespace Ivory {
 		SpriteRendererComponent(const glm::vec4& color) : color(color) {}
 	};
 
+	struct CircleRendererComponent {
+		glm::vec4 color{ 1.0f };
+		float radius = 0.5f;
+		float thickness = 1.0f;
+		float fade = 0.005f;
+
+		CircleRendererComponent() = default;
+		CircleRendererComponent(const CircleRendererComponent&) = default;
+	};
+
 	struct CameraComponent {
 		SceneCamera camera;
 		bool active = true;

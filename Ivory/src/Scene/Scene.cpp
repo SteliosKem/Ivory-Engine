@@ -33,6 +33,19 @@ namespace Ivory {
 
 		}
 
+		auto view = m_registry.view<TransformComponent, CircleRendererComponent>();
+		for (auto entity : view) {
+			auto& [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+			Circle circ{};
+			circ.color = circle.color;
+			circ.fade = circle.fade;
+			circ.thickness = circle.thickness;
+			circ.transform = transform.get_transform();
+			circ.entity_id = (int)entity;
+			Renderer2D::draw_circle(circ);
+
+		}
+
 		Renderer2D::end_scene();
 	}
 
@@ -67,6 +80,19 @@ namespace Ivory {
 			for (auto entity : group) {
 				auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 				Renderer2D::draw_sprite(transform.get_transform(), sprite, (int)entity);
+			}
+
+			auto view = m_registry.view<TransformComponent, CircleRendererComponent>();
+			for (auto entity : view) {
+				auto& [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+				Circle circ{};
+				circ.color = circle.color;
+				circ.fade = circle.fade;
+				circ.thickness = circle.thickness;
+				circ.transform = transform.get_transform();
+				circ.entity_id = (int)entity;
+				Renderer2D::draw_circle(circ);
+
 			}
 
 			Renderer2D::end_scene();
@@ -175,6 +201,9 @@ namespace Ivory {
 
 	template<>
 	void Scene::on_component_add<IdComponent>(Entity entity, IdComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<CircleRendererComponent>(Entity entity, CircleRendererComponent& component) {}
 
 	template<>
 	void Scene::on_component_add<CameraComponent>(Entity entity, CameraComponent& component) {
