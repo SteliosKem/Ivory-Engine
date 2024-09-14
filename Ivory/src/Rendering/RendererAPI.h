@@ -20,6 +20,7 @@ namespace Ivory {
 
 		virtual void draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t index_count = 0) = 0;
 		virtual void draw_lines(const std::shared_ptr<VertexArray>& vertex_array, uint32_t vertex_count = 0) = 0;
+		virtual void set_line_width(float width) = 0;
 
 		inline static API get_api() { return s_api; }
 	private:

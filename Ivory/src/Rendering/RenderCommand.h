@@ -16,6 +16,9 @@ namespace Ivory {
 		inline static void draw_lines(const std::shared_ptr<VertexArray>& vertex_array, uint32_t vertex_count) {
 			s_rendererAPI->draw_lines(vertex_array, vertex_count);
 		}
+		inline static void set_line_width(float width) {
+			s_rendererAPI->set_line_width(width);
+		}
 	private:
 		static std::shared_ptr<RendererAPI> s_rendererAPI;
 	};

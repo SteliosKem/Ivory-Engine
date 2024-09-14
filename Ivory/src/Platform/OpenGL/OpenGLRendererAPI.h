@@ -13,5 +13,6 @@ namespace Ivory {
 
 		void draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t index_count = 0) override;
 		void draw_lines(const std::shared_ptr<VertexArray>& vertex_array, uint32_t vertex_count) override;
+		void set_line_width(float width) override;
 	};
 }

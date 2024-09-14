@@ -33,4 +33,8 @@ namespace Ivory {
 		vertex_array->bind();
 		glDrawArrays(GL_LINES, 0, vertex_count);
 	}
+
+	void OpenGLRendererAPI::set_line_width(float width) {
+		glLineWidth(width);
+	}
 }

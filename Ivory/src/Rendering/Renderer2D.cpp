@@ -57,6 +57,8 @@ namespace Ivory {
 		std::shared_ptr<VertexBuffer> line_vertex_buffer;
 		std::shared_ptr<Shader> line_shader;
 
+		float line_width = 2.0f;
+
 		uint32_t quad_index_count = 0;
 		QuadVertex* quad_vertex_buffer_base = nullptr;
 		QuadVertex* quad_vertex_buffer_ptr = nullptr;
@@ -234,6 +236,7 @@ namespace Ivory {
 			s_data.line_vertex_buffer->set_data(s_data.line_vertex_buffer_base, data_size);
 
 			s_data.line_shader->bind();
+			RenderCommand::set_line_width(s_data.line_width);
 			RenderCommand::draw_lines(s_data.line_vertex_array, s_data.line_vertex_count);
 			s_data.statistics.draw_calls++;
 		}
@@ -360,6 +363,35 @@ namespace Ivory {
 		quad.texture = sprite.texture;
 		quad.texture_info.tiling_factor = sprite.tiling_factor;
 		draw_quad(quad);
+	}
+
+	void Renderer2D::draw_line_rectangle(const glm::mat4& transform, const glm::vec4& color, int entity_id) {
+		glm::vec3 line_vertices[4];
+		for (size_t i = 0; i < 4; i++)
+			line_vertices[i] = transform * s_data.quad_vertex_positions[i];
+
+		draw_line(line_vertices[0], line_vertices[1], color, entity_id);
+		draw_line(line_vertices[1], line_vertices[2], color, entity_id);
+		draw_line(line_vertices[2], line_vertices[3], color, entity_id);
+		draw_line(line_vertices[3], line_vertices[0], color, entity_id);
+	}
+	void Renderer2D::draw_line_rectangle(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color, int entity_id) {
+		glm::vec3 p0 = glm::vec3{position.x - size.x * 0.5f, position.y - size.y * 0.5f, position.z};
+		glm::vec3 p1 = glm::vec3{ position.x + size.x * 0.5f, position.y - size.y * 0.5f, position.z };
+		glm::vec3 p2 = glm::vec3{ position.x + size.x * 0.5f, position.y + size.y * 0.5f, position.z };
+		glm::vec3 p3 = glm::vec3{ position.x - size.x * 0.5f, position.y + size.y * 0.5f, position.z };
+
+		draw_line(p0, p1, color, entity_id);
+		draw_line(p1, p2, color, entity_id);
+		draw_line(p2, p3, color, entity_id);
+		draw_line(p3, p0, color, entity_id);
+	}
+
+	void Renderer2D::set_line_width(float width) {
+		s_data.line_width = width;
+	}
+	float Renderer2D::get_line_width() {
+		return s_data.line_width;
 	}
 
 	void Renderer2D::reset_stats() { memset(&s_data.statistics, 0, sizeof(s_data.statistics)); }

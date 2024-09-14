@@ -48,6 +48,11 @@ namespace Ivory {
 		static void draw_circle(const Circle& circle);
 		static void draw_sprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id);
 		static void draw_line(const glm::vec3& start_pos, const glm::vec3& end_pos, const glm::vec4& color, int entity_id);
+		static void draw_line_rectangle(const glm::mat4& transform, const glm::vec4& color, int entity_id);
+		static void draw_line_rectangle(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color, int entity_id);
+
+		static void set_line_width(float width);
+		static float get_line_width();
 
 		struct Statistics {
 			uint32_t draw_calls = 0;
