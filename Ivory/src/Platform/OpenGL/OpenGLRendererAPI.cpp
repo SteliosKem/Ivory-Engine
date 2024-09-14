@@ -28,4 +28,9 @@ namespace Ivory {
 	void OpenGLRendererAPI::set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
 		glViewport(x, y, width, height);
 	}
+
+	void OpenGLRendererAPI::draw_lines(const std::shared_ptr<VertexArray>& vertex_array, uint32_t vertex_count) {
+		vertex_array->bind();
+		glDrawArrays(GL_LINES, 0, vertex_count);
+	}
 }

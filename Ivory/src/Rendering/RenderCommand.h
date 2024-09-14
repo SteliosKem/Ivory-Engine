@@ -13,6 +13,9 @@ namespace Ivory {
 		inline static void draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t count = 0) {
 			s_rendererAPI->draw_indexed(vertex_array, count);
 		}
+		inline static void draw_lines(const std::shared_ptr<VertexArray>& vertex_array, uint32_t vertex_count) {
+			s_rendererAPI->draw_lines(vertex_array, vertex_count);
+		}
 	private:
 		static std::shared_ptr<RendererAPI> s_rendererAPI;
 	};

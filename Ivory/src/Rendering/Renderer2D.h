@@ -47,7 +47,7 @@ namespace Ivory {
 		static void draw_quad(const Quad& quad);
 		static void draw_circle(const Circle& circle);
 		static void draw_sprite(const glm::mat4& transform, const SpriteRendererComponent& sprite, int entity_id);
-
+		static void draw_line(const glm::vec3& start_pos, const glm::vec3& end_pos, const glm::vec4& color, int entity_id);
 
 		struct Statistics {
 			uint32_t draw_calls = 0;
@@ -60,5 +60,6 @@ namespace Ivory {
 		static const Statistics& get_stats();
 	private:
 		static void new_batch();
+		static void start_batch();
 	};
 }
