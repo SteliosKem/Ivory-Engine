@@ -121,6 +121,18 @@ namespace Ivory {
 			out << YAML::Value << entity.get_component<SpriteRendererComponent>().color;
 			out << YAML::EndMap;
 		}
+		if (entity.has_component<CircleRendererComponent>()) {
+			CircleRendererComponent comp = entity.get_component<CircleRendererComponent>();
+			out << YAML::Key << "CircleRendererComponent";
+			out << YAML::BeginMap;
+			out << YAML::Key << "Color";
+			out << YAML::Value << comp.color;
+			out << YAML::Key << "Thickness";
+			out << YAML::Value << comp.thickness;
+			out << YAML::Key << "Fade";
+			out << YAML::Value << comp.fade;
+			out << YAML::EndMap;
+		}
 
 		out << YAML::EndMap;
 	}
@@ -207,6 +219,14 @@ namespace Ivory {
 				if (sprite_renderer_component) {
 					auto& component = deserialized_entity.add_component<SpriteRendererComponent>();
 					component.color = sprite_renderer_component["Color"].as<glm::vec4>();
+				}
+
+				auto circle_renderer_component = entity["CircleRendererComponent"];
+				if (circle_renderer_component) {
+					auto& component = deserialized_entity.add_component<CircleRendererComponent>();
+					component.color = circle_renderer_component["Color"].as<glm::vec4>();
+					component.fade = circle_renderer_component["Fade"].as<float>();
+					component.thickness = circle_renderer_component["Thickness"].as<float>();
 				}
 			}
 		}
