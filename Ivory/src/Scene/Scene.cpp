@@ -146,6 +146,7 @@ namespace Ivory {
 		copy_component_if_exists<TransformComponent>(entity, new_entity);
 		copy_component_if_exists<CameraComponent>(entity, new_entity);
 		copy_component_if_exists<SpriteRendererComponent>(entity, new_entity);
+		copy_component_if_exists<CircleRendererComponent>(entity, new_entity);
 		copy_component_if_exists<CScriptComponent>(entity, new_entity);
 
 		return new_entity;
@@ -173,6 +174,7 @@ namespace Ivory {
 		copy_component<TransformComponent>(source_scene_reg, dest_scene_reg, entity_map);
 		copy_component<CameraComponent>(source_scene_reg, dest_scene_reg, entity_map);
 		copy_component<SpriteRendererComponent>(source_scene_reg, dest_scene_reg, entity_map);
+		copy_component<CircleRendererComponent>(source_scene_reg, dest_scene_reg, entity_map);
 		copy_component<CScriptComponent>(source_scene_reg, dest_scene_reg, entity_map);
 
 		return new_scene;
