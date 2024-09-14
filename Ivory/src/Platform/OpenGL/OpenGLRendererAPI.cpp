@@ -20,6 +20,13 @@ namespace Ivory {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	void OpenGLRendererAPI::disable_depth() {
+		glDisable(GL_DEPTH_TEST);
+	}
+	void OpenGLRendererAPI::enable_depth() {
+		glEnable(GL_DEPTH_TEST);
+	}
+
 	void OpenGLRendererAPI::draw_indexed(const std::shared_ptr<VertexArray>& vertex_array, uint32_t index_count) {
 		vertex_array->bind();
 		uint32_t count = index_count ? vertex_array->get_index_buffer()->get_count() : index_count;

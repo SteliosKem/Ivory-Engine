@@ -8,6 +8,8 @@ namespace Ivory {
 		void init() override;
 		void set_clear_color(const glm::vec4& color) override;
 		void clear() override;
+		void disable_depth() override;
+		void enable_depth() override;
 
 		void set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 

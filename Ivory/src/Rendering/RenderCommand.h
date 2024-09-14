@@ -7,6 +7,8 @@ namespace Ivory {
 		inline static void init() { s_rendererAPI->init(); }
 		inline static void set_clear_color(const glm::vec4& color) { s_rendererAPI->set_clear_color(color); }
 		inline static void clear() { s_rendererAPI->clear(); }
+		inline static void disable_depth() { s_rendererAPI->disable_depth(); }
+		inline static void enable_depth() { s_rendererAPI->enable_depth(); }
 
 		inline static void set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) { s_rendererAPI->set_viewport(x, y, width, height); }
 

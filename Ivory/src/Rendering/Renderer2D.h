@@ -51,6 +51,8 @@ namespace Ivory {
 		static void draw_line_rectangle(const glm::mat4& transform, const glm::vec4& color, int entity_id);
 		static void draw_line_rectangle(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color, int entity_id);
 
+		static void draw_overlay(glm::mat4* transform, Circle* circle, int entity_id);
+
 		static void set_line_width(float width);
 		static float get_line_width();
 
@@ -64,6 +66,8 @@ namespace Ivory {
 		static void reset_stats();
 		static const Statistics& get_stats();
 	private:
+		static void draw_overlay();
+		
 		static void new_batch();
 		static void start_batch();
 	};

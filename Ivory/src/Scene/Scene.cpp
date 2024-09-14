@@ -25,30 +25,36 @@ namespace Ivory {
 	}
 	void Scene::on_update_editor(Timestep dt, EditorCamera& camera) {
 		Renderer2D::begin_scene(camera);
+		Circle circ{};
+		glm::mat4 tsfm;
+		Circle* circ_select{ nullptr };
+		glm::mat4* quad_transform{ nullptr };
 
 		auto group = m_registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 		for (auto entity : group) {
 			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 			Renderer2D::draw_sprite(transform.get_transform(), sprite, (int)entity);
-			if (m_selected && entity == m_selected_entity)
-				Renderer2D::draw_line_rectangle(transform.get_transform(), glm::vec4{ 0.9f, 0.9f, 0.7f, 1.0f }, (int)entity);
+			if (m_selected && entity == m_selected_entity) {
+				tsfm = transform.get_transform();
+				quad_transform = &tsfm;
+			}
 		}
 
 		auto view = m_registry.view<TransformComponent, CircleRendererComponent>();
 		for (auto entity : view) {
 			auto& [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
-			Circle circ{};
 			circ.color = circle.color;
 			circ.fade = circle.fade;
 			circ.thickness = circle.thickness;
 			circ.transform = transform.get_transform();
 			circ.entity_id = (int)entity;
 			Renderer2D::draw_circle(circ);
-			if (m_selected && entity == m_selected_entity);
-				//Renderer2D::draw_circle(transform.get_transform(), glm::vec4{ 1.0f, 1.0f, 0.0f, 1.0f }, (int)entity);
+			if (m_selected && entity == m_selected_entity)
+				circ_select = &circ;
 		}
 
-		
+		if(m_selected)
+			Renderer2D::draw_overlay(quad_transform, circ_select, (int)m_selected_entity);
 
 		Renderer2D::end_scene();
 	}

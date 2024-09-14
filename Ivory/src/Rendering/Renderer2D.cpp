@@ -77,10 +77,20 @@ namespace Ivory {
 		glm::vec4 quad_vertex_positions[4];
 
 		Renderer2D::Statistics statistics;
+
+		// Overlay
+		glm::mat4* overlay_transform;
+		Circle* overlay_circle;
+		int overlay_entity_id;
 	};
 
 	static Renderer2DStorage s_data;
 
+	void Renderer2D::draw_overlay(glm::mat4* transform, Circle* circle, int entity_id) {
+		s_data.overlay_transform = transform;
+		s_data.overlay_circle = circle;
+		s_data.overlay_entity_id = entity_id;
+	}
 
 	void Renderer2D::init() {
 		s_data.quad_vertex_array = VertexArray::create_array();
@@ -171,6 +181,7 @@ namespace Ivory {
 	}
 
 	void Renderer2D::begin_scene(const EditorCamera& camera) {
+		RenderCommand::enable_depth();
 		s_data.texture_shader->bind();
 		s_data.texture_shader->set_mat4("u_view_projection", camera.get_view_projection());
 		s_data.circle_shader->bind();
@@ -181,6 +192,8 @@ namespace Ivory {
 	}
 
 	void Renderer2D::begin_scene(const OrthographicCamera& camera) {
+
+		RenderCommand::enable_depth();
 		s_data.texture_shader->bind();
 		s_data.texture_shader->set_mat4("u_view_projection", camera.get_vp_matrix());
 		s_data.circle_shader->bind();
@@ -191,6 +204,7 @@ namespace Ivory {
 	}
 
 	void Renderer2D::begin_scene(const Camera& camera, const glm::mat4& transform) {
+		RenderCommand::enable_depth();
 		glm::mat4 view_projection = camera.get_projection() * glm::inverse(transform);
 
 		s_data.texture_shader->bind();
@@ -204,8 +218,13 @@ namespace Ivory {
 
 	void Renderer2D::end_scene()
 	{
-		
 		flush();
+		if (s_data.overlay_circle || s_data.overlay_transform) {
+			start_batch();
+			draw_overlay();
+			flush();
+			RenderCommand::enable_depth();
+		}
 	}
 
 	void Renderer2D::flush() {
@@ -385,6 +404,19 @@ namespace Ivory {
 		draw_line(p1, p2, color, entity_id);
 		draw_line(p2, p3, color, entity_id);
 		draw_line(p3, p0, color, entity_id);
+	}
+
+	void Renderer2D::draw_overlay() {
+		RenderCommand::disable_depth();
+		if(s_data.overlay_transform) Renderer2D::draw_line_rectangle(*s_data.overlay_transform, glm::vec4{ 0.9f, 0.9f, 0.7f, 1.0f }, s_data.overlay_entity_id);
+		if (s_data.overlay_circle) {
+			Circle circ = *s_data.overlay_circle;
+			circ.fade = 0.01;
+			circ.thickness = 0.01;
+			circ.color = glm::vec4{ 0.9f, 0.9f, 0.7f, 1.0f };
+			Renderer2D::draw_circle(circ);
+		}
+
 	}
 
 	void Renderer2D::set_line_width(float width) {
