@@ -39,6 +39,7 @@ namespace Ivory {
         m_frame_buffer = FrameBuffer::create(frame_buffer_spec);
 
         m_active_scene = std::make_shared<Scene>();
+        m_editor_scene = m_active_scene;
 
         /*Entity square_entity = m_active_scene->create_entity("Sprite");
         square_entity.add_component<SpriteRendererComponent>(glm::vec4{ 0.1f, 0.5f, 0.1f, 1.0f });
