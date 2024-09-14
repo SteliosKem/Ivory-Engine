@@ -69,7 +69,10 @@ namespace Ivory {
 
         }*/
 
-        
+        if (m_hierarchy.get_selected())
+            m_active_scene->set_selected_entity(m_hierarchy.get_selected());
+        else
+            m_active_scene->remove_selected_entity();
 
         m_frame_buffer->bind();
         RenderCommand::set_clear_color({ 0.1f, 0.1f, 0.1f, 1 });

@@ -9,6 +9,7 @@ namespace Ivory {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LINE_SMOOTH);
 	}
 
 	void OpenGLRendererAPI::set_clear_color(const glm::vec4& color) {

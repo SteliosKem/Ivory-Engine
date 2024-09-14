@@ -18,6 +18,9 @@ namespace Ivory {
 		void on_viewport_resize(uint32_t width, uint32_t height);
 		void clear_entities();
 
+		void set_selected_entity(Entity entity);
+		void remove_selected_entity();
+
 		void on_update_runtime(Timestep dt);
 		void on_update_editor(Timestep dt, EditorCamera& camera);
 
@@ -30,10 +33,14 @@ namespace Ivory {
 		void on_component_add(Entity entity, T& component);
 
 		entt::registry m_registry;
+		
 		uint32_t m_vp_width{ 1 }, m_vp_height{ 1 };
 
 		friend class Entity;
 		friend class SceneSerializer;
 		friend class SceneHierarchy;
+
+		bool m_selected = false;
+		entt::entity m_selected_entity = {};
 	};
 }

@@ -30,7 +30,8 @@ namespace Ivory {
 		for (auto entity : group) {
 			auto& [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 			Renderer2D::draw_sprite(transform.get_transform(), sprite, (int)entity);
-
+			if (m_selected && entity == m_selected_entity)
+				Renderer2D::draw_line_rectangle(transform.get_transform(), glm::vec4{ 0.9f, 0.9f, 0.7f, 1.0f }, (int)entity);
 		}
 
 		auto view = m_registry.view<TransformComponent, CircleRendererComponent>();
@@ -43,10 +44,22 @@ namespace Ivory {
 			circ.transform = transform.get_transform();
 			circ.entity_id = (int)entity;
 			Renderer2D::draw_circle(circ);
-
+			if (m_selected && entity == m_selected_entity);
+				//Renderer2D::draw_circle(transform.get_transform(), glm::vec4{ 1.0f, 1.0f, 0.0f, 1.0f }, (int)entity);
 		}
 
+		
+
 		Renderer2D::end_scene();
+	}
+
+	void Scene::set_selected_entity(Entity entity) {
+		m_selected_entity = entity;
+		m_selected = true;
+	}
+
+	void Scene::remove_selected_entity() {
+		m_selected = false;
 	}
 
 	void Scene::on_update_runtime(Timestep dt) {
