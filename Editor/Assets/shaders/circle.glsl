@@ -45,6 +45,9 @@ void main() {
 	float alpha = smoothstep(0.0, v_fade, distance);
 	alpha *= smoothstep(v_thickness + v_fade, v_thickness, distance);
 
+	if(alpha == 0.0)
+		discard;
+
 	color = v_color;
 	color.a *= alpha;
 
