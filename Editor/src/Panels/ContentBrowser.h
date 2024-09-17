@@ -12,6 +12,7 @@ namespace Ivory {
 			m_file_texture = Texture2D::create(icon_folder_path + "file.png");
 		}
 		void on_imgui_render();
+		void set_assets_dir(const std::filesystem::path& path) { m_assets_dir = path; m_current_dir = path; }
 	private:
 		std::filesystem::path m_assets_dir = "Assets";
 		std::filesystem::path m_current_dir = m_assets_dir;

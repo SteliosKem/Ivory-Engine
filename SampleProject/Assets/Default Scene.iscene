@@ -1,0 +1,23 @@
+Scene: Name
+Entities:
+  - Entity: 17270697855221837210
+    TagComponent:
+      Tag: Circle
+    TransformComponent:
+      Translation: [-1.45000005, -0.349999994, -0.5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CircleRendererComponent:
+      Color: [1, 0, 0, 1]
+      Thickness: 1
+      Fade: 0.00499999989
+  - Entity: 14773543869339618055
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1

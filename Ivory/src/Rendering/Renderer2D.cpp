@@ -221,6 +221,7 @@ namespace Ivory {
 		flush();
 		if (s_data.overlay_circle || s_data.overlay_transform) {
 			start_batch();
+			RenderCommand::disable_depth();
 			draw_overlay();
 			flush();
 			RenderCommand::enable_depth();
@@ -407,7 +408,6 @@ namespace Ivory {
 	}
 
 	void Renderer2D::draw_overlay() {
-		RenderCommand::disable_depth();
 		if(s_data.overlay_transform) Renderer2D::draw_line_rectangle(*s_data.overlay_transform, glm::vec4{ 0.9f, 0.9f, 0.7f, 1.0f }, s_data.overlay_entity_id);
 		if (s_data.overlay_circle) {
 			Circle circ = *s_data.overlay_circle;

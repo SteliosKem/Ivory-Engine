@@ -5,6 +5,7 @@
 #include "yaml-cpp/yaml.h"
 #include <fstream>
 #include "Components.h"
+#include "Project/Project.h"
 
 namespace YAML {
 	template<>
@@ -115,10 +116,15 @@ namespace Ivory {
 			out << YAML::EndMap;
 		}
 		if (entity.has_component<SpriteRendererComponent>()) {
+			auto& sprite_renderer_component = entity.get_component<SpriteRendererComponent>();
 			out << YAML::Key << "SpriteRendererComponent";
 			out << YAML::BeginMap;
 			out << YAML::Key << "Color";
 			out << YAML::Value << entity.get_component<SpriteRendererComponent>().color;
+			if (sprite_renderer_component.texture) {
+				out << YAML::Key << "TexturePath" << YAML::Value << sprite_renderer_component.texture->get_path().string();
+			}
+			out << YAML::Key << "TilingFactor" << YAML::Value << sprite_renderer_component.tiling_factor;
 			out << YAML::EndMap;
 		}
 		if (entity.has_component<CircleRendererComponent>()) {
@@ -219,6 +225,9 @@ namespace Ivory {
 				if (sprite_renderer_component) {
 					auto& component = deserialized_entity.add_component<SpriteRendererComponent>();
 					component.color = sprite_renderer_component["Color"].as<glm::vec4>();
+					if(sprite_renderer_component["TexturePath"])
+						component.texture = Texture2D::create((Project::get_assets_dir() / sprite_renderer_component["TexturePath"].as<std::string>()).string());
+					component.tiling_factor = sprite_renderer_component["TilingFactor"].as<float>();
 				}
 
 				auto circle_renderer_component = entity["CircleRendererComponent"];

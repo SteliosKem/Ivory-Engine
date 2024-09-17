@@ -1468,6 +1468,8 @@
     <ClInclude Include="src\Rendering\EditorCamera.h" />
     <ClInclude Include="src\Core\Uuid.h" />
     <ClInclude Include="src\ImGui\fa_solid-900.h" />
+    <ClInclude Include="src\Project\Project.h" />
+    <ClInclude Include="src\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1566,6 +1568,8 @@
     <ClCompile Include="src\Core\Math.cpp" />
     <ClCompile Include="src\Rendering\EditorCamera.cpp" />
     <ClCompile Include="src\Core\Uuid.cpp" />
+    <ClCompile Include="src\Project\Project.cpp" />
+    <ClCompile Include="src\Project\ProjectSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">

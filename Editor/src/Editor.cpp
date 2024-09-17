@@ -25,7 +25,7 @@ namespace Ivory {
             SceneSerializer serializer(m_active_scene);
             serializer.deserialize(path + name + ".iscene");
 
-            current_scene_file = path + name + ".iscene";
+            m_current_scene_file = path + name + ".iscene";
             });
         m_setup_window.show(false);
 
@@ -210,6 +210,24 @@ namespace Ivory {
                     
                 }
                 ImGui::MenuItem("Save Scene", "Ctrl+S");
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("New Project", "Ctrl+Alt+N")) {
+                    
+                    m_setup_window.show(true);
+                    m_new_project = true;
+                }
+
+
+                if (ImGui::MenuItem("Open Project", "Ctrl+Alt+O")) {
+                    FileDialogs::set_open(true);
+                    m_willopen_project = true;
+                    m_willsave_project = false;
+
+                }
+
+                ImGui::MenuItem("Save Project", "Ctrl+Alt+S");
                 
                 ImGui::EndMenu();
 
@@ -246,7 +264,7 @@ namespace Ivory {
         if (ImGui::BeginDragDropTarget()) {
             if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
                 const wchar_t* path = (const wchar_t*)payload->Data;
-                open_scene(std::filesystem::path("Assets") / path);
+                open_scene(Project::get_assets_dir() / path);
             }
             ImGui::EndDragDropTarget();
         }
@@ -265,8 +283,10 @@ namespace Ivory {
             ImGuizmo::SetOrthographic(false);
             ImGuizmo::SetDrawlist();
             float window_width = (float)ImGui::GetWindowWidth();
-            float window_height = (float)ImGui::GetWindowHeight();
-            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, window_width, window_height);
+            float window_height = ImGui::GetWindowSize().y;
+            ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + 10, window_width, window_height);
+            IV_INFO(ImGui::GetWindowPos().y);
+            IV_INFO(ImGui::GetWindowPos().y + window_height - ImGui::GetContentRegionAvail().y);
 
             /*auto camera_entity = m_active_scene->get_primary_camera();
             const auto& camera = camera_entity.get_component<CameraComponent>().camera;
@@ -318,6 +338,20 @@ namespace Ivory {
         else {
             m_willopen_scene = false;
             m_willsave_scene = false;
+        }
+
+        if (FileDialogs::is_open() && m_willopen_project)
+            open_project();
+        else if (FileDialogs::is_open() && m_willsave_project)
+            save_project(true);
+        else {
+            m_willopen_project = false;
+            m_willsave_project = false;
+        }
+
+        if (m_new_project && !m_setup_window.show()) {
+            m_new_project = false;
+            new_project(m_setup_window.get_path());
         }
     }
 
@@ -430,9 +464,16 @@ namespace Ivory {
 
     bool EditorLayer::on_mouse_button_pressed(MouseButtonPressedEvent& e) {
         if (e.get_mouse_button() == IV_MOUSE_BUTTON_1 && m_viewport_hovered && m_entity_hovered && !ImGuizmo::IsOver()) {
-            m_hierarchy.set_selected(m_entity_hovered);
+            if (m_entity_hovered)
+                m_hierarchy.set_selected(m_entity_hovered);
+            else
+                on_deselect();
         }
         return false;
+    }
+
+    void EditorLayer::on_deselect() {
+        m_hierarchy.set_selected({});
     }
 
     void EditorLayer::open_scene() {
@@ -483,17 +524,17 @@ namespace Ivory {
             m_active_scene = m_editor_scene;
         }
 
-        current_scene_file = file_path.string();
+        m_current_scene_file = file_path.string();
     }
     void EditorLayer::save_scene() {
-        if (current_scene_file.empty()) {
+        if (m_current_scene_file.empty()) {
             FileDialogs::set_open(true);
             m_willopen_scene = false;
             m_willsave_scene = true;
         }
         else {
             SceneSerializer serializer(m_active_scene);
-            serializer.serialize(current_scene_file);
+            serializer.serialize(m_current_scene_file);
         }
     }
     void EditorLayer::save_scene_as() {
@@ -519,6 +560,55 @@ namespace Ivory {
             Entity entity = m_editor_scene->copy_entity(m_hierarchy.get_selected());
             m_hierarchy.set_selected(entity);
         }
+    }
+
+    void EditorLayer::new_project(const std::filesystem::path& path, const std::string& name) {
+        Project::set_active_project(Project::create());
+        if (path != "") {
+            std::filesystem::path assets_dir = std::filesystem::path(path) / "Assets";
+            std::filesystem::create_directory(assets_dir);
+            Project::get_settings()->assets_directory = assets_dir;
+            auto default_scene = Project::get_settings()->default_scene = assets_dir / "Default Scene.iscene";
+            std::ifstream f(default_scene);
+            f.close();
+            new_scene();
+            SceneSerializer serializer(m_active_scene);
+            serializer.serialize(default_scene.string());
+            m_content_browser.set_assets_dir(Project::get_assets_dir());
+            save_project(std::filesystem::path(path)/ (name.empty() ? "Untitled Project.ivprj" : name));
+        }
+    }
+
+    void EditorLayer::open_project() {
+        Project::set_active_project(Project::create());
+        std::string file_path; FileDialogs::open_file("", file_path);
+        if (file_path != "") {
+            open_project(file_path);
+        }
+    }
+
+    void EditorLayer::open_project(const std::filesystem::path& path) {
+        if (Project::load(path)) {
+            auto default_scene = Project::get_assets_dir() / Project::get_settings()->default_scene;
+            open_scene(default_scene);
+            m_content_browser.set_assets_dir(Project::get_assets_dir());
+            m_current_project_path = path;
+        }
+    }
+    void EditorLayer::save_project(bool save_as) {
+        if (save_as) {
+            std::string file_path; FileDialogs::open_file("", file_path);
+            if (file_path != "") {
+                save_project(file_path);
+            }
+        }
+        else {
+            save_project(m_current_project_path);
+        }
+    }
+
+    void EditorLayer::save_project(const std::filesystem::path& path) {
+        Project::save_active(path);
     }
 
     Application* create_application() {

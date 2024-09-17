@@ -44,7 +44,6 @@ namespace Ivory {
 			strcpy_s(path_buffer, str.c_str());
 		}
 		if (ImGui::Button("Create Project")) {
-			m_create_callback(std::string(name_buffer), std::string(path_buffer));
 			m_show = false;
 		}
 

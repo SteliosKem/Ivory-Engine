@@ -8,6 +8,9 @@ namespace Ivory {
 		void on_imgui_render();
 		void set_create_callback(std::function<void(const std::string&, const std::string&)> func) { m_create_callback = func; }
 		void show(bool _show) { m_show = _show; }
+		bool show() { return m_show; }
+		std::string get_name() { return m_project_name; }
+		std::string get_path() { return m_project_path; }
 	private:
 		enum class CurrentlySelected {
 			None,

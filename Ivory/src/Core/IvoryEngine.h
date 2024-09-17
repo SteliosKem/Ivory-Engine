@@ -14,6 +14,8 @@ using Real = float;
 #include "MouseButtonCodes.h"
 #include "KeyCodes.h"
 
+#include "Project/Project.h"
+
 #include "Rendering/Buffer.h"
 #include "Rendering/GraphicsContext.h"
 #include "Rendering/OrthographicCamera.h"

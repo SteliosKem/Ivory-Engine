@@ -38,13 +38,19 @@ namespace Ivory {
 		bool on_key_pressed(KeyPressedEvent& e);
 		bool on_mouse_button_pressed(MouseButtonPressedEvent& e);
 
-		void create_project(const std::string& project_name, const std::string& project_path);
+		void on_deselect();
 
 		void open_scene();
 		void open_scene(const std::filesystem::path& path);
 		void save_scene();
 		void save_scene_as();
 		void new_scene();
+
+		void new_project(const std::filesystem::path& path, const std::string& name = "");
+		void open_project();
+		void open_project(const std::filesystem::path& path);
+		void save_project(bool save_as);
+		void save_project(const std::filesystem::path& path);
 
 		void on_scene_play();
 		void on_scene_stop();
@@ -90,7 +96,13 @@ namespace Ivory {
 		bool m_willopen_scene = false;
 		bool m_willsave_scene = false;
 
-		std::string current_scene_file = "";
+		bool m_willopen_project = false;
+		bool m_willsave_project = false;
+
+		bool m_new_project = false;
+
+		std::string m_current_scene_file = "";
+		std::filesystem::path m_current_project_path = "";
 		int m_gizmo = -1;
 		bool m_using_gizmo = false;
 
