@@ -19,11 +19,13 @@ IncludeDir["stb"] = "Ivory/vendor/stb"
 IncludeDir["entt"] = "Ivory/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Ivory/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Ivory/vendor/ImGuizmo"
+IncludeDir["Tusk"] = "Ivory/vendor/Tusk/Tusk/src"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
 include "Ivory/vendor/imgui"
 include "Ivory/vendor/yaml-cpp"
+include "Ivory/vendor/Tusk"
 
 project "Ivory"
 	location "Ivory"
@@ -58,7 +60,8 @@ project "Ivory"
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.Tusk}",
 	}
 
 	links {
@@ -66,7 +69,8 @@ project "Ivory"
 		"Glad",
 		"ImGui",
 		"opengl32.lib",
-		"yaml-cpp"
+		"yaml-cpp",
+		"Tusk"
 	}
 
 	filter "Ivory/vendor/ImGuizmo/**.cpp"

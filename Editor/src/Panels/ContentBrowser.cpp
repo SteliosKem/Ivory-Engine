@@ -1,6 +1,6 @@
 #include "ContentBrowser.h"
 #include <string>
-
+#include <fstream>
 #include "imgui.h"
 
 namespace Ivory {
@@ -23,6 +23,19 @@ namespace Ivory {
 				m_current_dir = m_current_dir.parent_path();
 			}
 		}
+
+		if (ImGui::BeginPopupContextWindow(0, 1 | ImGuiPopupFlags_NoOpenOverItems)) {
+			if (ImGui::MenuItem("Create Folder")) {
+				std::filesystem::create_directory(m_current_dir / "New Folder");
+			}
+			if (ImGui::MenuItem("Create File")) {
+				std::ofstream s(m_current_dir / "New File.txt");
+				s.close();
+			}
+			ImGui::EndPopup();
+		}
+
+		//if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(1)) {}
 
 		ImGui::Columns(column_count, 0, false);
 
@@ -54,6 +67,13 @@ namespace Ivory {
 				if (p.is_directory()) {
 					m_current_dir /= p.path().filename();
 				}
+			}
+
+			if (ImGui::BeginPopupContextItem()) {
+				if (ImGui::MenuItem("Delete"));
+				if (ImGui::MenuItem("Duplicate"));
+				if (ImGui::MenuItem("Rename"));
+				ImGui::EndPopup();
 			}
 			ImGui::TextWrapped(name.c_str());
 			ImGui::NextColumn();

@@ -1,0 +1,12 @@
+Scene: Name
+Entities:
+  - Entity: 6703528359815738470
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.767772496, 0.207407743, 0.207407743, 1]
+      TilingFactor: 1

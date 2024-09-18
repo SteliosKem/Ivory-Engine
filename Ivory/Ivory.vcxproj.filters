@@ -28,6 +28,9 @@
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Project">
+      <UniqueIdentifier>{732C2D2D-DFE1-A522-68D6-9FF9D48A9C26}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Rendering">
       <UniqueIdentifier>{BA10DABB-26D1-55F2-EF0B-9F6F5B8B9ACE}</UniqueIdentifier>
     </Filter>
@@ -81,6 +84,9 @@
     <ClInclude Include="src\Core\KeyCodes.h">
       <Filter>src\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Math.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\MouseButtonCodes.h">
       <Filter>src\Core</Filter>
     </ClInclude>
@@ -88,6 +94,9 @@
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Util.h">
+      <Filter>src\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Uuid.h">
       <Filter>src\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Window.h">
@@ -115,6 +124,9 @@
       <Filter>src\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\ImGui\L2DFileDialog.h">
+      <Filter>src\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\fa_solid-900.h">
       <Filter>src\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\ImGui\imgui_spectrum.h">
@@ -156,10 +168,19 @@
     <ClInclude Include="src\Platform\Windows\WinPlatformWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Project\Project.h">
+      <Filter>src\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Project\ProjectSerializer.h">
+      <Filter>src\Project</Filter>
+    </ClInclude>
     <ClInclude Include="src\Rendering\Buffer.h">
       <Filter>src\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering\Camera.h">
+      <Filter>src\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\EditorCamera.h">
       <Filter>src\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\Rendering\FrameBuffer.h">
@@ -1464,15 +1485,15 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Math.h" />
-    <ClInclude Include="src\Rendering\EditorCamera.h" />
-    <ClInclude Include="src\Core\Uuid.h" />
-    <ClInclude Include="src\ImGui\fa_solid-900.h" />
-    <ClInclude Include="src\Project\Project.h" />
-    <ClInclude Include="src\Project\ProjectSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Math.cpp">
+      <Filter>src\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Uuid.cpp">
       <Filter>src\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\ImGui\ImGuiLayer.cpp">
@@ -1520,7 +1541,16 @@
     <ClCompile Include="src\Platform\Windows\WinPlatformWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Project\Project.cpp">
+      <Filter>src\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Project\ProjectSerializer.cpp">
+      <Filter>src\Project</Filter>
+    </ClCompile>
     <ClCompile Include="src\Rendering\Buffer.cpp">
+      <Filter>src\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\EditorCamera.cpp">
       <Filter>src\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\Rendering\FrameBuffer.cpp">
@@ -1565,11 +1595,6 @@
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
       <Filter>vendor\ImGuizmo</Filter>
     </ClCompile>
-    <ClCompile Include="src\Core\Math.cpp" />
-    <ClCompile Include="src\Rendering\EditorCamera.cpp" />
-    <ClCompile Include="src\Core\Uuid.cpp" />
-    <ClCompile Include="src\Project\Project.cpp" />
-    <ClCompile Include="src\Project\ProjectSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">

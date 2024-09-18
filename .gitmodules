@@ -16,3 +16,6 @@
 [submodule "Ivory/vendor/ImGuizmo"]
 	path = Ivory/vendor/ImGuizmo
 	url = https://github.com/thecherno/imguizmo
+[submodule "Ivory/vendor/Tusk"]
+	path = Ivory/vendor/Tusk
+	url = https://github.com/SteliosKem/Tusk
