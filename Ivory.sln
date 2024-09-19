@@ -11,7 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImGui", "Ivory\vendor\imgui
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ivory", "Ivory\Ivory.vcxproj", "{FE986A0D-6AAD-92BE-332F-361E9F028FEF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tusk", "Ivory\vendor\Tusk\Ivory\Tusk.vcxproj", "{4C208D7C-3857-8E0D-E143-7410CD590A0F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tusk", "Ivory\vendor\Tusk\Tusk\Tusk.vcxproj", "{4C208D7C-3857-8E0D-E143-7410CD590A0F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "yaml-cpp", "Ivory\vendor\yaml-cpp\yaml-cpp.vcxproj", "{88F1A057-74BE-FB62-9DD7-E90A890331F1}"
 EndProject

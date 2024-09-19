@@ -19,7 +19,7 @@ IncludeDir["stb"] = "Ivory/vendor/stb"
 IncludeDir["entt"] = "Ivory/vendor/entt/include"
 IncludeDir["yaml_cpp"] = "Ivory/vendor/yaml-cpp/include"
 IncludeDir["ImGuizmo"] = "Ivory/vendor/ImGuizmo"
-IncludeDir["Tusk"] = "Ivory/vendor/Tusk/Tusk/src"
+IncludeDir["Tusk"] = "Ivory/vendor/Tusk"
 
 include "Ivory/vendor/GLFW"
 include "Ivory/vendor/Glad"
