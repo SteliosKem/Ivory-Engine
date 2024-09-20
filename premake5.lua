@@ -121,7 +121,8 @@ project "Editor"
 		"Ivory/vendor/imgui",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGuizmo}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}", 
+		"%{IncludeDir.Tusk}"
 	}
 
 	links {

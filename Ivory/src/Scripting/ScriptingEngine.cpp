@@ -1,4 +1,11 @@
 #include "pch.h"
+#include "ScriptingEngine.h"
+
+namespace Ivory {
+    std::vector<std::shared_ptr<TuskScript>> ScriptHandler::m_scripts = 
+        std::vector<std::shared_ptr<TuskScript>>();
+}
+
 /*#include "ScriptingEngine.h"
 
 namespace Ivory {

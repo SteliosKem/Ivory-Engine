@@ -8,6 +8,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 #include "Rendering/Texture.h"
+#include "Scripting/ScriptingEngine.h"
 
 namespace Ivory {
 	struct IdComponent {
@@ -80,5 +81,17 @@ namespace Ivory {
 			instantiate_script = []() {return static_cast<ScriptableEntity*>(new T()); };
 			destroy_script = [](CScriptComponent* script_component) {delete script_component->instance; script_component->instance = nullptr; };
 		}
+	};
+
+	struct TuskScriptComponent {
+		//std::shared_ptr<TuskScript> script;
+		std::filesystem::path path;
+		std::shared_ptr<TuskScript> script;
+
+		TuskScriptComponent() = default;
+		TuskScriptComponent(const TuskScriptComponent&) = default;
+		void on_update() { script->on_update(Timestep()); }
+		void on_create() { script->on_create(); }
+		void on_destroy() { script->on_destroy(); }
 	};
 }

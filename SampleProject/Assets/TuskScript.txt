@@ -1,0 +1,28 @@
+class Vector2 {
+	fn make(x, y) -> {
+		this.x = x;
+		this.y = y;	
+	}
+}
+
+class Transform {
+	fn make(pos, rot, scale) -> {
+		this.pos = pos;
+		this.rot = rot;
+		this.scale = scale;
+	}
+}
+
+class TuskScript {
+	fn on_create() -> {
+		log "ON_CREATE()";
+		this.var = 0;
+		this.transform = Transform(Vector2(0, 0), Vector2(0, 0), Vector2(0, 0));
+	}
+
+	fn on_update() -> {
+		this.var = this.var + 1;
+		log this.var;
+		
+	}
+}

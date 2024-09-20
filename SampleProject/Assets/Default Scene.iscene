@@ -1,5 +1,33 @@
 Scene: Name
 Entities:
+  - Entity: 10755524631555443896
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Translation: [0, 0, 2.28694582]
+      Rotation: [0, -0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 0
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 10000
+        OrthoSize: 10
+        OrthoNear: -1
+        OrthoFar: 1
+      Primary: true
+      FixedAspectRation: false
+  - Entity: 14773543869339618055
+    TagComponent:
+      Tag: Sprite
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
   - Entity: 17270697855221837210
     TagComponent:
       Tag: Circle
@@ -11,13 +39,3 @@ Entities:
       Color: [1, 0, 0, 1]
       Thickness: 1
       Fade: 0.00499999989
-  - Entity: 14773543869339618055
-    TagComponent:
-      Tag: Sprite
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [1, 1, 1, 1]
-      TilingFactor: 1

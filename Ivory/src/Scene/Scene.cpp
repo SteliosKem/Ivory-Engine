@@ -116,6 +116,11 @@ namespace Ivory {
 
 			Renderer2D::end_scene();
 		}
+
+		m_registry.view<TuskScriptComponent>().each([=](auto entity, auto& tusk_script_component) {
+			if(tusk_script_component.script)
+				tusk_script_component.script->on_update(Timestep());
+			});
 	}
 
 	void Scene::on_viewport_resize(uint32_t width, uint32_t height) {
@@ -167,6 +172,7 @@ namespace Ivory {
 		copy_component_if_exists<SpriteRendererComponent>(entity, new_entity);
 		copy_component_if_exists<CircleRendererComponent>(entity, new_entity);
 		copy_component_if_exists<CScriptComponent>(entity, new_entity);
+		copy_component_if_exists<TuskScriptComponent>(entity, new_entity);
 
 		return new_entity;
 	}
@@ -195,6 +201,7 @@ namespace Ivory {
 		copy_component<SpriteRendererComponent>(source_scene_reg, dest_scene_reg, entity_map);
 		copy_component<CircleRendererComponent>(source_scene_reg, dest_scene_reg, entity_map);
 		copy_component<CScriptComponent>(source_scene_reg, dest_scene_reg, entity_map);
+		copy_component<TuskScriptComponent>(source_scene_reg, dest_scene_reg, entity_map);
 
 		return new_scene;
 	}
@@ -225,6 +232,9 @@ namespace Ivory {
 
 	template<>
 	void Scene::on_component_add<CircleRendererComponent>(Entity entity, CircleRendererComponent& component) {}
+
+	template<>
+	void Scene::on_component_add<TuskScriptComponent>(Entity entity, TuskScriptComponent& component) {}
 
 	template<>
 	void Scene::on_component_add<CameraComponent>(Entity entity, CameraComponent& component) {

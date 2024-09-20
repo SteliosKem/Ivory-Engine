@@ -285,8 +285,6 @@ namespace Ivory {
             float window_width = (float)ImGui::GetWindowWidth();
             float window_height = ImGui::GetWindowSize().y;
             ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y + 10, window_width, window_height);
-            IV_INFO(ImGui::GetWindowPos().y);
-            IV_INFO(ImGui::GetWindowPos().y + window_height - ImGui::GetContentRegionAvail().y);
 
             /*auto camera_entity = m_active_scene->get_primary_camera();
             const auto& camera = camera_entity.get_component<CameraComponent>().camera;
@@ -360,6 +358,8 @@ namespace Ivory {
         m_active_scene = Scene::copy(m_editor_scene);
         m_hierarchy.set_allow_action_ptr(false);
         m_hierarchy.set_context(m_active_scene);
+        ScriptHandler::start_runtime();
+        ScriptHandler::on_create();
     }
 
     void EditorLayer::on_scene_stop() {
@@ -368,6 +368,7 @@ namespace Ivory {
         m_active_scene = m_editor_scene;
         m_hierarchy.set_allow_action_ptr(true);
         m_hierarchy.set_context(m_active_scene);
+        ScriptHandler::end_runtime();
     }
 
     void EditorLayer::ui_toolbar() {

@@ -1,13 +1,6 @@
 #pragma once
 #include <string>
-#include "Tusk/src/Lexer.h"
-#include "Tusk/src/Parser.h"
-#include "Tusk/src/Compiler.h"
-#include "Tusk/src/Emulator.h"
-#include <fstream>
-#include <sstream>
-#include <filesystem>
-#include <unordered_map>
+#include "Core/Timestep.h"
 #include "VirtualMachine.h"
 #include "TuskScript.h"
 
@@ -16,37 +9,40 @@ using namespace Tusk;
 namespace Ivory {
 	class ScriptHandler {
     public:
-        static void add_script(const std::filesystem::path& path) {
-            ScriptVM::load_script(path);
+        static std::shared_ptr<TuskScript> add_script(const std::filesystem::path& path) {
+            std::shared_ptr<ClassObject> class_obj = ScriptVM::load_script(path);
+            if (!class_obj)
+                return nullptr;
+            std::shared_ptr<TuskScript> script = std::make_shared<TuskScript>(class_obj);
+            
+            m_scripts.push_back(script);
+            return script;
         }
 
         static void start_runtime() {
-            for (auto& it : ScriptVM::m_class_map) {
-                std::shared_ptr<InstanceObject> instance = std::make_shared<InstanceObject>(*it.second.get());
-                instance->private_members = it.second->private_members;
-                instance->public_members = it.second->public_members;
-
-                m_scripts.push_back({ instance });
+            for (auto& it : m_scripts) {
+                it->make_instance();
+                //m_scripts.push_back({it.second});
             }
         }
 
         static void on_create() {
             for(auto& script : m_scripts)
-                script.on_create();
+                script->on_create();
         }
         static void on_update() {
             for (auto& script : m_scripts)
-                script.on_update(Timestep());
+                script->on_update(Timestep());
         }
         static void on_destroy() {
             for (auto& script : m_scripts)
-                script.on_destroy();
+                script->on_destroy();
         }
 
         static void end_runtime() {
-            m_scripts.clear();
+            //m_scripts.clear();
         }
     private:
-        static std::vector<TuskScript> m_scripts;
+        static std::vector<std::shared_ptr<TuskScript>> m_scripts;
 	};
 }

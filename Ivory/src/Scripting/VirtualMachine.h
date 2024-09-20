@@ -14,12 +14,12 @@ using namespace Tusk;
 namespace Ivory {
     class ScriptVM {
     public:
-        static void load_script(const std::filesystem::path& path);
-        static Emulator emulator;
-        static ErrorHandler handler;
+        static std::shared_ptr<ClassObject> load_script(const std::filesystem::path& path);
+        static Emulator s_emulator;
+        static ErrorHandler s_handler;
 
-        static std::unordered_map<std::string, std::shared_ptr<Tusk::ClassObject>> m_class_map;
+        static std::unordered_map<std::string, std::shared_ptr<Tusk::ClassObject>> s_class_map;
         //static std::unordered_map<std::string, std::shared_ptr<Tusk::InstanceObject>> m_instance_map;
-        static void run(const std::string& in);
+        static Result run(const std::string& in);
     };
 }

@@ -32,3 +32,7 @@ using Real = float;
 #include "Scene/Entity.h"
 #include "Scene/Components.h"
 #include "Rendering/EditorCamera.h"
+
+#include "Scripting/VirtualMachine.h"
+#include "Scripting/ScriptingEngine.h"
+#include "Scripting/TuskScript.h"

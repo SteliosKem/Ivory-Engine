@@ -4,6 +4,10 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "imgui_internal.h"
 #include <filesystem>
+#include "Scripting/ScriptingEngine.h"
+#include "Project/Project.h"
+#include "ImGui/ImGuiNotify.h"
+
 namespace Ivory {
 	SceneHierarchy::SceneHierarchy(const std::shared_ptr<Scene>& scene) {
 		set_context(scene);
@@ -198,6 +202,10 @@ namespace Ivory {
 				m_selection_context.add_component<CircleRendererComponent>();
 				ImGui::CloseCurrentPopup();
 			}
+			if (ImGui::MenuItem("Script Component")) {
+				m_selection_context.add_component<TuskScriptComponent>();
+				ImGui::CloseCurrentPopup();
+			}
 			ImGui::EndPopup();
 		}
 
@@ -281,9 +289,26 @@ namespace Ivory {
 
 		draw_component<CircleRendererComponent>("Circle Renderer Component", entity, [](auto& component) {
 			ImGui::ColorPicker4("Color", glm::value_ptr(component.color));
-			ImGui::DragFloat("Radius", &component.radius, 0.025f, 0.0f);
-			ImGui::DragFloat("Thickness", &component.thickness, 0.025f, 0.0f, 1.0f);
-			ImGui::DragFloat("Fade", &component.fade, 0.00025f, 0.0f, 1.0f);
+			ImGui::DragFloat("Thickness", &component.thickness, 0.0025f, 0.0f, 1.0f);
+			ImGui::DragFloat("Fade", &component.fade, 0.0025f, 0.0f, 1.0f);
+			});
+
+		draw_component<TuskScriptComponent>("Script Component", entity, [](auto& component) {
+			ImGui::Button("Script", ImVec2{ 100.0f, 100.0f });
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM")) {
+					const wchar_t* path = (const wchar_t*)payload->Data;
+					component.script = ScriptHandler::add_script(Project::get_assets_dir() / std::wstring(path));
+					if (!component.script) {
+						//IV_ERROR(message);
+						ImGui::InsertNotification({ ImGuiToastType::Error, 3000, "Script compilation failed"});
+						for (auto& i : ScriptVM::s_handler.get_errors())
+							IV_ERROR("Compilation Error: {0} at line {1}", i.error_message, i.error_position.line_index);
+					}
+					component.path = Project::get_assets_dir() / std::wstring(path);
+				}
+				ImGui::EndDragDropTarget();
+			}
 			});
 	}
 

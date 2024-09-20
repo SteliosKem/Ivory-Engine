@@ -237,6 +237,12 @@
     <ClInclude Include="src\Scripting\ScriptingEngine.h">
       <Filter>src\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scripting\TuskScript.h">
+      <Filter>src\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scripting\VirtualMachine.h">
+      <Filter>src\Scripting</Filter>
+    </ClInclude>
     <ClInclude Include="src\pch.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1491,8 +1497,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scripting\TuskScript.h" />
-    <ClInclude Include="src\Scripting\VirtualMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application.cpp">
@@ -1600,13 +1604,15 @@
     <ClCompile Include="src\Scripting\ScriptingEngine.cpp">
       <Filter>src\Scripting</Filter>
     </ClCompile>
+    <ClCompile Include="src\Scripting\VirtualMachine.cpp">
+      <Filter>src\Scripting</Filter>
+    </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\ImGuizmo\ImGuizmo.cpp">
       <Filter>vendor\ImGuizmo</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scripting\VirtualMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ImGui\fa-regular-400.ttf">
